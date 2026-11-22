@@ -1,16 +1,26 @@
 # Keeping the clients in step with the API.
 #
-# The specification lives in mhodieknowledge/palsa beside the server it describes, and this repository
-# holds the clients generated from it. Rather than remembering to copy one to the other, this fetches
-# the current specification, regenerates, and opens a commit if anything came out different.
+# The specification lives in mhodieknowledge/palsa beside the server it describes. This fetches it,
+# regenerates, and commits if anything came out different, so an API change reaches all nine clients
+# without anybody copying a file.
 #
-# Both repositories are public, so this needs no token to read the specification.
+# The guard below is not decoration. When this was first written it fetched from main unconditionally,
+# and main was sixty commits behind the branch the work was on, carrying a specification four
+# kilobytes smaller. Had it run, it would have regenerated every client from a stale document and
+# committed the result over the correct one. A regeneration that loses operations is a regression, and
+# it is refused rather than published.
 name: Sync the specification
 
 on:
   schedule:
     - cron: '41 6 * * 1'
   workflow_dispatch:
+    inputs:
+      ref:
+        description: Which branch or tag of mhodieknowledge/palsa to take the specification from
+        required: false
+        default: main
+        type: string
 
 permissions:
   contents: write
@@ -25,10 +35,30 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
 
-      - name: Fetch the current specification
+      # Through the API rather than a raw URL: a branch name containing a slash makes the raw path
+      # ambiguous and it answers 404 for a file that is plainly there.
+      - name: Fetch the specification
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REF: ${{ inputs.ref || 'main' }}
         run: |
-          curl -fsSL -o openapi/palsa.yaml \
-            https://raw.githubusercontent.com/mhodieknowledge/palsa/main/openapi/palsa.yaml
+          gh api "repos/mhodieknowledge/palsa/contents/openapi/palsa.yaml?ref=$REF" \
+            --jq '.content' | base64 -d >/tmp/fetched.yaml
+          test -s /tmp/fetched.yaml
+          echo "Fetched $(wc -c </tmp/fetched.yaml) bytes from $REF."
+
+      - name: Refuse a specification that has lost operations
+        run: |
+          count() { grep -c '^      operationId:' "$1" || true; }
+          have=$(count openapi/palsa.yaml)
+          incoming=$(count /tmp/fetched.yaml)
+          echo "committed: $have operations, incoming: $incoming"
+          if [ "$incoming" -lt "$have" ]; then
+            echo "The incoming specification describes fewer operations than the one here." >&2
+            echo "That is a regression, not an update. Nothing was changed." >&2
+            exit 1
+          fi
+          cp /tmp/fetched.yaml openapi/palsa.yaml
 
       - name: Stop if it has not moved
         id: check
@@ -46,6 +76,10 @@ jobs:
           npm install -g @openapitools/openapi-generator-cli
           bash scripts/generate-sdks.sh
           bash scripts/patch-sdks.sh
+
+      - name: Check the metadata survived
+        if: steps.check.outputs.changed == 'true'
+        run: bash scripts/audit-metadata.sh --check
 
       - name: Commit the result
         if: steps.check.outputs.changed == 'true'
