@@ -3,7 +3,7 @@
 #
 
 name: palsa_api
-version: '0.1.0'
+version: '0.1.1'
 description: 'Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.'
 homepage: https://palsa.mhodieknowledge.workers.dev/docs
 environment:
