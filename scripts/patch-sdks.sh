@@ -680,6 +680,15 @@ GRADLE
   echo "patched: kotlin can produce a Maven Central bundle"
 fi
 
+# A licence file in each package, not only at the repository root. pub.dev refuses to publish without
+# one, and npm, PyPI and the rest all show it on the listing. The clients carry the repository's MIT
+# terms, so it is the same file.
+for dir in clients/*/; do
+  [ -d "$dir" ] || continue
+  cp LICENSE "$dir/LICENSE"
+done
+echo "patched: every client carries the licence"
+
 for file in clients/*/README.md; do
   [ -f "$file" ] || continue
   if ! grep -q 'Licensed under the MIT' "$file"; then
