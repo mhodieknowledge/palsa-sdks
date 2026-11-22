@@ -609,7 +609,7 @@ if (existsSync(pom)) {
             <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.7.0</version>
+                <version>0.12.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <publishingServerId>central</publishingServerId>
@@ -623,6 +623,62 @@ if (existsSync(pom)) {
   console.log('patched: java pom points at this repository and can reach Maven Central')
 }
 NODE
+
+# The Kotlin client is Gradle-only, with maven-publish applied and nowhere to publish to. Maven Central
+# needs signed artefacts with sources, javadoc and the required pom metadata, none of which Gradle adds
+# by itself. This writes a publish block that produces all of it into a local staging directory; the
+# workflow then signs the directory and uploads it to the Central Portal as a bundle.
+if [ -f clients/kotlin/build.gradle ] && ! grep -q 'palsa-publishing' clients/kotlin/build.gradle; then
+  cat >>clients/kotlin/build.gradle <<'GRADLE'
+
+// ---------------------------------------------------------------- palsa-publishing
+//
+// Added by scripts/patch-sdks.sh. The generator applies maven-publish and configures nothing, so
+// `gradle publish` had no repository and produced no sources or javadoc jar. Maven Central rejects a
+// release missing either, and rejects a pom without a description, a licence, a developer and an scm
+// block. Everything below is what Central checks for.
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = 'palsa-api'
+                description = 'Official Palsa client for Kotlin, generated from the OpenAPI specification.'
+                url = 'https://github.com/mhodieknowledge/palsa-sdks'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'Kuzikode Intelligent Technologies'
+                        url = 'https://palsa.mhodieknowledge.workers.dev'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/mhodieknowledge/palsa-sdks'
+                    connection = 'scm:git:git@github.com:mhodieknowledge/palsa-sdks.git'
+                    developerConnection = 'scm:git:git@github.com:mhodieknowledge/palsa-sdks.git'
+                }
+            }
+        }
+    }
+    repositories {
+        // A directory, not a server. The workflow signs what lands here and uploads it as one bundle,
+        // which is what the Central Portal takes.
+        maven { url = layout.buildDirectory.dir('staging').get().asFile.toURI() }
+    }
+}
+GRADLE
+  echo "patched: kotlin can produce a Maven Central bundle"
+fi
 
 for file in clients/*/README.md; do
   [ -f "$file" ] || continue

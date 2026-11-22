@@ -63,3 +63,49 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter:5.11.3"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher:1.11.3"
 }
+
+// ---------------------------------------------------------------- palsa-publishing
+//
+// Added by scripts/patch-sdks.sh. The generator applies maven-publish and configures nothing, so
+// `gradle publish` had no repository and produced no sources or javadoc jar. Maven Central rejects a
+// release missing either, and rejects a pom without a description, a licence, a developer and an scm
+// block. Everything below is what Central checks for.
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            pom {
+                name = 'palsa-api'
+                description = 'Official Palsa client for Kotlin, generated from the OpenAPI specification.'
+                url = 'https://github.com/mhodieknowledge/palsa-sdks'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'Kuzikode Intelligent Technologies'
+                        url = 'https://palsa.mhodieknowledge.workers.dev'
+                    }
+                }
+                scm {
+                    url = 'https://github.com/mhodieknowledge/palsa-sdks'
+                    connection = 'scm:git:git@github.com:mhodieknowledge/palsa-sdks.git'
+                    developerConnection = 'scm:git:git@github.com:mhodieknowledge/palsa-sdks.git'
+                }
+            }
+        }
+    }
+    repositories {
+        // A directory, not a server. The workflow signs what lands here and uploads it as one bundle,
+        // which is what the Central Portal takes.
+        maven { url = layout.buildDirectory.dir('staging').get().asFile.toURI() }
+    }
+}

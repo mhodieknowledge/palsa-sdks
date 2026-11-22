@@ -101,7 +101,7 @@ jobs:
   # verified with Sonatype against kuzikode.com, and the signing key's public half is published.
   java:
     needs: guard
-    if: inputs.target == 'java' || inputs.target == 'kotlin'
+    if: inputs.target == 'java'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -115,20 +115,73 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
           gpg-passphrase: GPG_PASSPHRASE
       - name: Set the version
-        working-directory: clients/${{ inputs.target }}
-        run: |
-          if [ -f pom.xml ]; then
-            mvn -B versions:set -DnewVersion="${{ inputs.version }}" -DgenerateBackupPoms=false
-          else
-            sed -i "s|^version .*|version '${{ inputs.version }}'|" build.gradle
-          fi
+        working-directory: clients/java
+        run: mvn -B versions:set -DnewVersion="${{ inputs.version }}" -DgenerateBackupPoms=false
       - name: Publish
-        working-directory: clients/${{ inputs.target }}
+        working-directory: clients/java
         run: mvn -B -Psign-artifacts deploy
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  # Kotlin is Gradle-only, so it cannot go through the Maven plugin. Gradle writes the artefacts into a
+  # staging directory, they are signed there, and the whole thing is uploaded to the Central Portal as
+  # one bundle, which is the route the Portal offers for builds that are not Maven.
+  kotlin:
+    needs: guard
+    if: inputs.target == 'kotlin'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { java-version: '17', distribution: temurin }
+
+      - name: Set the version
+        working-directory: clients/kotlin
+        run: sed -i "s|^version .*|version '${{ inputs.version }}'|" build.gradle
+
+      - name: Build the artefacts
+        working-directory: clients/kotlin
+        run: ./gradlew --no-daemon publish
+
+      - name: Sign everything in the staging directory
+        working-directory: clients/kotlin
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          cd build/staging
+          # Central checks a signature and both checksums for every artefact, metadata files aside.
+          find . -type f ! -name '*.asc' ! -name '*.md5' ! -name '*.sha1' ! -name 'maven-metadata*' \
+            -print0 | while IFS= read -r -d '' file; do
+            gpg --batch --yes --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" \
+              --armor --detach-sign "$file"
+            md5sum "$file" | cut -d' ' -f1 >"$file.md5"
+            sha1sum "$file" | cut -d' ' -f1 >"$file.sha1"
+          done
+          rm -f $(find . -name 'maven-metadata*')
+
+      - name: Upload the bundle to the Central Portal
+        working-directory: clients/kotlin/build/staging
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+        run: |
+          zip -qr ../bundle.zip .
+          token=$(printf '%s:%s' "$MAVEN_CENTRAL_USERNAME" "$MAVEN_CENTRAL_PASSWORD" | base64 -w0)
+          response=$(curl -sS -w '\n%{http_code}' -X POST \
+            -H "Authorization: Bearer $token" \
+            -F "bundle=@../bundle.zip" \
+            "https://central.sonatype.com/api/v1/publisher/upload?name=palsa-api-${{ inputs.version }}&publishingType=AUTOMATIC")
+          body=$(printf '%s' "$response" | head -n -1)
+          code=$(printf '%s' "$response" | tail -n1)
+          echo "Central answered $code: $body"
+          [ "$code" = "201" ] || { echo "Upload refused." >&2; exit 1; }
+          echo "Deployment $body queued. Central validates and publishes it; watch it at"
+          echo "https://central.sonatype.com/publishing/deployments"
+
 
   # Secret: NUGET_API_KEY.
   csharp:
