@@ -11,7 +11,7 @@ of them can fall behind the others.
 | Client | Install | Registry name |
 | --- | --- | --- |
 | [JavaScript and TypeScript](clients/typescript) | `npm i @palsa/sdk` | npm |
-| [Python](clients/python) | `pip install palsa` | PyPI |
+| [Python](clients/python) | `pip install palsa-api` | PyPI |
 | [PHP](clients/php) | `composer require mhodieknowledge/palsa` | Packagist |
 | [Dart and Flutter](clients/dart) | `dart pub add palsa` | pub.dev |
 | [Java](clients/java) | `com.kuzikode.palsa:palsa-api` | Maven Central |

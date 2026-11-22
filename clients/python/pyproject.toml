@@ -1,5 +1,5 @@
 [project]
-name = "palsa"
+name = "palsa-api"
 version = "0.1.0"
 description = "Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request."
 authors = [{ name = "Kuzikode Intelligent Technologies" }]

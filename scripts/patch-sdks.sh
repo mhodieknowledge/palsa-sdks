@@ -510,7 +510,7 @@ edit('clients/python/pyproject.toml', (text) => {
       continue
     }
     if (section === 'project') {
-      if (/^name\s*=/.test(line)) { out.push('name = "palsa"'); continue }
+      if (/^name\s*=/.test(line)) { out.push('name = "palsa-api"'); continue }
       if (/^description\s*=/.test(line)) { out.push(`description = "${blurb}"`); continue }
       if (/^license\s*=/.test(line)) { out.push('license = { text = "MIT" }'); continue }
       if (/^authors\s*=/.test(line)) {
