@@ -15,10 +15,13 @@ of them can fall behind the others.
 | [PHP](clients/php) | `composer require mhodieknowledge/palsa` | Packagist |
 | [Dart and Flutter](clients/dart) | `dart pub add palsa` | pub.dev |
 | [Java](clients/java) | `com.kuzikode.palsa:palsa-api` | Maven Central |
-| [Kotlin](clients/kotlin) | `com.kuzikode.palsa:palsa-api` | Maven Central |
+| [Kotlin](clients/kotlin) | `com.kuzikode.palsa:palsa-api-kotlin` | Maven Central |
 | [C#](clients/csharp) | `dotnet add package Palsa.Api` | NuGet |
 | [Go](clients/go) | `go get github.com/mhodieknowledge/palsa-sdks/clients/go` | the module path |
 | [Swift](clients/swift) | Swift Package Manager | a package repository |
+
+Released at 0.1.0 on PyPI, NuGet, Maven Central and by Go module tag. npm, pub.dev and Packagist each
+need a one-time step from the account owner before a first release; `docs/RELEASING.md` says which.
 
 Each client's own README has its usage. The API reference is at
 [palsa.mhodieknowledge.workers.dev/docs](https://palsa.mhodieknowledge.workers.dev/docs).
