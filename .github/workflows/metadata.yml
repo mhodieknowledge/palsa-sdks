@@ -1,0 +1,20 @@
+# The package metadata, checked on every push.
+#
+# Nothing here compiles or runs the clients; it reads what each one tells its registry about itself.
+# A wrong repository or homepage passes every build and every test, and is then wrong on the listing
+# page until somebody notices and publishes a new version.
+name: Metadata
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - run: bash scripts/audit-metadata.sh --check

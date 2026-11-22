@@ -29,6 +29,11 @@ jobs:
   guard:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      # A wrong repository or homepage is not caught by any build: it compiles, it publishes, and it
+      # sends people to the wrong place for the life of the package. Checked before anything is sent.
+      - name: Check every client points at this repository
+        run: bash scripts/audit-metadata.sh --check
       - name: Check the confirmation
         run: |
           if [ "${{ inputs.confirm }}" != "publish" ]; then

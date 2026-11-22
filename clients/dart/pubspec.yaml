@@ -2,7 +2,7 @@
 # AUTO-GENERATED FILE, DO NOT MODIFY!
 #
 
-name: palsa
+name: palsa_api
 version: '0.1.0'
 description: 'Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.'
 homepage: https://palsa.mhodieknowledge.workers.dev/docs
@@ -12,8 +12,10 @@ dependencies:
   collection: '>=1.17.0 <2.0.0'
   crypto: '>=3.0.0 <4.0.0'
   http: '>=0.13.0 <2.0.0'
-  intl: any
+  intl: '>=0.18.0 <0.21.0'
   meta: '>=1.1.8 <2.0.0'
 dev_dependencies:
   test: '>=1.25.0 <2.0.0'
-repository: https://github.com/mhodieknowledge/palsa
+repository: https://github.com/mhodieknowledge/palsa-sdks
+issue_tracker: https://github.com/mhodieknowledge/palsa-sdks/issues
+documentation: https://palsa.mhodieknowledge.workers.dev/docs

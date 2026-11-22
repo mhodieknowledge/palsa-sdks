@@ -1,0 +1,30 @@
+# The Dart client, built and validated the way pub.dev will validate it.
+#
+# pub.dev refuses a package over things no compiler complains about: a name that does not match its
+# own imports, a dependency without a constraint, a missing licence or changelog. Running the publish
+# validation in CI means those are caught here rather than by a person at the moment they try to
+# release.
+name: Dart
+
+on:
+  push:
+    branches: [main]
+    paths: ['clients/dart/**', 'tests/fixtures/**', '.github/workflows/dart-check.yml']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: clients/dart } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with: { sdk: stable }
+      - run: dart pub get
+      - name: Analyse
+        run: dart analyze --fatal-warnings
+      - name: Test
+        run: dart test
+      - name: What pub.dev would say
+        run: dart pub publish --dry-run

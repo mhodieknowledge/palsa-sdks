@@ -525,6 +525,29 @@ edit('clients/python/pyproject.toml', (text) => {
   return result + `\n[project.urls]\nHomepage = "${home}"\nSource = "${repo}"\n`
 })
 
+/*
+  The NuGet package metadata.
+
+  The generator leaves the author as "OpenAPI" and the description as "A library generated from a
+  OpenAPI doc", and points RepositoryUrl at a repository that does not hold this code. None of that is
+  visible in a build; it is visible on the listing page for the life of the package.
+*/
+edit('clients/csharp/src/Palsa.Api/Palsa.Api.csproj', (text) => {
+  const set = (body, tag, value) =>
+    new RegExp(`<${tag}>[\\s\\S]*?</${tag}>`).test(body)
+      ? body.replace(new RegExp(`<${tag}>[\\s\\S]*?</${tag}>`), `<${tag}>${value}</${tag}>`)
+      : body.replace('</PropertyGroup>', `  <${tag}>${value}</${tag}>\n  </PropertyGroup>`)
+  let out = text
+  out = set(out, 'Authors', author)
+  out = set(out, 'Company', author)
+  out = set(out, 'Description', blurb)
+  out = set(out, 'RepositoryUrl', repo + '.git')
+  out = set(out, 'PackageProjectUrl', home)
+  out = set(out, 'PackageLicenseExpression', 'MIT')
+  out = set(out, 'PackageTags', 'palsa;sms;email;push;notifications')
+  return out
+})
+
 // Packagist reads the repository root, so the name is the GitHub path. The generated description was
 // the entire specification summary, which is a page of prose on a package listing.
 edit('clients/php/composer.json', (text) => {
@@ -537,12 +560,72 @@ edit('clients/php/composer.json', (text) => {
   return JSON.stringify(pkg, null, 2) + '\n'
 })
 
-edit('clients/dart/pubspec.yaml', (text) =>
-  text
-    .replace(/^name: .*$/m, "name: palsa")
-    .replace(/^description: .*$/m, `description: '${blurb}'`)
-    .replace(/^homepage: .*$/m, `homepage: ${home}`) +
-  (/^repository:/m.test(text) ? '' : `repository: ${repo}\n`),
+/*
+  The Dart pubspec.
+
+  Three things were wrong here and each one failed `dart pub publish` on its own.
+
+  The name was set to `palsa` while every file under lib/ and all 46 test files import
+  `package:palsa_api/...`. In Dart the package name IS the import prefix, so the package did not
+  resolve against itself. palsa_api is the name the generator uses throughout, and it matches the
+  Python distribution, the Maven artifact and the NuGet package.
+
+  `repository` was only appended when the file had none, and the generator always writes one, pointing
+  at the wrong repository. It is replaced now rather than conditionally added.
+
+  And `intl: any` is a dependency with no constraint, which pub.dev warns about because any future
+  major version is accepted sight unseen.
+*/
+edit('clients/dart/pubspec.yaml', (text) => {
+  const set = (body, key, value) =>
+    new RegExp(`^${key}:.*$`, 'm').test(body)
+      ? body.replace(new RegExp(`^${key}:.*$`, 'm'), `${key}: ${value}`)
+      : body.trimEnd() + `\n${key}: ${value}\n`
+  let out = text
+  out = set(out, 'name', 'palsa_api')
+  out = set(out, 'description', `'${blurb}'`)
+  out = set(out, 'homepage', home)
+  out = set(out, 'repository', repo)
+  out = set(out, 'issue_tracker', `${repo}/issues`)
+  out = set(out, 'documentation', home)
+  out = out.replace(/^(\s+)intl: any$/m, "$1intl: '>=0.18.0 <0.21.0'")
+  return out.endsWith('\n') ? out : out + '\n'
+})
+
+/*
+  Two analyser warnings that stop a publish from being clean.
+
+  `return Response.fromStream(response)` inside a try block returns a Future without awaiting it, so
+  an error raised while the stream is read escapes the try rather than being caught by it. Awaiting
+  keeps the failure inside the block that is there to handle it.
+*/
+edit('clients/dart/lib/api_client.dart', (text) =>
+  text.replace(
+    /return Response\.fromStream\(response\);/g,
+    'return await Response.fromStream(response);',
+  ),
+)
+
+/*
+  A changelog, which pub.dev asks every package for. Generated rather than hand-kept: the clients are
+  versioned together and their contents come from the specification, so the honest entry says that.
+*/
+writeFileSync(
+  'clients/dart/CHANGELOG.md',
+  [
+    '# Changelog',
+    '',
+    'Every Palsa client is generated from the same OpenAPI document and released together, so a',
+    'version here means the same thing in all nine.',
+    '',
+    '## 0.1.0',
+    '',
+    '- First release.',
+    '- Covers all twelve operations: sending, quoting, delivery history, balances, contacts, devices',
+    '  and one-time codes.',
+    '- Ships a webhook signature verifier, which no generator produces.',
+    '',
+  ].join('\n'),
 )
 NODE
 
