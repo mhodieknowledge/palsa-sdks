@@ -1,0 +1,32 @@
+# Publishing the Dart client to pub.dev.
+#
+# Separate from publish.yml because pub.dev's automated publishing checks the OIDC claim of the run
+# that uploads: it must have been started by a tag matching the pattern configured on the package.
+# A workflow_dispatch run does not satisfy that however correct its contents, so publish.yml makes the
+# tag and this is what the tag starts.
+#
+# No secret. The run's own identity is the credential.
+name: Publish Dart
+
+on:
+  push:
+    tags: ['dart-v*']
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: clients/dart } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with: { sdk: stable }
+      - run: dart pub get
+      # The same checks the tag-maker cannot run for it, so a bad package is caught before upload
+      # rather than after.
+      - run: dart analyze --fatal-warnings
+      - run: dart test
+      - run: dart pub publish --force

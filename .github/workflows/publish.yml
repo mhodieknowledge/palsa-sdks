@@ -45,29 +45,38 @@ jobs:
             *) echo "The version must look like 1.2.3." >&2; exit 1 ;;
           esac
 
-  # Secret: NPM_TOKEN, a publish token for the account that owns the @palsa scope.
+  # No secret. npm trusted publishing: the registry accepts the run's OIDC identity in place of a
+  # token, which means there is no long-lived credential to leak or rotate. It also attaches
+  # provenance, so anyone can see which workflow and commit produced the tarball.
   typescript:
     needs: guard
     if: inputs.target == 'typescript'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     defaults: { run: { working-directory: clients/typescript } }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22', registry-url: 'https://registry.npmjs.org' }
+      # Trusted publishing needs a recent CLI; the one bundled with Node 22 predates it.
+      - run: npm install -g npm@latest
+        working-directory: .
       # --allow-same-version, because the committed manifest already carries a version and npm treats
       # setting it to the same string as an error rather than a no-op.
       - run: npm version "${{ inputs.version }}" --no-git-tag-version --allow-same-version
       - run: npm install && npm run build --if-present
-      - run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish --access public --provenance
 
-  # Secret: PYPI_API_TOKEN. The username on PyPI is always the literal __token__.
+  # No secret: PyPI trusted publishing.
   python:
     needs: guard
     if: inputs.target == 'python'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -79,27 +88,33 @@ jobs:
       - name: Build
         working-directory: clients/python
         run: pip install build && python -m build
+      # No password: with id-token write and a trusted publisher configured on the project, PyPI
+      # takes the run's OIDC identity instead.
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: clients/python/dist
-          password: ${{ secrets.PYPI_API_TOKEN }}
 
-  # Secret: PUB_DEV_TOKEN, or a pub.dev publisher linked to this repository, which needs no secret.
+  # No secret. pub.dev automated publishing checks that the run was started by a tag matching the
+  # pattern configured on the package, so this job only makes the tag. dart-publish.yml is what that
+  # tag then triggers, and the publish happens there with the run's own OIDC identity.
   dart:
     needs: guard
     if: inputs.target == 'dart'
     runs-on: ubuntu-latest
-    permissions: { id-token: write }
+    permissions: { contents: write }
     steps:
       - uses: actions/checkout@v4
-      - uses: dart-lang/setup-dart@v1
-      - name: Set the version
-        working-directory: clients/dart
+      - name: Set the version and tag it
         run: |
-          sed -i "s|^version: .*|version: '${{ inputs.version }}'|" pubspec.yaml
-      - name: Publish
-        working-directory: clients/dart
-        run: dart pub publish --force
+          tag="dart-v${{ inputs.version }}"
+          sed -i "s|^version: .*|version: '${{ inputs.version }}'|" clients/dart/pubspec.yaml
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add clients/dart/pubspec.yaml
+          git diff --cached --quiet || git commit -m "Dart client ${{ inputs.version }}"
+          git tag -a "$tag" -m "Dart client v${{ inputs.version }}"
+          git push origin HEAD:main --follow-tags
+          echo "Tagged $tag. dart-publish.yml takes it from here."
 
   # Secrets: MAVEN_CENTRAL_USERNAME, MAVEN_CENTRAL_PASSWORD, GPG_PRIVATE_KEY, GPG_PASSPHRASE.
   # Maven Central will not take an unsigned artefact. The group id is com.kuzikode.palsa, a namespace
