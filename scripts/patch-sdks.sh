@@ -487,17 +487,43 @@ edit('clients/typescript/package.json', (text) => {
 })
 
 // PyPI: the name must be the distribution name, and the licence a table setuptools accepts.
-edit('clients/python/pyproject.toml', (text) =>
-  text
-    .replace(/^name = .*$/m, 'name = "palsa"')
-    .replace(/^description = .*$/m, `description = "${blurb}"`)
-    .replace(/^license = .*$/m, 'license = { text = "MIT" }')
-    // The generated authors array spans several lines, so the replacement has to consume the whole
-    // table rather than its first line, which otherwise leaves a dangling entry and invalid TOML.
-    .replace(/^authors = \[[\s\S]*?^\]$/m, `authors = [{ name = "${author}" }]`)
-    .replace(/^(\[project\.urls\][\s\S]*?)(?=\n\[|\n*$)/m, '') +
-  `\n[project.urls]\nHomepage = "${home}"\nSource = "${repo}"\n`,
-)
+//
+// Line by line rather than by regular expression. A pattern for the generated multi-line `authors`
+// array ran past the end of the table on an already-patched file, swallowed a section header, and
+// left the mypy settings dangling inside [project]. A patch script has to be safe to run twice.
+edit('clients/python/pyproject.toml', (text) => {
+  const out = []
+  let section = ''
+  let droppingAuthors = false
+  for (const line of text.split('\n')) {
+    const header = line.match(/^\[([^\]]+)\]\s*$/)
+    if (header) {
+      section = header[1]
+      droppingAuthors = false
+      if (section === 'project.urls') continue // rewritten at the end, exactly once
+      out.push(line)
+      continue
+    }
+    if (section === 'project.urls') continue
+    if (droppingAuthors) {
+      if (/^\]\s*$/.test(line)) droppingAuthors = false
+      continue
+    }
+    if (section === 'project') {
+      if (/^name\s*=/.test(line)) { out.push('name = "palsa"'); continue }
+      if (/^description\s*=/.test(line)) { out.push(`description = "${blurb}"`); continue }
+      if (/^license\s*=/.test(line)) { out.push('license = { text = "MIT" }'); continue }
+      if (/^authors\s*=/.test(line)) {
+        out.push(`authors = [{ name = "${author}" }]`)
+        if (!/\]\s*$/.test(line)) droppingAuthors = true
+        continue
+      }
+    }
+    out.push(line)
+  }
+  let result = out.join('\n').replace(/\n{3,}/g, '\n\n').replace(/\n+$/, '\n')
+  return result + `\n[project.urls]\nHomepage = "${home}"\nSource = "${repo}"\n`
+})
 
 // Packagist reads the repository root, so the name is the GitHub path. The generated description was
 // the entire specification summary, which is a page of prose on a package listing.
