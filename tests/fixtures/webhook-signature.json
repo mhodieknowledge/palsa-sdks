@@ -1,0 +1,6 @@
+{
+  "secret": "whsec_shared_fixture_secret",
+  "body": "{\"id\":\"evt_fixture\",\"type\":\"notification.delivered\",\"createdAt\":\"2026-11-18T00:26:40.000Z\",\"workspaceId\":\"ws_fixture\",\"data\":{\"deliveryId\":\"dlv_1\"}}",
+  "timestampMs": 1795000000000,
+  "signature": "t=1795000000000,v1=b367ae96c70eaeb1aa7fcb8920ec1a730a25700c7184f0cd8b8a79b8adbcaaa8"
+}

@@ -124,7 +124,7 @@ jobs:
           fi
       - name: Publish
         working-directory: clients/${{ inputs.target }}
-        run: mvn -B -Prelease deploy
+        run: mvn -B -Psign-artifacts deploy
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}

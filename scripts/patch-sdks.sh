@@ -564,6 +564,49 @@ if [ -d clients/java ] || [ -d clients/kotlin ]; then
   fi
 fi
 
+# Maven Central needs more than a built jar, and the generator supplies none of it: the project url and
+# the scm block point at the generator's own repository, and there is no distribution target at all, so
+# `mvn deploy` has nowhere to deploy to. Central also refuses anything unsigned or without sources and
+# javadoc, which the generated pom does cover under its sign-artifacts profile.
+node - "$repo" <<'NODE'
+const { readFileSync, writeFileSync, existsSync } = require('node:fs')
+const [repo] = process.argv.slice(2)
+const pom = 'clients/java/pom.xml'
+if (existsSync(pom)) {
+  let text = readFileSync(pom, 'utf8')
+  const scm = repo.replace('https://github.com/', '')
+  text = text
+    .replace(
+      /<url>https:\/\/github\.com\/openapitools\/openapi-generator<\/url>/g,
+      `<url>${repo}</url>`,
+    )
+    .replace(
+      /scm:git:git@github\.com:openapitools\/openapi-generator\.git/g,
+      `scm:git:git@github.com:${scm}.git`,
+    )
+  // The Central Portal's own plugin. Added once: a second run would otherwise stack copies of it.
+  if (!text.includes('central-publishing-maven-plugin')) {
+    text = text.replace(
+      '<plugins>',
+      `<plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>`,
+      )
+    }
+  writeFileSync(pom, text)
+  console.log('patched: java pom points at this repository and can reach Maven Central')
+}
+NODE
+
 for file in clients/*/README.md; do
   [ -f "$file" ] || continue
   if ! grep -q 'Licensed under the MIT' "$file"; then

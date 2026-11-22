@@ -6,12 +6,12 @@
     <packaging>jar</packaging>
     <name>palsa-api</name>
     <version>0.1.0</version>
-    <url>https://github.com/openapitools/openapi-generator</url>
+    <url>https://github.com/mhodieknowledge/palsa-sdks</url>
     <description>OpenAPI Java</description>
     <scm>
-        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
-        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
-        <url>https://github.com/openapitools/openapi-generator</url>
+        <connection>scm:git:git@github.com:mhodieknowledge/palsa-sdks.git</connection>
+        <developerConnection>scm:git:git@github.com:mhodieknowledge/palsa-sdks.git</developerConnection>
+        <url>https://github.com/mhodieknowledge/palsa-sdks</url>
     </scm>
 
     <licenses>
@@ -33,6 +33,17 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
