@@ -1,0 +1,168 @@
+# Publishing a client to its registry.
+#
+# Manual only, and one client at a time. Publishing cannot be undone in the ways that matter: a version
+# number cannot be reused, a package that has been fetched once is out there, and a wrong artefact under
+# a real name is worse than no package at all. So nothing here runs on a push.
+#
+# Every job needs a secret. They are named under each one, and until they are set the job fails at the
+# authentication step, which is the correct failure.
+name: Publish a client
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Which client
+        required: true
+        type: choice
+        options: [typescript, python, dart, java, kotlin, csharp, go]
+      version:
+        description: The version, e.g. 0.1.0. It must not already exist in the registry.
+        required: true
+        type: string
+      confirm:
+        description: Type publish to confirm. Anything else stops the run.
+        required: true
+        type: string
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the confirmation
+        run: |
+          if [ "${{ inputs.confirm }}" != "publish" ]; then
+            echo "Not confirmed. Type publish in the confirm box to run this." >&2
+            exit 1
+          fi
+          case "${{ inputs.version }}" in
+            [0-9]*.[0-9]*.[0-9]*) ;;
+            *) echo "The version must look like 1.2.3." >&2; exit 1 ;;
+          esac
+
+  # Secret: NPM_TOKEN, a publish token for the account that owns the @palsa scope.
+  typescript:
+    needs: guard
+    if: inputs.target == 'typescript'
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: clients/typescript } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', registry-url: 'https://registry.npmjs.org' }
+      - run: npm version "${{ inputs.version }}" --no-git-tag-version
+      - run: npm install && npm run build --if-present
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Secret: PYPI_API_TOKEN. The username on PyPI is always the literal __token__.
+  python:
+    needs: guard
+    if: inputs.target == 'python'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - name: Set the version
+        working-directory: clients/python
+        run: |
+          sed -i "s|^version = .*|version = \"${{ inputs.version }}\"|" pyproject.toml
+      - name: Build
+        working-directory: clients/python
+        run: pip install build && python -m build
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: clients/python/dist
+          password: ${{ secrets.PYPI_API_TOKEN }}
+
+  # Secret: PUB_DEV_TOKEN, or a pub.dev publisher linked to this repository, which needs no secret.
+  dart:
+    needs: guard
+    if: inputs.target == 'dart'
+    runs-on: ubuntu-latest
+    permissions: { id-token: write }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+      - name: Set the version
+        working-directory: clients/dart
+        run: |
+          sed -i "s|^version: .*|version: '${{ inputs.version }}'|" pubspec.yaml
+      - name: Publish
+        working-directory: clients/dart
+        run: dart pub publish --force
+
+  # Secrets: MAVEN_CENTRAL_USERNAME, MAVEN_CENTRAL_PASSWORD, GPG_PRIVATE_KEY, GPG_PASSPHRASE.
+  # Maven Central will not take an unsigned artefact, and it only accepts a group id whose namespace
+  # the account has proved it owns.
+  java:
+    needs: guard
+    if: inputs.target == 'java' || inputs.target == 'kotlin'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: temurin
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg-passphrase: GPG_PASSPHRASE
+      - name: Set the version
+        working-directory: clients/${{ inputs.target }}
+        run: |
+          if [ -f pom.xml ]; then
+            mvn -B versions:set -DnewVersion="${{ inputs.version }}" -DgenerateBackupPoms=false
+          else
+            sed -i "s|^version .*|version '${{ inputs.version }}'|" build.gradle
+          fi
+      - name: Publish
+        working-directory: clients/${{ inputs.target }}
+        run: mvn -B -Prelease deploy
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+  # Secret: NUGET_API_KEY.
+  csharp:
+    needs: guard
+    if: inputs.target == 'csharp'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { dotnet-version: '8.0.x' }
+      - name: Pack
+        working-directory: clients/csharp
+        run: dotnet pack src/Palsa.Api/Palsa.Api.csproj -c Release -p:PackageVersion="${{ inputs.version }}" -o out
+      - name: Push
+        working-directory: clients/csharp
+        run: |
+          dotnet nuget push out/*.nupkg \
+            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+  # No secret and no registry: a Go module is published by tagging, and the tag for a module in a
+  # subdirectory carries that subdirectory as its prefix.
+  go:
+    needs: guard
+    if: inputs.target == 'go'
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag the module
+        run: |
+          tag="clients/go/v${{ inputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$tag" -m "Go client v${{ inputs.version }}"
+          git push origin "$tag"
+          echo "Published as $tag. Fetch with:"
+          echo "  go get github.com/mhodieknowledge/palsa-sdks/clients/go@v${{ inputs.version }}"

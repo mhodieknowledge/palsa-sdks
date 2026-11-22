@@ -1,0 +1,1868 @@
+openapi: 3.1.0
+info:
+  contact:
+    name: Palsa
+    url: https://palsa.mhodieknowledge.workers.dev
+  description: |
+    Palsa is prepaid. Credit is reserved before anything reaches a supplier and only what a supplier
+    accepted is charged, so a balance cannot go below nothing. `QUOTA_EXCEEDED` means exactly that: the
+    workspace could not pay for the send, and nothing was sent.
+
+    A key belongs to one workspace, so no path here names a workspace and no key can reach another's data.
+
+    What happened to a send is reported by webhook, signed as
+    `Palsa-Signature: t=<milliseconds>,v1=<hex>`: an HMAC-SHA256 over `<t>.<raw body>`. Verify against the
+    raw body, because parsing and re-serialising it changes the bytes, and refuse a signature older than
+    five minutes, which is what stops an old delivery being replayed at you later. Every client library
+    ships a verifier, since no generator produces one.
+
+    **This file is generated from nothing and generates everything.** Every Palsa client library is
+    produced from it, so an API change is a change here followed by a regeneration. It is also tested
+    against the running server, because a specification is a claim about what the server does and a wrong
+    claim would be inherited by every client at once.
+  title: Palsa API
+  version: 1.0.0
+servers:
+- description: Production
+  url: https://palsa.mhodieknowledge.workers.dev
+security:
+- bearerAuth: []
+tags:
+- description: "Sending, and what happened to a send."
+  name: Notifications
+- description: One-time codes.
+  name: Verification
+- description: People and their devices.
+  name: Contacts
+- description: What credit is left.
+  name: Billing
+paths:
+  /v1/notifications:
+    get:
+      description: |
+        Newest first, paginated by cursor rather than offset, because an offset drifts while new sends
+        arrive. Requires the `notifications.read` scope.
+      operationId: listNotifications
+      parameters:
+      - description: Only sends in this state.
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          maxLength: 30
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 25
+          maximum: 100
+          minimum: 1
+          type: integer
+        style: form
+      - description: The `nextCursor` from a previous page.
+        explode: true
+        in: query
+        name: cursor
+        required: false
+        schema:
+          maxLength: 80
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listNotifications_200_response"
+          description: A page of sends.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: List sends
+      tags:
+      - Notifications
+      x-accepts:
+      - application/json
+    post:
+      description: |
+        Reserves credit, then sends. A key beginning `pk_test_` is a sandbox key: the send is accepted,
+        costs nothing and reaches nobody.
+
+        Pass `Idempotency-Key` for anything that must not go twice. A repeat with the same key returns the
+        first answer and sends nothing more, which is what makes retrying after a timeout safe.
+
+        Requires the `notifications.send` scope.
+      operationId: sendNotification
+      parameters:
+      - $ref: "#/components/parameters/IdempotencyKey"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendRequest"
+        required: true
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sendNotification_202_response"
+          description: Accepted. Dispatch continues after the response.
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sendNotification_202_response"
+          description: A replay of an earlier request with the same idempotency key.
+            Nothing was sent again.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "402":
+          $ref: "#/components/responses/QuotaExceeded"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Send a notification
+      tags:
+      - Notifications
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/notifications/{id}:
+    get:
+      description: Requires the `notifications.read` scope.
+      operationId: getNotification
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getNotification_200_response"
+          description: "The send, with its delivery counts by state."
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: One send
+      tags:
+      - Notifications
+      x-accepts:
+      - application/json
+  /v1/quotes:
+    post:
+      description: |
+        The same calculation the send itself uses: what it would cost, who would be left out and why, and
+        anything that would stop it. Reserves nothing and sends nothing.
+
+        Note the size of the answer. `recipients` carries a row per recipient per channel, including their
+        address, so quoting a fifty-thousand-contact audience returns fifty thousand rows. Read
+        `recipientCount` and `units` unless you need the rows themselves.
+
+        Requires the `notifications.send` scope.
+      operationId: quoteSend
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendRequest"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/quoteSend_200_response"
+          description: What the send would cost.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Price a send without making it
+      tags:
+      - Notifications
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/balances:
+    get:
+      description: |
+        What is available now, what is already promised to sends in flight, and what has been used, per
+        channel. Requires the `analytics.read` scope.
+      operationId: getBalances
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getBalances_200_response"
+          description: The balance of each channel.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Prepaid balances
+      tags:
+      - Billing
+      x-accepts:
+      - application/json
+  /v1/verifications:
+    post:
+      description: |
+        Palsa generates the code, keeps only a salted hash of it and sends it to the recipient, so nobody
+        else ever sees it. With a sandbox key it comes back as `sandboxCode`, which is what lets you
+        integrate without a handset.
+
+        At most five challenges per address every fifteen minutes. A code counts as a transactional send,
+        so quiet hours do not hold it. Requires the `verifications.write` scope.
+      operationId: startVerification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerificationRequest"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/startVerification_201_response"
+          description: The challenge. `sandboxCode` is present only for a sandbox
+            key.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "402":
+          $ref: "#/components/responses/QuotaExceeded"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Send a one-time code
+      tags:
+      - Verification
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/verifications/{id}/check:
+    post:
+      description: |
+        Wrong guesses are counted and the challenge locks after too many, so do not guess. Requires the
+        `verifications.write` scope.
+      operationId: checkVerification
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/checkVerification_request"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/checkVerification_200_response"
+          description: The state of the challenge after this attempt.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Check a code
+      tags:
+      - Verification
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/contacts:
+    get:
+      description: Newest first. Requires the `contacts.read` scope.
+      operationId: listContacts
+      parameters:
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 50
+          maximum: 200
+          minimum: 1
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listContacts_200_response"
+          description: The contacts.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: List contacts
+      tags:
+      - Contacts
+      x-accepts:
+      - application/json
+    post:
+      description: |
+        Give an email address or a phone number, or both. `state` is `pending` unless you can show the
+        person consented, and marketing only goes to `consented` contacts. Requires the `contacts.write`
+        scope.
+      operationId: createContact
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactCreate"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createContact_201_response"
+          description: Created.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Save a contact
+      tags:
+      - Contacts
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/contacts/{id}:
+    delete:
+      description: |
+        Requires the `contacts.write` scope.
+
+        Here as well as in the console because a deletion request reaches your application at least as
+        often as it reaches your staff.
+
+        Their deliveries are kept and their address is removed from them, so the record of what was sent
+        and charged survives without saying who it went to. A suppression for that address is also kept:
+        dropping it would mean the same person, imported again later, is sent to after asking not to be.
+        Their devices and audience memberships go with them.
+      operationId: deleteContact
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/deleteContact_200_response"
+          description: The contact is gone.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Erase a contact
+      tags:
+      - Contacts
+      x-accepts:
+      - application/json
+  /v1/devices:
+    post:
+      description: |
+        Registering the same token again updates it rather than adding another, and revives one that had
+        been invalidated. Requires the `contacts.write` scope.
+      operationId: registerDevice
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeviceRegister"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/registerDevice_201_response"
+          description: Registered.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Register a device for push
+      tags:
+      - Contacts
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/mcp:
+    get:
+      description: |
+        Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is
+        deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would
+        describe the transport rather than the protocol, and an agent should reach it through an MCP
+        client, not a Palsa SDK.
+
+        An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to
+        give it first.
+      operationId: describeMcp
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/describeMcp_200_response"
+          description: A description of the endpoint and the tools it offers.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+      summary: What the MCP endpoint is
+      tags:
+      - Notifications
+      x-accepts:
+      - application/json
+components:
+  parameters:
+    IdempotencyKey:
+      description: A repeat with the same key returns the first answer and sends nothing
+        more.
+      explode: false
+      in: header
+      name: Idempotency-Key
+      required: false
+      schema:
+        maxLength: 100
+        type: string
+      style: simple
+  responses:
+    Unauthenticated:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: "No key, or a key that has been revoked."
+    Forbidden:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: The key is missing the scope this operation needs.
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: No such thing in this workspace. An id from elsewhere answers the
+        same way.
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: That already exists.
+    ValidationFailed:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: "The request was wrong. `fields` names what, by field."
+    QuotaExceeded:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: |
+        The workspace cannot pay for this, and nothing was sent. `detail` names the channel, how much was
+        needed and how much was available.
+    RateLimited:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorEnvelope"
+      description: Too many requests for this key's plan. Try again shortly.
+  schemas:
+    Channel:
+      description: |
+        SMS is charged per 160-character segment, and one character outside GSM 03.38 forces the whole
+        message to Unicode, which more than halves what fits. Email is one unit per message. Push costs
+        no prepaid units.
+      enum:
+      - sms
+      - email
+      - push
+      type: string
+    ErrorEnvelope:
+      example:
+        error:
+          code: VALIDATION_FAILED
+          requestId: requestId
+          detail:
+            key: ""
+          message: message
+          fields:
+            key:
+            - fields
+            - fields
+      properties:
+        error:
+          $ref: "#/components/schemas/Error"
+      required:
+      - error
+    Error:
+      description: |
+        `code` is stable and worth branching on. `message` is written for a person and may change, so do
+        not match on it.
+      example:
+        code: VALIDATION_FAILED
+        requestId: requestId
+        detail:
+          key: ""
+        message: message
+        fields:
+          key:
+          - fields
+          - fields
+      properties:
+        code:
+          enum:
+          - VALIDATION_FAILED
+          - UNAUTHENTICATED
+          - FORBIDDEN
+          - NOT_FOUND
+          - CONFLICT
+          - QUOTA_EXCEEDED
+          - RATE_LIMITED
+          - PROVIDER_ERROR
+          - INTERNAL
+          type: string
+        message:
+          type: string
+        fields:
+          additionalProperties:
+            items:
+              type: string
+          description: Validation errors by field name.
+        detail:
+          additionalProperties: true
+          description: "Machine-readable specifics, such as the channel and shortfall\
+            \ on QUOTA_EXCEEDED."
+          type: object
+        requestId:
+          description: Quote this when asking us about a request.
+          type: string
+      required:
+      - code
+      - message
+    Recipients:
+      description: Who the send goes to. Give exactly one of these three.
+      example:
+        addresses:
+        - addresses
+        - addresses
+        - addresses
+        - addresses
+        - addresses
+        audienceId: audienceId
+        contactIds:
+        - contactIds
+        - contactIds
+        - contactIds
+        - contactIds
+        - contactIds
+      properties:
+        contactIds:
+          items:
+            maxLength: 60
+            type: string
+          maxItems: 50000
+          type: array
+        addresses:
+          description: "Phone numbers or email addresses, for people who are not saved\
+            \ contacts."
+          items:
+            maxLength: 200
+            type: string
+          maxItems: 1000
+          type: array
+        audienceId:
+          maxLength: 60
+          type: string
+    SendRequest:
+      example:
+        variantBody: variantBody
+        metadata:
+          key: ""
+        purpose: transactional
+        subject: subject
+        timezone: timezone
+        quietEnd: quietEnd
+        body: body
+        templateId: templateId
+        routing: parallel
+        quietStart: quietStart
+        fallbackWaitSeconds: 48435
+        variantSubject: variantSubject
+        imageUrl: https://openapi-generator.tech
+        callbackUrl: https://openapi-generator.tech
+        ttlSeconds: 354609
+        variables:
+          key: ""
+        priority: high
+        fallbackOn: failure
+        badge: 59620
+        channels:
+        - sms
+        - sms
+        - sms
+        deepLink: deepLink
+        name: name
+        splitPercent: 60
+        attachmentIds:
+        - attachmentIds
+        - attachmentIds
+        - attachmentIds
+        - attachmentIds
+        - attachmentIds
+        to:
+          addresses:
+          - addresses
+          - addresses
+          - addresses
+          - addresses
+          - addresses
+          audienceId: audienceId
+          contactIds:
+          - contactIds
+          - contactIds
+          - contactIds
+          - contactIds
+          - contactIds
+        trackLinks: false
+        scheduledAt: scheduledAt
+      properties:
+        channels:
+          description: Tried in the order given. With `fallback` routing the next
+            is used only if the previous does not work out.
+          items:
+            $ref: "#/components/schemas/Channel"
+          maxItems: 3
+          minItems: 1
+          type: array
+        to:
+          $ref: "#/components/schemas/Recipients"
+        body:
+          description: "Required unless `templateId` is given. Supports `{{ name }}`\
+            \ and your own variables."
+          maxLength: 20000
+          minLength: 1
+          type: string
+        subject:
+          description: Email only.
+          maxLength: 200
+          type: string
+        templateId:
+          maxLength: 60
+          type: string
+        variables:
+          additionalProperties: true
+          type: object
+        purpose:
+          default: transactional
+          description: |
+            Marketing only reaches contacts who consented to it and is held during quiet hours.
+            Transactional is neither.
+
+            A marketing email also carries an unsubscribe link, added for you: a line at the end of the
+            body, and the `List-Unsubscribe` and `List-Unsubscribe-Post` headers a mail client reads to
+            show its own unsubscribe button. Following it suppresses that address and marks the contact
+            unsubscribed, so later sends skip them. Nothing is added to a transactional message, and
+            nothing is added to SMS, which is charged by segment and would cost more than was quoted.
+          enum:
+          - marketing
+          - transactional
+          type: string
+        routing:
+          default: parallel
+          enum:
+          - parallel
+          - fallback
+          type: string
+        fallbackOn:
+          default: failure
+          description: |
+            With `fallback` routing, what counts as not working out. A refusal falls back whichever is
+            chosen; `timeout` also falls back when nothing was delivered within the wait, and
+            `unacknowledged` when nothing was read, which needs your own read callback wired up.
+          enum:
+          - failure
+          - timeout
+          - unacknowledged
+          type: string
+        fallbackWaitSeconds:
+          maximum: 604800
+          minimum: 1
+          type: integer
+        variantBody:
+          description: "An A/B test's second message. Each arm is costed from its\
+            \ own body, so a longer B costs more."
+          maxLength: 20000
+          type: string
+        variantSubject:
+          maxLength: 200
+          type: string
+        splitPercent:
+          description: The share of the audience that gets variant B.
+          maximum: 100
+          minimum: 0
+          type: integer
+        trackLinks:
+          default: false
+          description: |
+            Rewrites the links so a click can be attributed to a recipient. A tracked link is longer than
+            the one you typed, so it can add an SMS segment; the quote counts what will really be sent.
+          type: boolean
+        quietStart:
+          description: "24-hour local time, e.g. \"22:00\". Both ends are needed or\
+            \ neither applies."
+          maxLength: 5
+          nullable: true
+          type: string
+        quietEnd:
+          maxLength: 5
+          nullable: true
+          type: string
+        timezone:
+          description: "An IANA zone, e.g. \"Africa/Harare\"."
+          maxLength: 60
+          nullable: true
+          type: string
+        attachmentIds:
+          description: Email only. Ids of files already uploaded to this workspace.
+          items:
+            maxLength: 60
+            type: string
+          maxItems: 10
+          type: array
+        deepLink:
+          description: Push only.
+          maxLength: 500
+          type: string
+        ttlSeconds:
+          description: Push only. How long it stays worth delivering.
+          maximum: 2419200
+          minimum: 0
+          type: integer
+        priority:
+          description: Push only.
+          enum:
+          - high
+          - normal
+          type: string
+        badge:
+          description: "Push only. The number on the app icon. Zero is meaningful:\
+            \ it clears the badge."
+          maximum: 99999
+          minimum: 0
+          type: integer
+        imageUrl:
+          description: Push only. A picture shown with the notification.
+          format: uri
+          maxLength: 500
+          type: string
+        scheduledAt:
+          description: ISO 8601. Omit to send now.
+          maxLength: 40
+          nullable: true
+          type: string
+        callbackUrl:
+          format: uri
+          maxLength: 500
+          type: string
+        metadata:
+          additionalProperties: true
+          description: Yours. Returned on the send and on webhooks about it.
+          type: object
+        name:
+          description: Also seeds the A/B division
+          maxLength: 120
+          type: string
+      required:
+      - channels
+      - to
+    UnitsByChannel:
+      additionalProperties:
+        type: integer
+      description: "Billable units, per channel."
+    SendResult:
+      example:
+        mode: live
+        recipients: 0
+        warnings:
+        - code: code
+          count: 5
+          skippable: true
+          message: message
+        - code: code
+          count: 5
+          skippable: true
+          message: message
+        id: id
+        units:
+          key: 6
+        status: status
+        skipped: 1
+      properties:
+        id:
+          type: string
+        status:
+          description: "`running`, `scheduled` when held or scheduled, or `pending_approval`."
+          type: string
+        mode:
+          enum:
+          - live
+          - sandbox
+          type: string
+        recipients:
+          type: integer
+        units:
+          additionalProperties:
+            type: integer
+          description: "Billable units, per channel."
+        skipped:
+          description: How many recipients were left out. The quote says why.
+          type: integer
+        warnings:
+          description: Things that did not stop the send.
+          items:
+            $ref: "#/components/schemas/Blocker"
+          type: array
+      required:
+      - id
+      - mode
+      - recipients
+      - skipped
+      - status
+      - units
+      - warnings
+    Blocker:
+      example:
+        code: code
+        count: 5
+        skippable: true
+        message: message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        skippable:
+          description: False stops the send outright. True means it proceeds with
+            those recipients left out.
+          type: boolean
+        count:
+          type: integer
+      required:
+      - code
+      - message
+      - skippable
+    SkippedRecipient:
+      example:
+        reason: reason
+        address: address
+      properties:
+        address:
+          type: string
+        reason:
+          type: string
+      required:
+      - address
+      - reason
+    QuotedRecipient:
+      example:
+        address: address
+        contactId: contactId
+        channel: null
+        name: name
+        variant: A
+        units: 0
+        fields:
+          key: ""
+      properties:
+        contactId:
+          nullable: true
+          type: string
+        address:
+          type: string
+        channel:
+          $ref: "#/components/schemas/Channel"
+        name:
+          type: string
+        fields:
+          additionalProperties: true
+          type: object
+        units:
+          description: What this one recipient costs
+          type: integer
+        variant:
+          enum:
+          - A
+          - B
+          type: string
+      required:
+      - address
+      - channel
+      - contactId
+      - fields
+      - name
+      - units
+      - variant
+    Quote:
+      example:
+        estimateMinor: 7
+        heldUntil:
+          at: at
+          timeZone: timeZone
+        channels:
+        - sms
+        - sms
+        recipientCount: 1
+        recipients:
+          key:
+          - address: address
+            contactId: contactId
+            channel: null
+            name: name
+            variant: A
+            units: 0
+            fields:
+              key: ""
+          - address: address
+            contactId: contactId
+            channel: null
+            name: name
+            variant: A
+            units: 0
+            fields:
+              key: ""
+        trackedLinks:
+        - trackedLinks
+        - trackedLinks
+        sms:
+          encoding: GSM-7
+          segments: 5
+        blockers:
+        - code: code
+          count: 5
+          skippable: true
+          message: message
+        - code: code
+          count: 5
+          skippable: true
+          message: message
+        currency: currency
+        units:
+          key: 6
+        variants:
+          A: 5
+          B: 2
+        skipped:
+        - reason: reason
+          address: address
+        - reason: reason
+          address: address
+      properties:
+        channels:
+          items:
+            $ref: "#/components/schemas/Channel"
+          type: array
+        recipients:
+          additionalProperties:
+            items:
+              $ref: "#/components/schemas/QuotedRecipient"
+          description: |
+            A row per recipient per channel. Large: quoting a fifty-thousand-contact audience returns
+            fifty thousand rows, so read `recipientCount` unless you need the rows.
+        units:
+          additionalProperties:
+            type: integer
+          description: "Billable units, per channel."
+        recipientCount:
+          type: integer
+        skipped:
+          items:
+            $ref: "#/components/schemas/SkippedRecipient"
+          type: array
+        blockers:
+          description: "Everything standing in the way. Those with `skippable: false`\
+            \ stop the send."
+          items:
+            $ref: "#/components/schemas/Blocker"
+          type: array
+        sms:
+          $ref: "#/components/schemas/Quote_sms"
+        variants:
+          $ref: "#/components/schemas/Quote_variants"
+        trackedLinks:
+          description: The links that will be rewritten. Empty when tracking is off
+            or nothing can be tracked.
+          items:
+            type: string
+          type: array
+        heldUntil:
+          $ref: "#/components/schemas/Quote_heldUntil"
+        estimateMinor:
+          description: What the units would cost at the published top-up rate
+          type: integer
+        currency:
+          type: string
+      required:
+      - blockers
+      - channels
+      - currency
+      - estimateMinor
+      - heldUntil
+      - recipientCount
+      - recipients
+      - skipped
+      - sms
+      - trackedLinks
+      - units
+      - variants
+    NotificationSummary:
+      example:
+        kind: kind
+        name: name
+        created_at: created_at
+        recipient_count: 0
+        id: id
+        status: status
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+        recipient_count:
+          type: integer
+        created_at:
+          type: string
+      required:
+      - created_at
+      - id
+      - kind
+      - name
+      - recipient_count
+      - status
+    Notification:
+      example:
+        metadata: metadata
+        finished_at: finished_at
+        kind: kind
+        scheduled_at: scheduled_at
+        created_at: created_at
+        recipient_count: 1
+        failure_reason: failure_reason
+        deliveries:
+          key: 5
+        settled_units:
+          key: 6
+        name: name
+        started_at: started_at
+        id: id
+        reserved_units:
+          key: 0
+        status: status
+      properties:
+        id:
+          type: string
+        kind:
+          type: string
+        name:
+          nullable: true
+          type: string
+        status:
+          type: string
+        reserved_units:
+          additionalProperties:
+            type: integer
+          description: "Billable units, per channel."
+        settled_units:
+          additionalProperties:
+            type: integer
+          description: "Billable units, per channel."
+        recipient_count:
+          type: integer
+        scheduled_at:
+          nullable: true
+          type: string
+        started_at:
+          nullable: true
+          type: string
+        finished_at:
+          nullable: true
+          type: string
+        failure_reason:
+          nullable: true
+          type: string
+        metadata:
+          description: The JSON you sent
+          nullable: true
+          type: string
+        created_at:
+          type: string
+        deliveries:
+          additionalProperties:
+            type: integer
+          description: How many deliveries are in each state.
+      required:
+      - created_at
+      - deliveries
+      - id
+      - kind
+      - recipient_count
+      - reserved_units
+      - settled_units
+      - status
+    Balance:
+      description: |
+        Reservations and usage are split by where the units came from, because included units are spent
+        before purchased ones: the allowance the customer has already paid for goes first, and what they
+        bought separately is kept for when it runs out.
+      example:
+        purchased: 6
+        usedIncluded: 5
+        usedPurchased: 2
+        channel: sms
+        available: 7
+        reservedPurchased: 5
+        reservedIncluded: 1
+        included: 0
+        periodEnd: periodEnd
+      properties:
+        channel:
+          $ref: "#/components/schemas/Channel"
+        included:
+          description: The plan's allowance for this period.
+          type: integer
+        purchased:
+          description: Credit bought separately
+          type: integer
+        reservedIncluded:
+          description: Included units promised to sends in flight.
+          type: integer
+        reservedPurchased:
+          description: Purchased units promised to sends in flight.
+          type: integer
+        usedIncluded:
+          type: integer
+        usedPurchased:
+          type: integer
+        available:
+          description: |
+            `included + purchased - reserved`, and what a send is actually checked against. It cannot go
+            below nothing.
+          type: integer
+        periodEnd:
+          description: When the included allowance expires. Purchased units are unaffected
+            by it.
+          nullable: true
+          type: string
+      required:
+      - available
+      - channel
+      - included
+      - purchased
+      - reservedIncluded
+      - reservedPurchased
+      - usedIncluded
+      - usedPurchased
+    VerificationRequest:
+      example:
+        template: template
+        channel: sms
+        length: 4
+        to: to
+        expiresInSeconds: 2193
+        flow: flow
+      properties:
+        channel:
+          enum:
+          - sms
+          - email
+          type: string
+        to:
+          maxLength: 200
+          minLength: 3
+          type: string
+        length:
+          default: 6
+          maximum: 8
+          minimum: 4
+          type: integer
+        expiresInSeconds:
+          default: 600
+          maximum: 3600
+          minimum: 60
+          type: integer
+        template:
+          description: "Use `{{code}}` and `{{minutes}}`. Defaults to \"Your code\
+            \ is {{code}}. It expires in {{minutes}} minutes.\""
+          maxLength: 200
+          type: string
+        flow:
+          description: |
+            The name of one of your active verification flows, set up in the console under Verification.
+            Its expiry, attempt ceiling and rate apply to this challenge.
+
+            A name matching no active flow is refused with `NOT_FOUND` rather than falling back to the
+            defaults, since a silent fallback is how somebody comes to believe a code allows three
+            guesses when it allows five. A flow's rate applies in addition to the built-in ceiling of
+            five requests per address every fifteen minutes, so a flow can tighten it and cannot loosen
+            it.
+          maxLength: 120
+          type: string
+      required:
+      - channel
+      - to
+    Verification:
+      example:
+        sandboxCode: sandboxCode
+        channel: sms
+        id: id
+        to: to
+        expiresAt: expiresAt
+      properties:
+        id:
+          type: string
+        channel:
+          enum:
+          - sms
+          - email
+          type: string
+        to:
+          type: string
+        expiresAt:
+          type: string
+        sandboxCode:
+          description: "Only with a sandbox key. Never returned for a live send, to\
+            \ anyone, including the workspace that asked."
+          type: string
+      required:
+      - channel
+      - expiresAt
+      - id
+      - to
+    VerificationCheck:
+      example:
+        attemptsLeft: 0
+        id: id
+        state: pending
+      properties:
+        id:
+          type: string
+        state:
+          enum:
+          - pending
+          - verified
+          - expired
+          - locked
+          type: string
+        attemptsLeft:
+          description: Present while still pending.
+          type: integer
+      required:
+      - id
+      - state
+    Contact:
+      example:
+        phone: phone
+        name: name
+        created_at: created_at
+        id: id
+        state: consented
+        email: email
+        tags: tags
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          nullable: true
+          type: string
+        phone:
+          nullable: true
+          type: string
+        state:
+          enum:
+          - consented
+          - pending
+          - unsubscribed
+          - bounced
+          type: string
+        tags:
+          description: JSON array
+          nullable: true
+          type: string
+        created_at:
+          type: string
+      required:
+      - created_at
+      - id
+      - name
+      - state
+    ContactCreate:
+      description: "Give an email address or a phone number, or both."
+      example:
+        phone: phone
+        name: ""
+        state: pending
+        consentSource: consentSource
+        fields:
+          key: fields
+        email: email
+        tags:
+        - tags
+        - tags
+        - tags
+        - tags
+        - tags
+      properties:
+        name:
+          default: ""
+          maxLength: 120
+          type: string
+        email:
+          format: email
+          maxLength: 200
+          nullable: true
+          type: string
+        phone:
+          maxLength: 30
+          nullable: true
+          type: string
+        state:
+          default: pending
+          description: Only `consented` contacts receive marketing. Say `consented`
+            only if you can show they did.
+          enum:
+          - consented
+          - pending
+          type: string
+        consentSource:
+          description: Where consent came from. Worth recording.
+          maxLength: 120
+          nullable: true
+          type: string
+        tags:
+          items:
+            maxLength: 40
+            type: string
+          maxItems: 50
+          type: array
+        fields:
+          additionalProperties:
+            maxLength: 500
+            type: string
+          description: "Your own fields, usable as `{{ variables }}` in a body."
+    DeviceRegister:
+      example:
+        appVersion: appVersion
+        contactId: contactId
+        locale: locale
+        platform: android
+        token: token
+      properties:
+        token:
+          maxLength: 400
+          minLength: 10
+          type: string
+        platform:
+          enum:
+          - android
+          - ios
+          - web
+          type: string
+        contactId:
+          maxLength: 60
+          nullable: true
+          type: string
+        appVersion:
+          maxLength: 40
+          nullable: true
+          type: string
+        locale:
+          maxLength: 10
+          nullable: true
+          type: string
+      required:
+      - platform
+      - token
+    listNotifications_200_response_data:
+      example:
+        notifications:
+        - kind: kind
+          name: name
+          created_at: created_at
+          recipient_count: 0
+          id: id
+          status: status
+        - kind: kind
+          name: name
+          created_at: created_at
+          recipient_count: 0
+          id: id
+          status: status
+      properties:
+        notifications:
+          items:
+            $ref: "#/components/schemas/NotificationSummary"
+          type: array
+      required:
+      - notifications
+    listNotifications_200_response_meta:
+      example:
+        nextCursor: nextCursor
+      properties:
+        nextCursor:
+          description: Null on the last page.
+          nullable: true
+          type: string
+    listNotifications_200_response:
+      example:
+        data:
+          notifications:
+          - kind: kind
+            name: name
+            created_at: created_at
+            recipient_count: 0
+            id: id
+            status: status
+          - kind: kind
+            name: name
+            created_at: created_at
+            recipient_count: 0
+            id: id
+            status: status
+        meta:
+          nextCursor: nextCursor
+      properties:
+        data:
+          $ref: "#/components/schemas/listNotifications_200_response_data"
+        meta:
+          $ref: "#/components/schemas/listNotifications_200_response_meta"
+      required:
+      - data
+      - meta
+    sendNotification_202_response:
+      example:
+        data:
+          mode: live
+          recipients: 0
+          warnings:
+          - code: code
+            count: 5
+            skippable: true
+            message: message
+          - code: code
+            count: 5
+            skippable: true
+            message: message
+          id: id
+          units:
+            key: 6
+          status: status
+          skipped: 1
+      properties:
+        data:
+          $ref: "#/components/schemas/SendResult"
+      required:
+      - data
+    getNotification_200_response:
+      example:
+        data:
+          metadata: metadata
+          finished_at: finished_at
+          kind: kind
+          scheduled_at: scheduled_at
+          created_at: created_at
+          recipient_count: 1
+          failure_reason: failure_reason
+          deliveries:
+            key: 5
+          settled_units:
+            key: 6
+          name: name
+          started_at: started_at
+          id: id
+          reserved_units:
+            key: 0
+          status: status
+      properties:
+        data:
+          $ref: "#/components/schemas/Notification"
+      required:
+      - data
+    quoteSend_200_response:
+      example:
+        data:
+          estimateMinor: 7
+          heldUntil:
+            at: at
+            timeZone: timeZone
+          channels:
+          - sms
+          - sms
+          recipientCount: 1
+          recipients:
+            key:
+            - address: address
+              contactId: contactId
+              channel: null
+              name: name
+              variant: A
+              units: 0
+              fields:
+                key: ""
+            - address: address
+              contactId: contactId
+              channel: null
+              name: name
+              variant: A
+              units: 0
+              fields:
+                key: ""
+          trackedLinks:
+          - trackedLinks
+          - trackedLinks
+          sms:
+            encoding: GSM-7
+            segments: 5
+          blockers:
+          - code: code
+            count: 5
+            skippable: true
+            message: message
+          - code: code
+            count: 5
+            skippable: true
+            message: message
+          currency: currency
+          units:
+            key: 6
+          variants:
+            A: 5
+            B: 2
+          skipped:
+          - reason: reason
+            address: address
+          - reason: reason
+            address: address
+      properties:
+        data:
+          $ref: "#/components/schemas/Quote"
+      required:
+      - data
+    getBalances_200_response_data:
+      example:
+        balances:
+        - purchased: 6
+          usedIncluded: 5
+          usedPurchased: 2
+          channel: sms
+          available: 7
+          reservedPurchased: 5
+          reservedIncluded: 1
+          included: 0
+          periodEnd: periodEnd
+        - purchased: 6
+          usedIncluded: 5
+          usedPurchased: 2
+          channel: sms
+          available: 7
+          reservedPurchased: 5
+          reservedIncluded: 1
+          included: 0
+          periodEnd: periodEnd
+      properties:
+        balances:
+          items:
+            $ref: "#/components/schemas/Balance"
+          type: array
+      required:
+      - balances
+    getBalances_200_response:
+      example:
+        data:
+          balances:
+          - purchased: 6
+            usedIncluded: 5
+            usedPurchased: 2
+            channel: sms
+            available: 7
+            reservedPurchased: 5
+            reservedIncluded: 1
+            included: 0
+            periodEnd: periodEnd
+          - purchased: 6
+            usedIncluded: 5
+            usedPurchased: 2
+            channel: sms
+            available: 7
+            reservedPurchased: 5
+            reservedIncluded: 1
+            included: 0
+            periodEnd: periodEnd
+      properties:
+        data:
+          $ref: "#/components/schemas/getBalances_200_response_data"
+      required:
+      - data
+    startVerification_201_response:
+      example:
+        data:
+          sandboxCode: sandboxCode
+          channel: sms
+          id: id
+          to: to
+          expiresAt: expiresAt
+      properties:
+        data:
+          $ref: "#/components/schemas/Verification"
+      required:
+      - data
+    checkVerification_request:
+      properties:
+        code:
+          maxLength: 10
+          minLength: 4
+          type: string
+      required:
+      - code
+    checkVerification_200_response:
+      example:
+        data:
+          attemptsLeft: 0
+          id: id
+          state: pending
+      properties:
+        data:
+          $ref: "#/components/schemas/VerificationCheck"
+      required:
+      - data
+    listContacts_200_response_data:
+      example:
+        contacts:
+        - phone: phone
+          name: name
+          created_at: created_at
+          id: id
+          state: consented
+          email: email
+          tags: tags
+        - phone: phone
+          name: name
+          created_at: created_at
+          id: id
+          state: consented
+          email: email
+          tags: tags
+      properties:
+        contacts:
+          items:
+            $ref: "#/components/schemas/Contact"
+          type: array
+      required:
+      - contacts
+    listContacts_200_response:
+      example:
+        data:
+          contacts:
+          - phone: phone
+            name: name
+            created_at: created_at
+            id: id
+            state: consented
+            email: email
+            tags: tags
+          - phone: phone
+            name: name
+            created_at: created_at
+            id: id
+            state: consented
+            email: email
+            tags: tags
+      properties:
+        data:
+          $ref: "#/components/schemas/listContacts_200_response_data"
+      required:
+      - data
+    createContact_201_response_data:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+    createContact_201_response:
+      example:
+        data:
+          id: id
+      properties:
+        data:
+          $ref: "#/components/schemas/createContact_201_response_data"
+      required:
+      - data
+    deleteContact_200_response_data:
+      example:
+        deleted: true
+      properties:
+        deleted:
+          type: boolean
+      required:
+      - deleted
+    deleteContact_200_response:
+      example:
+        data:
+          deleted: true
+      properties:
+        data:
+          $ref: "#/components/schemas/deleteContact_200_response_data"
+      required:
+      - data
+    registerDevice_201_response_data:
+      example:
+        registered: true
+      properties:
+        registered:
+          type: boolean
+      required:
+      - registered
+    registerDevice_201_response:
+      example:
+        data:
+          registered: true
+      properties:
+        data:
+          $ref: "#/components/schemas/registerDevice_201_response_data"
+      required:
+      - data
+    describeMcp_200_response:
+      example:
+        data:
+          key: ""
+      properties:
+        data:
+          additionalProperties: {}
+    Quote_sms:
+      example:
+        encoding: GSM-7
+        segments: 5
+      properties:
+        encoding:
+          enum:
+          - GSM-7
+          - Unicode
+          type: string
+        segments:
+          type: integer
+      required:
+      - encoding
+      - segments
+    Quote_variants:
+      description: How the audience divides between the two arms of an A/B test.
+      example:
+        A: 5
+        B: 2
+      properties:
+        A:
+          type: integer
+        B:
+          type: integer
+      required:
+      - A
+      - B
+    Quote_heldUntil:
+      description: "Set when quiet hours will hold this send, with when it would go\
+        \ and in which zone."
+      example:
+        at: at
+        timeZone: timeZone
+      properties:
+        at:
+          type: string
+        timeZone:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      description: |
+        `Authorization: Bearer pk_live_…` or `pk_test_…`. A `pk_test_` key is a sandbox key: a send is
+        accepted, costs nothing and reaches nobody. Keep a live key on a server; it is not for anything a
+        user can read.
+      scheme: bearer
+      type: http
+

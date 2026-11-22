@@ -1,0 +1,145 @@
+{
+  "comment": [
+    "Every Palsa client is generated from openapi/palsa.yaml by scripts/generate-sdks.sh.",
+    "The generator version is pinned in package.json so a regeneration is reproducible: an unpinned",
+    "generator would rewrite nine libraries differently on a different day, and the diff would be noise.",
+    "Change the API in the spec, run the script, commit what it produces."
+  ],
+  "version": "7.14.0",
+  "targets": [
+    {
+      "name": "typescript",
+      "generator": "typescript-fetch",
+      "out": "sdk-generated/typescript",
+      "registry": "npm",
+      "properties": {
+        "npmName": "@palsa/api",
+        "npmVersion": "0.1.0",
+        "supportsES6": "true",
+        "typescriptThreePlus": "true",
+        "withoutRuntimeChecks": "false"
+      },
+      "verified": "locally",
+      "verifiedHow": "tsc --noEmit in the container it was generated in, and in CI"
+    },
+    {
+      "name": "python",
+      "generator": "python",
+      "out": "sdk-generated/python",
+      "registry": "PyPI",
+      "properties": {
+        "packageName": "palsa_api",
+        "projectName": "palsa-api",
+        "packageVersion": "0.1.0",
+        "library": "urllib3"
+      },
+      "verified": "locally",
+      "verifiedHow": "installed and imported from outside its own directory, and in CI"
+    },
+    {
+      "name": "php",
+      "generator": "php",
+      "out": "sdk-generated/php",
+      "registry": "Packagist",
+      "properties": {
+        "composerVendorName": "palsa",
+        "composerPackageName": "palsa-api",
+        "invokerPackage": "Palsa\\Api",
+        "artifactVersion": "0.1.0"
+      },
+      "verified": "locally",
+      "verifiedHow": "every file linted and the webhook test passing, and in CI"
+    },
+    {
+      "name": "dart",
+      "generator": "dart",
+      "out": "sdk-generated/dart",
+      "registry": "pub.dev",
+      "properties": {
+        "pubName": "palsa_api",
+        "pubLibrary": "palsa_api",
+        "pubVersion": "0.1.0",
+        "pubDescription": "Official Palsa client for Dart and Flutter generated from the OpenAPI specification"
+      },
+      "verified": "locally",
+      "verifiedHow": "dart test, 172 tests passing, and in CI"
+    },
+    {
+      "name": "java",
+      "generator": "java",
+      "out": "sdk-generated/java",
+      "registry": "Maven Central",
+      "properties": {
+        "groupId": "dev.palsa",
+        "artifactId": "palsa-api",
+        "artifactVersion": "0.1.0",
+        "invokerPackage": "dev.palsa.api",
+        "apiPackage": "dev.palsa.api.api",
+        "modelPackage": "dev.palsa.api.model",
+        "library": "okhttp-gson",
+        "hideGenerationTimestamp": "true"
+      },
+      "verified": "locally",
+      "verifiedHow": "mvn test, 8 webhook tests passing, and in CI"
+    },
+    {
+      "name": "kotlin",
+      "generator": "kotlin",
+      "out": "sdk-generated/kotlin",
+      "registry": "Maven Central",
+      "properties": {
+        "groupId": "dev.palsa",
+        "artifactId": "palsa-api-kotlin",
+        "artifactVersion": "0.1.0",
+        "packageName": "dev.palsa.api",
+        "library": "jvm-okhttp4"
+      },
+      "verified": "locally",
+      "verifiedHow": "gradle test, 8 webhook tests passing, and in CI"
+    },
+    {
+      "name": "csharp",
+      "generator": "csharp",
+      "out": "sdk-generated/csharp",
+      "registry": "NuGet",
+      "properties": {
+        "packageName": "Palsa.Api",
+        "packageVersion": "0.1.0",
+        "targetFramework": "net8.0",
+        "library": "httpclient",
+        "nullableReferenceTypes": "true"
+      },
+      "verified": "locally",
+      "verifiedHow": "dotnet test, 220 tests passing, and in CI"
+    },
+    {
+      "name": "go",
+      "generator": "go",
+      "out": "sdk-generated/go",
+      "registry": "Go Modules",
+      "properties": {
+        "packageName": "palsaapi",
+        "packageVersion": "0.1.0",
+        "isGoSubmodule": "false",
+        "structPrefix": "true"
+      },
+      "verified": "locally",
+      "verifiedHow": "go test with -mod=readonly, 7 webhook tests passing, and in CI"
+    },
+    {
+      "name": "swift",
+      "generator": "swift5",
+      "out": "sdk-generated/swift",
+      "registry": "Swift Package Manager",
+      "properties": {
+        "projectName": "PalsaApi",
+        "podVersion": "0.1.0",
+        "responseAs": "AsyncAwait",
+        "useSPMFileStructure": "true",
+        "swiftPackagePath": "."
+      },
+      "verified": "locally",
+      "verifiedHow": "swift test on Linux, 9 webhook tests passing; the CryptoKit path Apple platforms take is covered by the macOS job in CI"
+    }
+  ]
+}

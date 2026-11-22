@@ -1,0 +1,61 @@
+# Keeping the clients in step with the API.
+#
+# The specification lives in mhodieknowledge/palsa beside the server it describes, and this repository
+# holds the clients generated from it. Rather than remembering to copy one to the other, this fetches
+# the current specification, regenerates, and opens a commit if anything came out different.
+#
+# Both repositories are public, so this needs no token to read the specification.
+name: Sync the specification
+
+on:
+  schedule:
+    - cron: '41 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { java-version: '17', distribution: temurin }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+
+      - name: Fetch the current specification
+        run: |
+          curl -fsSL -o openapi/palsa.yaml \
+            https://raw.githubusercontent.com/mhodieknowledge/palsa/main/openapi/palsa.yaml
+
+      - name: Stop if it has not moved
+        id: check
+        run: |
+          if git diff --quiet -- openapi/palsa.yaml; then
+            echo "changed=false" >>"$GITHUB_OUTPUT"
+            echo "The specification is unchanged. Nothing to regenerate."
+          else
+            echo "changed=true" >>"$GITHUB_OUTPUT"
+          fi
+
+      - name: Regenerate
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          npm install -g @openapitools/openapi-generator-cli
+          bash scripts/generate-sdks.sh
+          bash scripts/patch-sdks.sh
+
+      - name: Commit the result
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && exit 0
+          git commit -m "Regenerate the clients from the current specification
+
+          The specification in mhodieknowledge/palsa changed, so every client is rebuilt from it rather
+          than edited. Review the diff before publishing a new version of any of them."
+          git push

@@ -1,0 +1,33 @@
+[project]
+name = "palsa"
+version = "0.1.0"
+description = "Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request."
+authors = [{ name = "Kuzikode Intelligent Technologies" }]
+warn_unused_ignores = true
+strict_equality = true
+extra_checks = true
+check_untyped_defs = true
+disallow_subclassing_any = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+no_implicit_reexport = true
+warn_return_any = true
+
+
+Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Source = "https://github.com/mhodieknowledge/palsa"
+
+
+Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Source = "https://github.com/mhodieknowledge/palsa-sdks"
+
+
+Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Source = "https://github.com/mhodieknowledge/palsa-sdks"
+
+[project.urls]
+Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Source = "https://github.com/mhodieknowledge/palsa-sdks"
