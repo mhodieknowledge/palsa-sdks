@@ -562,6 +562,23 @@ if [ -d clients/java ] || [ -d clients/kotlin ]; then
       | xargs sed -i -E "s|dev\\.palsa|$maven_group|g; s|io\\.github\\.mhodieknowledge|$maven_group|g"
     echo "patched: maven group id set to the namespace verified with Sonatype"
   fi
+
+  # A package declaration has to match the directory the file is in. Renaming the group in the source
+  # text alone left every class under src/main/java/dev/palsa while declaring com.kuzikode.palsa:
+  # javac accepts that when handed explicit files, javadoc does not, and it reported "no public or
+  # protected classes found to document" rather than naming the cause.
+  group_path=$(printf '%s' "$maven_group" | tr '.' '/')
+  for lang in java kotlin; do
+    root="clients/$lang/src"
+    [ -d "$root" ] || continue
+    for tree in $(find "$root" -type d -path "*/dev/palsa" 2>/dev/null); do
+      base=${tree%/dev/palsa}
+      mkdir -p "$base/$group_path"
+      cp -r "$tree"/. "$base/$group_path"/
+      rm -rf "$base/dev"
+      echo "patched: $lang sources moved to $group_path to match their package"
+    done
+  done
 fi
 
 # Maven Central needs more than a built jar, and the generator supplies none of it: the project url and
