@@ -15,7 +15,7 @@ on:
         description: Which client
         required: true
         type: choice
-        options: [typescript, python, dart, java, kotlin, csharp, go]
+        options: [typescript, python, dart, java, kotlin, csharp, go, php, swift]
       version:
         description: The version, e.g. 0.1.0. It must not already exist in the registry.
         required: true
@@ -147,6 +147,41 @@ jobs:
             --api-key "${{ secrets.NUGET_API_KEY }}" \
             --source https://api.nuget.org/v3/index.json \
             --skip-duplicate
+
+  # Secret: SDK_MIRROR_TOKEN, a token that may push to the two single-package repositories.
+  #
+  # Packagist reads composer.json only at a repository root and Swift Package Manager needs
+  # Package.swift at one. Neither understands a subdirectory, so these two are published by copying
+  # the client to the root of a repository of its own and tagging it. The copy is one-way: nothing is
+  # ever edited there, and the next release overwrites it with whatever the specification produced.
+  mirrored:
+    needs: guard
+    if: inputs.target == 'php' || inputs.target == 'swift'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push to the package repository and tag it
+        env:
+          MIRROR_TOKEN: ${{ secrets.SDK_MIRROR_TOKEN }}
+        run: |
+          case "${{ inputs.target }}" in
+            php)   mirror=mhodieknowledge/palsa-php ;;
+            swift) mirror=mhodieknowledge/palsa-swift ;;
+          esac
+          bash scripts/publish-mirror.sh "${{ inputs.target }}" "$mirror" "${{ inputs.version }}"
+
+      # Packagist watches the repository but only notices a new tag when it is told to look, and a
+      # first submission has to be done once by hand on packagist.org.
+      - name: Ask Packagist to re-read the repository
+        if: inputs.target == 'php'
+        continue-on-error: true
+        run: |
+          curl -fsS -XPOST \
+            "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
+            -H 'Content-Type: application/json' \
+            -d '{"repository":{"url":"https://github.com/mhodieknowledge/palsa-php"}}' \
+          && echo "Packagist told to re-read the repository." \
+          || echo "Packagist did not accept that. If the package has never been submitted, add it once at packagist.org/packages/submit."
 
   # No secret and no registry: a Go module is published by tagging, and the tag for a module in a
   # subdirectory carries that subdirectory as its prefix.
