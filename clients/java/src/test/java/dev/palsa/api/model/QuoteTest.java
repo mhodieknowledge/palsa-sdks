@@ -11,20 +11,20 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.github.mhodieknowledge.api.model.Blocker;
-import io.github.mhodieknowledge.api.model.Channel;
-import io.github.mhodieknowledge.api.model.QuoteHeldUntil;
-import io.github.mhodieknowledge.api.model.QuoteSms;
-import io.github.mhodieknowledge.api.model.QuoteVariants;
-import io.github.mhodieknowledge.api.model.QuotedRecipient;
-import io.github.mhodieknowledge.api.model.SkippedRecipient;
+import com.kuzikode.palsa.api.model.Blocker;
+import com.kuzikode.palsa.api.model.Channel;
+import com.kuzikode.palsa.api.model.QuoteHeldUntil;
+import com.kuzikode.palsa.api.model.QuoteSms;
+import com.kuzikode.palsa.api.model.QuoteVariants;
+import com.kuzikode.palsa.api.model.QuotedRecipient;
+import com.kuzikode.palsa.api.model.SkippedRecipient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -13,14 +13,14 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.apis
+package com.kuzikode.palsa.api.apis
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import io.github.mhodieknowledge.api.apis.BillingApi
-import io.github.mhodieknowledge.api.models.ErrorEnvelope
-import io.github.mhodieknowledge.api.models.GetBalances200Response
+import com.kuzikode.palsa.api.apis.BillingApi
+import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.GetBalances200Response
 
 class BillingApiTest : ShouldSpec() {
     init {

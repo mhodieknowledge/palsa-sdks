@@ -11,16 +11,16 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.model.DescribeMcp200Response;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.GetNotification200Response;
-import io.github.mhodieknowledge.api.model.ListNotifications200Response;
-import io.github.mhodieknowledge.api.model.QuoteSend200Response;
-import io.github.mhodieknowledge.api.model.SendNotification202Response;
-import io.github.mhodieknowledge.api.model.SendRequest;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.model.DescribeMcp200Response;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.GetNotification200Response;
+import com.kuzikode.palsa.api.model.ListNotifications200Response;
+import com.kuzikode.palsa.api.model.QuoteSend200Response;
+import com.kuzikode.palsa.api.model.SendNotification202Response;
+import com.kuzikode.palsa.api.model.SendRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

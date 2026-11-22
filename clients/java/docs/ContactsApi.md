@@ -21,12 +21,12 @@ Give an email address or a phone number, or both. &#x60;state&#x60; is &#x60;pen
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.ContactsApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.ContactsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -93,12 +93,12 @@ Requires the &#x60;contacts.write&#x60; scope.  Here as well as in the console b
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.ContactsApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.ContactsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -164,12 +164,12 @@ Newest first. Requires the &#x60;contacts.read&#x60; scope.
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.ContactsApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.ContactsApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -234,12 +234,12 @@ Registering the same token again updates it rather than adding another, and revi
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.ContactsApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.ContactsApi;
 
 public class Example {
   public static void main(String[] args) {

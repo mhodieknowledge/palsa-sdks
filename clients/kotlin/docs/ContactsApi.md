@@ -21,8 +21,8 @@ Give an email address or a phone number, or both. &#x60;state&#x60; is &#x60;pen
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = ContactsApi()
 val contactCreate : ContactCreate =  // ContactCreate | 
@@ -69,8 +69,8 @@ Requires the &#x60;contacts.write&#x60; scope.  Here as well as in the console b
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = ContactsApi()
 val id : kotlin.String = id_example // kotlin.String | 
@@ -117,8 +117,8 @@ Newest first. Requires the &#x60;contacts.read&#x60; scope.
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = ContactsApi()
 val limit : kotlin.Int = 56 // kotlin.Int | 
@@ -165,8 +165,8 @@ Registering the same token again updates it rather than adding another, and revi
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = ContactsApi()
 val deviceRegister : DeviceRegister =  // DeviceRegister | 

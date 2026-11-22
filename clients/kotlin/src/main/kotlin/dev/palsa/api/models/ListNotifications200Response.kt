@@ -13,10 +13,10 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.models
+package com.kuzikode.palsa.api.models
 
-import io.github.mhodieknowledge.api.models.ListNotifications200ResponseData
-import io.github.mhodieknowledge.api.models.ListNotifications200ResponseMeta
+import com.kuzikode.palsa.api.models.ListNotifications200ResponseData
+import com.kuzikode.palsa.api.models.ListNotifications200ResponseMeta
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

@@ -22,8 +22,8 @@ Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HT
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = NotificationsApi()
 try {
@@ -67,8 +67,8 @@ Requires the &#x60;notifications.read&#x60; scope.
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = NotificationsApi()
 val id : kotlin.String = id_example // kotlin.String | 
@@ -115,8 +115,8 @@ Newest first, paginated by cursor rather than offset, because an offset drifts w
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = NotificationsApi()
 val status : kotlin.String = status_example // kotlin.String | Only sends in this state.
@@ -167,8 +167,8 @@ The same calculation the send itself uses: what it would cost, who would be left
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = NotificationsApi()
 val sendRequest : SendRequest =  // SendRequest | 
@@ -215,8 +215,8 @@ Reserves credit, then sends. A key beginning &#x60;pk_test_&#x60; is a sandbox k
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = NotificationsApi()
 val sendRequest : SendRequest =  // SendRequest | 

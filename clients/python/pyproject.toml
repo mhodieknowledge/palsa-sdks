@@ -28,6 +28,10 @@ Source = "https://github.com/mhodieknowledge/palsa-sdks"
 Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
 Source = "https://github.com/mhodieknowledge/palsa-sdks"
 
+
+Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Source = "https://github.com/mhodieknowledge/palsa-sdks"
+
 [project.urls]
 Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
 Source = "https://github.com/mhodieknowledge/palsa-sdks"

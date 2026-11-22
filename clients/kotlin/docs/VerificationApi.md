@@ -19,8 +19,8 @@ Wrong guesses are counted and the challenge locks after too many, so do not gues
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = VerificationApi()
 val id : kotlin.String = id_example // kotlin.String | 
@@ -69,8 +69,8 @@ Palsa generates the code, keeps only a salted hash of it and sends it to the rec
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = VerificationApi()
 val verificationRequest : VerificationRequest =  // VerificationRequest | 

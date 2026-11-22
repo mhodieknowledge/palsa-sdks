@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api;
+package com.kuzikode.palsa.api;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;

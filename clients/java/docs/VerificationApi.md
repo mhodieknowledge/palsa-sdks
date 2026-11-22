@@ -19,12 +19,12 @@ Wrong guesses are counted and the challenge locks after too many, so do not gues
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.VerificationApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.VerificationApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -92,12 +92,12 @@ Palsa generates the code, keeps only a salted hash of it and sends it to the rec
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.VerificationApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.VerificationApi;
 
 public class Example {
   public static void main(String[] args) {

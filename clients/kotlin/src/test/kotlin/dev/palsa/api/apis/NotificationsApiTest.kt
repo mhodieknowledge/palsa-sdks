@@ -13,19 +13,19 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.apis
+package com.kuzikode.palsa.api.apis
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import io.github.mhodieknowledge.api.apis.NotificationsApi
-import io.github.mhodieknowledge.api.models.DescribeMcp200Response
-import io.github.mhodieknowledge.api.models.ErrorEnvelope
-import io.github.mhodieknowledge.api.models.GetNotification200Response
-import io.github.mhodieknowledge.api.models.ListNotifications200Response
-import io.github.mhodieknowledge.api.models.QuoteSend200Response
-import io.github.mhodieknowledge.api.models.SendNotification202Response
-import io.github.mhodieknowledge.api.models.SendRequest
+import com.kuzikode.palsa.api.apis.NotificationsApi
+import com.kuzikode.palsa.api.models.DescribeMcp200Response
+import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.GetNotification200Response
+import com.kuzikode.palsa.api.models.ListNotifications200Response
+import com.kuzikode.palsa.api.models.QuoteSend200Response
+import com.kuzikode.palsa.api.models.SendNotification202Response
+import com.kuzikode.palsa.api.models.SendRequest
 
 class NotificationsApiTest : ShouldSpec() {
     init {

@@ -14,8 +14,8 @@ of them can fall behind the others.
 | [Python](clients/python) | `pip install palsa` | PyPI |
 | [PHP](clients/php) | `composer require mhodieknowledge/palsa` | Packagist |
 | [Dart and Flutter](clients/dart) | `dart pub add palsa` | pub.dev |
-| [Java](clients/java) | `io.github.mhodieknowledge:palsa-api` | Maven Central |
-| [Kotlin](clients/kotlin) | `io.github.mhodieknowledge:palsa-api` | Maven Central |
+| [Java](clients/java) | `com.kuzikode.palsa:palsa-api` | Maven Central |
+| [Kotlin](clients/kotlin) | `com.kuzikode.palsa:palsa-api` | Maven Central |
 | [C#](clients/csharp) | `dotnet add package Palsa.Api` | NuGet |
 | [Go](clients/go) | `go get github.com/mhodieknowledge/palsa-sdks/clients/go` | the module path |
 | [Swift](clients/swift) | Swift Package Manager | a package repository |

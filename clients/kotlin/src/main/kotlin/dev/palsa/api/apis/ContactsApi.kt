@@ -13,35 +13,35 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.apis
+package com.kuzikode.palsa.api.apis
 
 import java.io.IOException
 import okhttp3.Call
 import okhttp3.HttpUrl
 
-import io.github.mhodieknowledge.api.models.ContactCreate
-import io.github.mhodieknowledge.api.models.CreateContact201Response
-import io.github.mhodieknowledge.api.models.DeleteContact200Response
-import io.github.mhodieknowledge.api.models.DeviceRegister
-import io.github.mhodieknowledge.api.models.ErrorEnvelope
-import io.github.mhodieknowledge.api.models.ListContacts200Response
-import io.github.mhodieknowledge.api.models.RegisterDevice201Response
+import com.kuzikode.palsa.api.models.ContactCreate
+import com.kuzikode.palsa.api.models.CreateContact201Response
+import com.kuzikode.palsa.api.models.DeleteContact200Response
+import com.kuzikode.palsa.api.models.DeviceRegister
+import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.ListContacts200Response
+import com.kuzikode.palsa.api.models.RegisterDevice201Response
 
 import com.squareup.moshi.Json
 
-import io.github.mhodieknowledge.api.infrastructure.ApiClient
-import io.github.mhodieknowledge.api.infrastructure.ApiResponse
-import io.github.mhodieknowledge.api.infrastructure.ClientException
-import io.github.mhodieknowledge.api.infrastructure.ClientError
-import io.github.mhodieknowledge.api.infrastructure.ServerException
-import io.github.mhodieknowledge.api.infrastructure.ServerError
-import io.github.mhodieknowledge.api.infrastructure.MultiValueMap
-import io.github.mhodieknowledge.api.infrastructure.PartConfig
-import io.github.mhodieknowledge.api.infrastructure.RequestConfig
-import io.github.mhodieknowledge.api.infrastructure.RequestMethod
-import io.github.mhodieknowledge.api.infrastructure.ResponseType
-import io.github.mhodieknowledge.api.infrastructure.Success
-import io.github.mhodieknowledge.api.infrastructure.toMultiValue
+import com.kuzikode.palsa.api.infrastructure.ApiClient
+import com.kuzikode.palsa.api.infrastructure.ApiResponse
+import com.kuzikode.palsa.api.infrastructure.ClientException
+import com.kuzikode.palsa.api.infrastructure.ClientError
+import com.kuzikode.palsa.api.infrastructure.ServerException
+import com.kuzikode.palsa.api.infrastructure.ServerError
+import com.kuzikode.palsa.api.infrastructure.MultiValueMap
+import com.kuzikode.palsa.api.infrastructure.PartConfig
+import com.kuzikode.palsa.api.infrastructure.RequestConfig
+import com.kuzikode.palsa.api.infrastructure.RequestMethod
+import com.kuzikode.palsa.api.infrastructure.ResponseType
+import com.kuzikode.palsa.api.infrastructure.Success
+import com.kuzikode.palsa.api.infrastructure.toMultiValue
 
 class ContactsApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory = ApiClient.defaultClient) : ApiClient(basePath, client) {
     companion object {

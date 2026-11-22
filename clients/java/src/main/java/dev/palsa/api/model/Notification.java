@@ -11,7 +11,7 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.mhodieknowledge.api.JSON;
+import com.kuzikode.palsa.api.JSON;
 
 /**
  * Notification

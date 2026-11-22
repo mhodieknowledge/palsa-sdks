@@ -95,8 +95,8 @@ jobs:
         run: dart pub publish --force
 
   # Secrets: MAVEN_CENTRAL_USERNAME, MAVEN_CENTRAL_PASSWORD, GPG_PRIVATE_KEY, GPG_PASSPHRASE.
-  # Maven Central will not take an unsigned artefact, and it only accepts a group id whose namespace
-  # the account has proved it owns.
+  # Maven Central will not take an unsigned artefact. The group id is com.kuzikode.palsa, a namespace
+  # verified with Sonatype against kuzikode.com, and the signing key's public half is published.
   java:
     needs: guard
     if: inputs.target == 'java' || inputs.target == 'kotlin'

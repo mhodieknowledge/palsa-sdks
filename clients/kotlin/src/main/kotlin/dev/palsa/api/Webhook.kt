@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api
+package com.kuzikode.palsa.api
 
 import java.security.MessageDigest
 import javax.crypto.Mac

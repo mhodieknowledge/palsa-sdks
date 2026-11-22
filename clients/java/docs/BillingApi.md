@@ -18,12 +18,12 @@ What is available now, what is already promised to sends in flight, and what has
 ### Example
 ```java
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.models.*;
-import io.github.mhodieknowledge.api.api.BillingApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.models.*;
+import com.kuzikode.palsa.api.api.BillingApi;
 
 public class Example {
   public static void main(String[] args) {

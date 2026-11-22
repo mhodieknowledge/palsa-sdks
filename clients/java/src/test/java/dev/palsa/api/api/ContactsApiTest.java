@@ -11,16 +11,16 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.model.ContactCreate;
-import io.github.mhodieknowledge.api.model.CreateContact201Response;
-import io.github.mhodieknowledge.api.model.DeleteContact200Response;
-import io.github.mhodieknowledge.api.model.DeviceRegister;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.ListContacts200Response;
-import io.github.mhodieknowledge.api.model.RegisterDevice201Response;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.model.ContactCreate;
+import com.kuzikode.palsa.api.model.CreateContact201Response;
+import com.kuzikode.palsa.api.model.DeleteContact200Response;
+import com.kuzikode.palsa.api.model.DeviceRegister;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.ListContacts200Response;
+import com.kuzikode.palsa.api.model.RegisterDevice201Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

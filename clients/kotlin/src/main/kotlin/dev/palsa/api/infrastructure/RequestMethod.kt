@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 /**
  * Provides enumerated HTTP verbs

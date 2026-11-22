@@ -11,10 +11,10 @@
  */
 
 
-package io.github.mhodieknowledge.api.auth;
+package com.kuzikode.palsa.api.auth;
 
-import io.github.mhodieknowledge.api.Pair;
-import io.github.mhodieknowledge.api.ApiException;
+import com.kuzikode.palsa.api.Pair;
+import com.kuzikode.palsa.api.ApiException;
 
 import java.net.URI;
 import java.util.Map;

@@ -11,7 +11,7 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
@@ -19,8 +19,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.github.mhodieknowledge.api.model.Channel;
-import io.github.mhodieknowledge.api.model.Recipients;
+import com.kuzikode.palsa.api.model.Channel;
+import com.kuzikode.palsa.api.model.Recipients;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.mhodieknowledge.api.JSON;
+import com.kuzikode.palsa.api.JSON;
 
 /**
  * SendRequest

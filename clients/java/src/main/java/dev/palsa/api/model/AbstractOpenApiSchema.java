@@ -11,9 +11,9 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
-import io.github.mhodieknowledge.api.ApiException;
+import com.kuzikode.palsa.api.ApiException;
 import java.util.Objects;
 import java.lang.reflect.Type;
 import java.util.Map;

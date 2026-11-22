@@ -11,7 +11,7 @@
  */
 
 
-package io.github.mhodieknowledge.api;
+package com.kuzikode.palsa.api;
 
 import okhttp3.*;
 import okio.Buffer;

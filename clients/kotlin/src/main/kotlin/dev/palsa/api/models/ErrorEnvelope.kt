@@ -13,9 +13,9 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.models
+package com.kuzikode.palsa.api.models
 
-import io.github.mhodieknowledge.api.models.Error
+import com.kuzikode.palsa.api.models.Error
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 /**
  * Defines a config object for a given part of a multi-part request.

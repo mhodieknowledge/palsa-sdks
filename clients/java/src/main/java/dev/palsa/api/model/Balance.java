@@ -11,7 +11,7 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
 import java.util.Objects;
 import com.google.gson.TypeAdapter;
@@ -19,7 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.github.mhodieknowledge.api.model.Channel;
+import com.kuzikode.palsa.api.model.Channel;
 import java.io.IOException;
 import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.mhodieknowledge.api.JSON;
+import com.kuzikode.palsa.api.JSON;
 
 /**
  * Reservations and usage are split by where the units came from, because included units are spent before purchased ones: the allowance the customer has already paid for goes first, and what they bought separately is kept for when it runs out. 

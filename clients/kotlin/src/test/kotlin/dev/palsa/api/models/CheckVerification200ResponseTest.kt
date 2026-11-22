@@ -13,13 +13,13 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.models
+package com.kuzikode.palsa.api.models
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import io.github.mhodieknowledge.api.models.CheckVerification200Response
-import io.github.mhodieknowledge.api.models.VerificationCheck
+import com.kuzikode.palsa.api.models.CheckVerification200Response
+import com.kuzikode.palsa.api.models.VerificationCheck
 
 class CheckVerification200ResponseTest : ShouldSpec() {
     init {

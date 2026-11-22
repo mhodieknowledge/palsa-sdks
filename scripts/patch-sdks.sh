@@ -520,15 +520,22 @@ edit('clients/dart/pubspec.yaml', (text) =>
 )
 NODE
 
-# Maven Central will only accept a group id whose namespace the publisher has proved they own. The
-# generator writes dev.palsa, which would need the palsa.dev domain verified with Sonatype. Sonatype
-# grants io.github.<user> to any GitHub account, so that is the one this can actually publish under.
-# Change it back if the company verifies a domain of its own.
-maven_group=io.github.mhodieknowledge
-if [ -f clients/java/pom.xml ] && grep -q '<groupId>dev.palsa</groupId>' clients/java/pom.xml; then
-  grep -rl 'dev\.palsa' clients/java clients/kotlin 2>/dev/null \
-    | xargs sed -i "s|dev\\.palsa|$maven_group|g"
-  echo "patched: maven group id set to a namespace Sonatype will accept"
+# Maven Central only accepts a group id whose namespace the publisher has proved they own. The
+# generator writes dev.palsa, which nobody has verified. com.kuzikode.palsa is verified with Sonatype
+# against kuzikode.com, so that is the namespace these publish under.
+#
+# Both the generated value and an earlier io.github.mhodieknowledge are matched, so a tree patched
+# before this changed lands on the right one too.
+maven_group=com.kuzikode.palsa
+if [ -d clients/java ] || [ -d clients/kotlin ]; then
+  # `|| true`: a grep that matches nothing exits 1, and under `set -o pipefail` that would abort the
+  # run and silently skip every patch after this one.
+  maven_files=$(grep -rlE 'dev\.palsa|io\.github\.mhodieknowledge' clients/java clients/kotlin 2>/dev/null || true)
+  if [ -n "$maven_files" ]; then
+    printf '%s\n' "$maven_files" \
+      | xargs sed -i -E "s|dev\\.palsa|$maven_group|g; s|io\\.github\\.mhodieknowledge|$maven_group|g"
+    echo "patched: maven group id set to the namespace verified with Sonatype"
+  fi
 fi
 
 for file in clients/*/README.md; do

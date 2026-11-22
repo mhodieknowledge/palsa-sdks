@@ -55,7 +55,7 @@ Add this dependency to your project's POM:
 
 ```xml
 <dependency>
-  <groupId>io.github.mhodieknowledge</groupId>
+  <groupId>com.kuzikode.palsa</groupId>
   <artifactId>palsa-api</artifactId>
   <version>0.1.0</version>
   <scope>compile</scope>
@@ -73,7 +73,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "io.github.mhodieknowledge:palsa-api:0.1.0"
+     implementation "com.kuzikode.palsa:palsa-api:0.1.0"
   }
 ```
 
@@ -97,12 +97,12 @@ Please follow the [installation](#installation) instruction and execute the foll
 ```java
 
 // Import classes:
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.auth.*;
-import io.github.mhodieknowledge.api.model.*;
-import io.github.mhodieknowledge.api.api.BillingApi;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.auth.*;
+import com.kuzikode.palsa.api.model.*;
+import com.kuzikode.palsa.api.api.BillingApi;
 
 public class Example {
   public static void main(String[] args) {
@@ -214,6 +214,10 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 
 
 
+
+## Licence
+
+MIT. See the repository for the full text.
 
 ## Licence
 

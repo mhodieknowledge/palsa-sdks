@@ -13,19 +13,19 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.models
+package com.kuzikode.palsa.api.models
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import io.github.mhodieknowledge.api.models.Quote
-import io.github.mhodieknowledge.api.models.Blocker
-import io.github.mhodieknowledge.api.models.Channel
-import io.github.mhodieknowledge.api.models.QuoteHeldUntil
-import io.github.mhodieknowledge.api.models.QuoteSms
-import io.github.mhodieknowledge.api.models.QuoteVariants
-import io.github.mhodieknowledge.api.models.QuotedRecipient
-import io.github.mhodieknowledge.api.models.SkippedRecipient
+import com.kuzikode.palsa.api.models.Quote
+import com.kuzikode.palsa.api.models.Blocker
+import com.kuzikode.palsa.api.models.Channel
+import com.kuzikode.palsa.api.models.QuoteHeldUntil
+import com.kuzikode.palsa.api.models.QuoteSms
+import com.kuzikode.palsa.api.models.QuoteVariants
+import com.kuzikode.palsa.api.models.QuotedRecipient
+import com.kuzikode.palsa.api.models.SkippedRecipient
 
 class QuoteTest : ShouldSpec() {
     init {

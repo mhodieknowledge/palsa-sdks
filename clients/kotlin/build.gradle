@@ -1,4 +1,4 @@
-group 'io.github.mhodieknowledge'
+group 'com.kuzikode.palsa'
 version '0.1.0'
 
 wrapper {

@@ -1,5 +1,5 @@
 @file:Suppress("unused")
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 import java.lang.RuntimeException
 

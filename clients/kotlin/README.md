@@ -1,4 +1,4 @@
-# io.github.mhodieknowledge.api - Kotlin client library for Palsa API
+# com.kuzikode.palsa.api - Kotlin client library for Palsa API
 
 Palsa is prepaid. Credit is reserved before anything reaches a supplier and only what a supplier
 accepted is charged, so a balance cannot go below nothing. `QUOTA_EXCEEDED` means exactly that: the
@@ -79,48 +79,48 @@ All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
- - [io.github.mhodieknowledge.api.models.Balance](docs/Balance.md)
- - [io.github.mhodieknowledge.api.models.Blocker](docs/Blocker.md)
- - [io.github.mhodieknowledge.api.models.Channel](docs/Channel.md)
- - [io.github.mhodieknowledge.api.models.CheckVerification200Response](docs/CheckVerification200Response.md)
- - [io.github.mhodieknowledge.api.models.CheckVerificationRequest](docs/CheckVerificationRequest.md)
- - [io.github.mhodieknowledge.api.models.Contact](docs/Contact.md)
- - [io.github.mhodieknowledge.api.models.ContactCreate](docs/ContactCreate.md)
- - [io.github.mhodieknowledge.api.models.CreateContact201Response](docs/CreateContact201Response.md)
- - [io.github.mhodieknowledge.api.models.CreateContact201ResponseData](docs/CreateContact201ResponseData.md)
- - [io.github.mhodieknowledge.api.models.DeleteContact200Response](docs/DeleteContact200Response.md)
- - [io.github.mhodieknowledge.api.models.DeleteContact200ResponseData](docs/DeleteContact200ResponseData.md)
- - [io.github.mhodieknowledge.api.models.DescribeMcp200Response](docs/DescribeMcp200Response.md)
- - [io.github.mhodieknowledge.api.models.DeviceRegister](docs/DeviceRegister.md)
- - [io.github.mhodieknowledge.api.models.Error](docs/Error.md)
- - [io.github.mhodieknowledge.api.models.ErrorEnvelope](docs/ErrorEnvelope.md)
- - [io.github.mhodieknowledge.api.models.GetBalances200Response](docs/GetBalances200Response.md)
- - [io.github.mhodieknowledge.api.models.GetBalances200ResponseData](docs/GetBalances200ResponseData.md)
- - [io.github.mhodieknowledge.api.models.GetNotification200Response](docs/GetNotification200Response.md)
- - [io.github.mhodieknowledge.api.models.ListContacts200Response](docs/ListContacts200Response.md)
- - [io.github.mhodieknowledge.api.models.ListContacts200ResponseData](docs/ListContacts200ResponseData.md)
- - [io.github.mhodieknowledge.api.models.ListNotifications200Response](docs/ListNotifications200Response.md)
- - [io.github.mhodieknowledge.api.models.ListNotifications200ResponseData](docs/ListNotifications200ResponseData.md)
- - [io.github.mhodieknowledge.api.models.ListNotifications200ResponseMeta](docs/ListNotifications200ResponseMeta.md)
- - [io.github.mhodieknowledge.api.models.Notification](docs/Notification.md)
- - [io.github.mhodieknowledge.api.models.NotificationSummary](docs/NotificationSummary.md)
- - [io.github.mhodieknowledge.api.models.Quote](docs/Quote.md)
- - [io.github.mhodieknowledge.api.models.QuoteHeldUntil](docs/QuoteHeldUntil.md)
- - [io.github.mhodieknowledge.api.models.QuoteSend200Response](docs/QuoteSend200Response.md)
- - [io.github.mhodieknowledge.api.models.QuoteSms](docs/QuoteSms.md)
- - [io.github.mhodieknowledge.api.models.QuoteVariants](docs/QuoteVariants.md)
- - [io.github.mhodieknowledge.api.models.QuotedRecipient](docs/QuotedRecipient.md)
- - [io.github.mhodieknowledge.api.models.Recipients](docs/Recipients.md)
- - [io.github.mhodieknowledge.api.models.RegisterDevice201Response](docs/RegisterDevice201Response.md)
- - [io.github.mhodieknowledge.api.models.RegisterDevice201ResponseData](docs/RegisterDevice201ResponseData.md)
- - [io.github.mhodieknowledge.api.models.SendNotification202Response](docs/SendNotification202Response.md)
- - [io.github.mhodieknowledge.api.models.SendRequest](docs/SendRequest.md)
- - [io.github.mhodieknowledge.api.models.SendResult](docs/SendResult.md)
- - [io.github.mhodieknowledge.api.models.SkippedRecipient](docs/SkippedRecipient.md)
- - [io.github.mhodieknowledge.api.models.StartVerification201Response](docs/StartVerification201Response.md)
- - [io.github.mhodieknowledge.api.models.Verification](docs/Verification.md)
- - [io.github.mhodieknowledge.api.models.VerificationCheck](docs/VerificationCheck.md)
- - [io.github.mhodieknowledge.api.models.VerificationRequest](docs/VerificationRequest.md)
+ - [com.kuzikode.palsa.api.models.Balance](docs/Balance.md)
+ - [com.kuzikode.palsa.api.models.Blocker](docs/Blocker.md)
+ - [com.kuzikode.palsa.api.models.Channel](docs/Channel.md)
+ - [com.kuzikode.palsa.api.models.CheckVerification200Response](docs/CheckVerification200Response.md)
+ - [com.kuzikode.palsa.api.models.CheckVerificationRequest](docs/CheckVerificationRequest.md)
+ - [com.kuzikode.palsa.api.models.Contact](docs/Contact.md)
+ - [com.kuzikode.palsa.api.models.ContactCreate](docs/ContactCreate.md)
+ - [com.kuzikode.palsa.api.models.CreateContact201Response](docs/CreateContact201Response.md)
+ - [com.kuzikode.palsa.api.models.CreateContact201ResponseData](docs/CreateContact201ResponseData.md)
+ - [com.kuzikode.palsa.api.models.DeleteContact200Response](docs/DeleteContact200Response.md)
+ - [com.kuzikode.palsa.api.models.DeleteContact200ResponseData](docs/DeleteContact200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.DescribeMcp200Response](docs/DescribeMcp200Response.md)
+ - [com.kuzikode.palsa.api.models.DeviceRegister](docs/DeviceRegister.md)
+ - [com.kuzikode.palsa.api.models.Error](docs/Error.md)
+ - [com.kuzikode.palsa.api.models.ErrorEnvelope](docs/ErrorEnvelope.md)
+ - [com.kuzikode.palsa.api.models.GetBalances200Response](docs/GetBalances200Response.md)
+ - [com.kuzikode.palsa.api.models.GetBalances200ResponseData](docs/GetBalances200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.GetNotification200Response](docs/GetNotification200Response.md)
+ - [com.kuzikode.palsa.api.models.ListContacts200Response](docs/ListContacts200Response.md)
+ - [com.kuzikode.palsa.api.models.ListContacts200ResponseData](docs/ListContacts200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ListNotifications200Response](docs/ListNotifications200Response.md)
+ - [com.kuzikode.palsa.api.models.ListNotifications200ResponseData](docs/ListNotifications200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ListNotifications200ResponseMeta](docs/ListNotifications200ResponseMeta.md)
+ - [com.kuzikode.palsa.api.models.Notification](docs/Notification.md)
+ - [com.kuzikode.palsa.api.models.NotificationSummary](docs/NotificationSummary.md)
+ - [com.kuzikode.palsa.api.models.Quote](docs/Quote.md)
+ - [com.kuzikode.palsa.api.models.QuoteHeldUntil](docs/QuoteHeldUntil.md)
+ - [com.kuzikode.palsa.api.models.QuoteSend200Response](docs/QuoteSend200Response.md)
+ - [com.kuzikode.palsa.api.models.QuoteSms](docs/QuoteSms.md)
+ - [com.kuzikode.palsa.api.models.QuoteVariants](docs/QuoteVariants.md)
+ - [com.kuzikode.palsa.api.models.QuotedRecipient](docs/QuotedRecipient.md)
+ - [com.kuzikode.palsa.api.models.Recipients](docs/Recipients.md)
+ - [com.kuzikode.palsa.api.models.RegisterDevice201Response](docs/RegisterDevice201Response.md)
+ - [com.kuzikode.palsa.api.models.RegisterDevice201ResponseData](docs/RegisterDevice201ResponseData.md)
+ - [com.kuzikode.palsa.api.models.SendNotification202Response](docs/SendNotification202Response.md)
+ - [com.kuzikode.palsa.api.models.SendRequest](docs/SendRequest.md)
+ - [com.kuzikode.palsa.api.models.SendResult](docs/SendResult.md)
+ - [com.kuzikode.palsa.api.models.SkippedRecipient](docs/SkippedRecipient.md)
+ - [com.kuzikode.palsa.api.models.StartVerification201Response](docs/StartVerification201Response.md)
+ - [com.kuzikode.palsa.api.models.Verification](docs/Verification.md)
+ - [com.kuzikode.palsa.api.models.VerificationCheck](docs/VerificationCheck.md)
+ - [com.kuzikode.palsa.api.models.VerificationRequest](docs/VerificationRequest.md)
 
 
 <a id="documentation-for-authorization"></a>
@@ -133,6 +133,10 @@ Authentication schemes defined for the API:
 
 - **Type**: HTTP Bearer Token authentication
 
+
+## Licence
+
+MIT. See the repository for the full text.
 
 ## Licence
 

@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

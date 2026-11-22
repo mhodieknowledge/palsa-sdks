@@ -11,7 +11,7 @@
  */
 
 
-package io.github.mhodieknowledge.api.model;
+package com.kuzikode.palsa.api.model;
 
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;

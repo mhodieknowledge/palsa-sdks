@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -49,7 +49,7 @@ open class ApiClient(val baseUrl: String, val client: Call.Factory = defaultClie
         var username: String? = null
         var password: String? = null
         var accessToken: String? = null
-        const val baseUrlKey: String = "io.github.mhodieknowledge.api.baseUrl"
+        const val baseUrlKey: String = "com.kuzikode.palsa.api.baseUrl"
 
         @JvmStatic
         val defaultClient: OkHttpClient by lazy {

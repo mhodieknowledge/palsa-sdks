@@ -1,4 +1,4 @@
-package io.github.mhodieknowledge.api.infrastructure
+package com.kuzikode.palsa.api.infrastructure
 
 enum class ResponseType {
     Success, Informational, Redirection, ClientError, ServerError

@@ -11,29 +11,29 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiCallback;
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.ApiResponse;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.Pair;
-import io.github.mhodieknowledge.api.ProgressRequestBody;
-import io.github.mhodieknowledge.api.ProgressResponseBody;
+import com.kuzikode.palsa.api.ApiCallback;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.ApiResponse;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.Pair;
+import com.kuzikode.palsa.api.ProgressRequestBody;
+import com.kuzikode.palsa.api.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
 
-import io.github.mhodieknowledge.api.model.ContactCreate;
-import io.github.mhodieknowledge.api.model.CreateContact201Response;
-import io.github.mhodieknowledge.api.model.DeleteContact200Response;
-import io.github.mhodieknowledge.api.model.DeviceRegister;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.ListContacts200Response;
-import io.github.mhodieknowledge.api.model.RegisterDevice201Response;
+import com.kuzikode.palsa.api.model.ContactCreate;
+import com.kuzikode.palsa.api.model.CreateContact201Response;
+import com.kuzikode.palsa.api.model.DeleteContact200Response;
+import com.kuzikode.palsa.api.model.DeviceRegister;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.ListContacts200Response;
+import com.kuzikode.palsa.api.model.RegisterDevice201Response;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

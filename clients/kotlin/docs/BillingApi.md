@@ -18,8 +18,8 @@ What is available now, what is already promised to sends in flight, and what has
 ### Example
 ```kotlin
 // Import classes:
-//import io.github.mhodieknowledge.api.infrastructure.*
-//import io.github.mhodieknowledge.api.models.*
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
 
 val apiInstance = BillingApi()
 try {

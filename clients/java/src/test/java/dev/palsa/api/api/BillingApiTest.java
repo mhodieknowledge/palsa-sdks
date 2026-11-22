@@ -11,11 +11,11 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.GetBalances200Response;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.GetBalances200Response;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

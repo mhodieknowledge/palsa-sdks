@@ -11,14 +11,14 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.model.CheckVerification200Response;
-import io.github.mhodieknowledge.api.model.CheckVerificationRequest;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.StartVerification201Response;
-import io.github.mhodieknowledge.api.model.VerificationRequest;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.model.CheckVerification200Response;
+import com.kuzikode.palsa.api.model.CheckVerificationRequest;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.StartVerification201Response;
+import com.kuzikode.palsa.api.model.VerificationRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

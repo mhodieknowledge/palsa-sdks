@@ -13,19 +13,19 @@
     "UnusedImport"
 )
 
-package io.github.mhodieknowledge.api.apis
+package com.kuzikode.palsa.api.apis
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
-import io.github.mhodieknowledge.api.apis.ContactsApi
-import io.github.mhodieknowledge.api.models.ContactCreate
-import io.github.mhodieknowledge.api.models.CreateContact201Response
-import io.github.mhodieknowledge.api.models.DeleteContact200Response
-import io.github.mhodieknowledge.api.models.DeviceRegister
-import io.github.mhodieknowledge.api.models.ErrorEnvelope
-import io.github.mhodieknowledge.api.models.ListContacts200Response
-import io.github.mhodieknowledge.api.models.RegisterDevice201Response
+import com.kuzikode.palsa.api.apis.ContactsApi
+import com.kuzikode.palsa.api.models.ContactCreate
+import com.kuzikode.palsa.api.models.CreateContact201Response
+import com.kuzikode.palsa.api.models.DeleteContact200Response
+import com.kuzikode.palsa.api.models.DeviceRegister
+import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.ListContacts200Response
+import com.kuzikode.palsa.api.models.RegisterDevice201Response
 
 class ContactsApiTest : ShouldSpec() {
     init {

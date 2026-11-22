@@ -3,7 +3,7 @@ apply plugin: 'eclipse'
 apply plugin: 'java'
 apply plugin: 'com.diffplug.spotless'
 
-group = 'io.github.mhodieknowledge'
+group = 'com.kuzikode.palsa'
 version = '0.1.0'
 
 buildscript {

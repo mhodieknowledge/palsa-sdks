@@ -11,29 +11,29 @@
  */
 
 
-package io.github.mhodieknowledge.api.api;
+package com.kuzikode.palsa.api.api;
 
-import io.github.mhodieknowledge.api.ApiCallback;
-import io.github.mhodieknowledge.api.ApiClient;
-import io.github.mhodieknowledge.api.ApiException;
-import io.github.mhodieknowledge.api.ApiResponse;
-import io.github.mhodieknowledge.api.Configuration;
-import io.github.mhodieknowledge.api.Pair;
-import io.github.mhodieknowledge.api.ProgressRequestBody;
-import io.github.mhodieknowledge.api.ProgressResponseBody;
+import com.kuzikode.palsa.api.ApiCallback;
+import com.kuzikode.palsa.api.ApiClient;
+import com.kuzikode.palsa.api.ApiException;
+import com.kuzikode.palsa.api.ApiResponse;
+import com.kuzikode.palsa.api.Configuration;
+import com.kuzikode.palsa.api.Pair;
+import com.kuzikode.palsa.api.ProgressRequestBody;
+import com.kuzikode.palsa.api.ProgressResponseBody;
 
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 
 
-import io.github.mhodieknowledge.api.model.DescribeMcp200Response;
-import io.github.mhodieknowledge.api.model.ErrorEnvelope;
-import io.github.mhodieknowledge.api.model.GetNotification200Response;
-import io.github.mhodieknowledge.api.model.ListNotifications200Response;
-import io.github.mhodieknowledge.api.model.QuoteSend200Response;
-import io.github.mhodieknowledge.api.model.SendNotification202Response;
-import io.github.mhodieknowledge.api.model.SendRequest;
+import com.kuzikode.palsa.api.model.DescribeMcp200Response;
+import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.GetNotification200Response;
+import com.kuzikode.palsa.api.model.ListNotifications200Response;
+import com.kuzikode.palsa.api.model.QuoteSend200Response;
+import com.kuzikode.palsa.api.model.SendNotification202Response;
+import com.kuzikode.palsa.api.model.SendRequest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
