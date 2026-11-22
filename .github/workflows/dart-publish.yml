@@ -11,6 +11,9 @@ name: Publish Dart
 on:
   push:
     tags: ['dart-v*']
+  # So a tag that landed without starting anything can still be published, which is what happens when
+  # the tag was pushed with the run's own token rather than a personal access token.
+  workflow_dispatch:
 
 permissions:
   id-token: write

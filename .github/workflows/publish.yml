@@ -103,8 +103,16 @@ jobs:
     runs-on: ubuntu-latest
     permissions: { contents: write }
     steps:
+      # The tag has to be pushed with a personal access token, not the run's own GITHUB_TOKEN.
+      # GitHub refuses to start a workflow from a push made with that token, by design, to stop a
+      # workflow triggering itself forever. The tag lands either way and nothing starts, which looks
+      # exactly like a broken trigger, so the token is checked up front.
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SDK_MIRROR_TOKEN || github.token }}
       - name: Set the version and tag it
+        env:
+          HAVE_PAT: ${{ secrets.SDK_MIRROR_TOKEN != '' }}
         run: |
           tag="dart-v${{ inputs.version }}"
           sed -i "s|^version: .*|version: '${{ inputs.version }}'|" clients/dart/pubspec.yaml
@@ -114,7 +122,13 @@ jobs:
           git diff --cached --quiet || git commit -m "Dart client ${{ inputs.version }}"
           git tag -a "$tag" -m "Dart client v${{ inputs.version }}"
           git push origin HEAD:main --follow-tags
-          echo "Tagged $tag. dart-publish.yml takes it from here."
+          if [ "$HAVE_PAT" = "true" ]; then
+            echo "Tagged $tag. dart-publish.yml starts from that tag and uploads to pub.dev."
+          else
+            echo "::warning::Tagged $tag, but it was pushed with the run's own token, so no workflow"
+            echo "::warning::started from it. Add SDK_MIRROR_TOKEN, or run dart-publish.yml by hand"
+            echo "::warning::against the tag. pub.dev will only accept an upload started by the tag."
+          fi
 
   # Secrets: MAVEN_CENTRAL_USERNAME, MAVEN_CENTRAL_PASSWORD, GPG_PRIVATE_KEY, GPG_PASSPHRASE.
   # Maven Central will not take an unsigned artefact. The group id is com.kuzikode.palsa, a namespace
