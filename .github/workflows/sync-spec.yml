@@ -37,15 +37,32 @@ jobs:
 
       # Through the API rather than a raw URL: a branch name containing a slash makes the raw path
       # ambiguous and it answers 404 for a file that is plainly there.
+      # mhodieknowledge/palsa is private, and this repository's own token cannot read another
+      # repository. SPEC_READ_TOKEN is a fine-grained personal access token with Contents: Read on
+      # that one repository and nothing else. Without it the job says so rather than failing on a
+      # 404 that looks like a missing file.
       - name: Fetch the specification
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.SPEC_READ_TOKEN }}
           REF: ${{ inputs.ref || 'main' }}
         run: |
+          if [ -z "${GH_TOKEN:-}" ]; then
+            cat >&2 <<'MESSAGE'
+          No SPEC_READ_TOKEN.
+
+          The specification lives in mhodieknowledge/palsa, which is private, so this workflow needs a
+          token that may read it. Add a repository secret SPEC_READ_TOKEN holding a fine-grained
+          personal access token scoped to that repository with Contents: Read.
+
+          Nothing was changed.
+          MESSAGE
+            exit 1
+          fi
           gh api "repos/mhodieknowledge/palsa/contents/openapi/palsa.yaml?ref=$REF" \
             --jq '.content' | base64 -d >/tmp/fetched.yaml
           test -s /tmp/fetched.yaml
           echo "Fetched $(wc -c </tmp/fetched.yaml) bytes from $REF."
+
 
       - name: Refuse a specification that has lost operations
         run: |
