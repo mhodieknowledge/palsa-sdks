@@ -50,7 +50,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: '22', registry-url: 'https://registry.npmjs.org' }
-      - run: npm version "${{ inputs.version }}" --no-git-tag-version
+      # --allow-same-version, because the committed manifest already carries a version and npm treats
+      # setting it to the same string as an error rather than a no-op.
+      - run: npm version "${{ inputs.version }}" --no-git-tag-version --allow-same-version
       - run: npm install && npm run build --if-present
       - run: npm publish --access public
         env:
