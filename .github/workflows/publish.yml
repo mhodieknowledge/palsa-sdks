@@ -143,7 +143,11 @@ jobs:
 
       - name: Build the artefacts
         working-directory: clients/kotlin
-        run: ./gradlew --no-daemon publish
+        # chmod, because a checkout only restores the executable bit if git recorded it, and a wrapper
+        # that is not executable fails with a permission error that says nothing about why.
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon publish
 
       - name: Sign everything in the staging directory
         working-directory: clients/kotlin
