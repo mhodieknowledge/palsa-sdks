@@ -7,49 +7,46 @@ Before anything is sent, the run checks that every client's declared repository 
 here, because a wrong url passes every build and every test and is then wrong on the listing page for
 the life of the package. That check is `scripts/audit-metadata.sh`, and it also runs on every push.
 
-## Where 0.1.0 is
+## Where the clients are
 
-| Client | Registry and name | State |
+0.1.1 is the current release. 0.1.0 was the first, and 0.1.1 is the same code: it exists because
+validating npm and PyPI trusted publishing needs a real publication, and a version number cannot be
+reused.
+
+| Client | Registry and name | 0.1.1 |
 | --- | --- | --- |
-| TypeScript | npm, `@palsa/sdk` | **Published** |
-| Python | PyPI, `palsa-api` | **Published** |
-| C# | NuGet, `Palsa.Api` | **Published** |
-| Java | Maven Central, `com.kuzikode.palsa:palsa-api` | **Published** |
-| Kotlin | Maven Central, `com.kuzikode.palsa:palsa-api-kotlin` | **Published** |
-| PHP | Packagist, `mhodieknowledge/palsa` | **Published** |
-| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | **Tagged** `clients/go/v0.1.0` |
-| Swift | `github.com/mhodieknowledge/palsa-swift` | **Tagged** `v0.1.0` |
-| Dart | pub.dev, `palsa_api` | **Blocked**: first upload must be a person |
+| TypeScript | npm, `@palsa/sdk` | Published, with provenance |
+| Python | PyPI, `palsa-api` | Published |
+| C# | NuGet, `Palsa.Api` | Published |
+| Java | Maven Central, `com.kuzikode.palsa:palsa-api` | Published |
+| Kotlin | Maven Central, `com.kuzikode.palsa:palsa-api-kotlin` | Published |
+| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | Tagged `clients/go/v0.1.1` |
+| Swift | `github.com/mhodieknowledge/palsa-swift` | Tagged `v0.1.1` |
+| PHP | Packagist, `mhodieknowledge/palsa` | Mirrored and tagged; Packagist still shows 0.1.0 |
+| Dart | pub.dev, `palsa_api` | Still 0.1.0, see below |
 
-Go and Swift have no registry to publish to. A tag is how those two are released, and both are tagged,
-so `go get` and Swift Package Manager can resolve them today.
+### Dart is held up by one tag
 
-## Dart, the one that needs a person once
+`dart-v0.1.1` exists but points at a commit from before `dart-publish.yml` could be started by hand,
+and it never started on its own: GitHub refuses to begin a workflow from a tag pushed with a run's own
+`GITHUB_TOKEN`, by design, so a workflow cannot trigger itself forever. The tag landed, nothing ran,
+and from the outside that looks exactly like a broken trigger.
 
-pub.dev refuses a first upload from automation: *only users are allowed to upload new packages.* This
-is deliberate on their part and there is no way around it, nor should there be. Once the package
-exists, attach a publisher and the workflow takes every later version.
-
-From a machine with the Dart SDK and a browser:
+The fix is already in the workflow, which pushes the tag with `SDK_MIRROR_TOKEN` when it is set. The
+stale tag has to go first, and moving or deleting a tag is not something to do automatically:
 
 ```
-git clone https://github.com/mhodieknowledge/palsa-sdks
-cd palsa-sdks/clients/dart
-
-dart pub get
-dart analyze --fatal-warnings      # expect: No issues found!
-dart test                          # expect: 178 tests passed
-dart pub publish --dry-run         # expect: Package has 0 warnings
-
-dart pub publish
+git push origin --delete dart-v0.1.1
 ```
 
-The last command opens a browser to sign in to pub.dev, then asks you to type `y`. After it succeeds:
+Then run `publish.yml` with target `dart` and version `0.1.1`. If `SDK_MIRROR_TOKEN` does not have
+write access to this repository, give it that, or create the tag yourself at the current `main`:
 
-1. On pub.dev, open the `palsa_api` package, then Admin, then Automated publishing.
-2. Enable publishing from GitHub Actions with repository `mhodieknowledge/palsa-sdks` and the tag
-   pattern `dart-v{{version}}`.
-3. Later releases then run through `publish.yml` with no secret at all, because that route uses OIDC.
+```
+git tag -a dart-v0.1.1 -m 'Dart client v0.1.1' && git push origin dart-v0.1.1
+```
+
+Either way `dart-publish.yml` analyses, tests and uploads with the run's own OIDC identity.
 
 ## Long-lived credentials, and what can replace them
 
