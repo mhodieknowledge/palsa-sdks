@@ -9,22 +9,23 @@ the life of the package. That check is `scripts/audit-metadata.sh`, and it also 
 
 ## Where the clients are
 
-0.2.0 is the current release, published on 27 November 2026 by `publish.yml` for all nine. It adds
-the five sending-domain operations (seventeen in all) and gives the TypeScript and Python clients the
-webhook verifier the other seven already had. 0.1.1 was the same code as 0.1.0, released to validate
+0.3.0 is the current release, published on 27 November 2026 by `publish.yml` for all nine. It adds push
+apps (a customer's own Firebase project, by key or delegated access), topics, device listing, token refresh
+and unregistering, and every push option: thirty-one operations in all. 0.2.0, the same day, added the five
+sending-domain operations and gave the TypeScript and Python clients the webhook verifier. 0.1.1 was the same code as 0.1.0, released to validate
 trusted publishing.
 
-| Client | Registry and name | 0.2.0 |
+| Client | Registry and name | 0.3.0 |
 | --- | --- | --- |
 | TypeScript | npm, `@palsa/sdk` | Published, with provenance |
 | Python | PyPI, `palsa-api` | Published |
 | C# | NuGet, `Palsa.Api` | Published |
 | Java | Maven Central, `com.kuzikode.palsa:palsa-api` | Published |
 | Kotlin | Maven Central, `com.kuzikode.palsa:palsa-api-kotlin` | Published |
-| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | Tagged `clients/go/v0.2.0` |
-| Swift | `github.com/mhodieknowledge/palsa-swift` | Tagged `v0.2.0` |
+| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | Tagged `clients/go/v0.3.0` |
+| Swift | `github.com/mhodieknowledge/palsa-swift` | Tagged `v0.3.0` |
 | PHP | Packagist, `mhodieknowledge/palsa` | Published |
-| Dart | pub.dev, `palsa_api` | Published from the tag `dart-v0.2.0` |
+| Dart | pub.dev, `palsa_api` | Published from the tag `dart-v0.3.0` |
 
 The stale `dart-v0.1.1` tag described in earlier notes no longer matters: 0.2.0 was tagged with
 `SDK_MIRROR_TOKEN` and `dart-publish.yml` started from it and uploaded.
