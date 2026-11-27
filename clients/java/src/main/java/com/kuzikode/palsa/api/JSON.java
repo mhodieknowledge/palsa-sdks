@@ -96,6 +96,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapter(OffsetDateTime.class, offsetDateTimeTypeAdapter);
         gsonBuilder.registerTypeAdapter(LocalDate.class, localDateTypeAdapter);
         gsonBuilder.registerTypeAdapter(byte[].class, byteArrayAdapter);
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.AddSendingDomain201Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.AddSendingDomainRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Balance.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Blocker.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.CheckVerification200Response.CustomTypeAdapterFactory());
@@ -118,6 +120,8 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.ListNotifications200Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.ListNotifications200ResponseData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.ListNotifications200ResponseMeta.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.ListSendingDomains200Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.ListSendingDomains200ResponseData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Notification.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.NotificationSummary.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Quote.CustomTypeAdapterFactory());
@@ -129,9 +133,13 @@ public class JSON {
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Recipients.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.RegisterDevice201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.RegisterDevice201ResponseData.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.RemoveSendingDomain200Response.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.RemoveSendingDomain200ResponseData.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SendNotification202Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SendRequest.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SendResult.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SendingDomain.CustomTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SendingDomainRecordsInner.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.SkippedRecipient.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.StartVerification201Response.CustomTypeAdapterFactory());
         gsonBuilder.registerTypeAdapterFactory(new com.kuzikode.palsa.api.model.Verification.CustomTypeAdapterFactory());

@@ -1,6 +1,6 @@
 [project]
 name = "palsa-api"
-version = "0.1.0"
+version = "0.2.0"
 description = "Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request."
 authors = [{ name = "Kuzikode Intelligent Technologies" }]
 license = { text = "MIT" }
@@ -89,5 +89,5 @@ no_implicit_reexport = true
 warn_return_any = true
 
 [project.urls]
-Homepage = "https://palsa.mhodieknowledge.workers.dev/docs"
+Homepage = "https://palsa.co.zw/docs"
 Source = "https://github.com/mhodieknowledge/palsa-sdks"

@@ -13,13 +13,13 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 repo=https://github.com/mhodieknowledge/palsa-sdks
-home=https://palsa.mhodieknowledge.workers.dev/docs
+home=https://palsa.co.zw/docs
 bad=0
 
 show() { printf '  %-14s %s\n' "$1" "${2:-(not declared)}"; }
 check() {
   case "${2:-}" in
-    *mhodieknowledge/palsa-sdks*|*palsa.mhodieknowledge.workers.dev*) ;;
+    *mhodieknowledge/palsa-sdks*|*palsa.co.zw*) ;;
     '') ;;
     *) echo "    ^ points somewhere else"; bad=$((bad + 1)) ;;
   esac

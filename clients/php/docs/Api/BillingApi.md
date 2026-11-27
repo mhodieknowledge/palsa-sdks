@@ -1,6 +1,6 @@
 # Palsa\Api\BillingApi
 
-All URIs are relative to https://palsa.mhodieknowledge.workers.dev, except if the operation defines another base path.
+All URIs are relative to https://api.palsa.co.zw, except if the operation defines another base path.
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |

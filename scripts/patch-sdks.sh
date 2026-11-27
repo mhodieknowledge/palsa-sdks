@@ -160,12 +160,14 @@ go_module=github.com/mhodieknowledge/palsa-sdks/clients/go
 if [ -d clients/go ]; then
   # `|| true`, because a grep that matches nothing exits 1 and the script runs under `set -o pipefail`:
   # without it a tree that needs no patching aborts the run, and every patch after this one is skipped.
-  go_files=$(grep -rl 'github.com/mhodieknowledge/palsa-sdks' clients/go || true)
+  go_files=$(grep -rl 'github.com/mhodieknowledge/palsa' clients/go || true)
   if [ -n "$go_files" ]; then
     # The optional group makes this idempotent. The generated path is a prefix of the correct one, so a
-    # plain substitution would append the suffix again on every run.
+    # plain substitution would append the suffix again on every run. The generator names the module after
+    # --git-repo-id, which is `palsa` (the API's repository) for every other client's links, so the bare
+    # github.com/mhodieknowledge/palsa is matched too, but only where nothing else follows the name.
     printf '%s\n' "$go_files" \
-      | xargs sed -i -E "s|github\\.com/mhodieknowledge/palsa-sdks(/clients/go)?|$go_module|g"
+      | xargs perl -pi -e "s#github\\.com/mhodieknowledge/palsa(?:-sdks(?:/clients/go)?|(?![\\w-]))#$go_module#g"
     echo "patched: go module path points at the directory the module is in"
   fi
 fi
@@ -456,7 +458,7 @@ echo "Patches applied."
 # The names were checked as free on npm, PyPI, Packagist and pub.dev before being chosen.
 
 repo=https://github.com/mhodieknowledge/palsa-sdks
-home=https://palsa.mhodieknowledge.workers.dev/docs
+home=https://palsa.co.zw/docs
 author='Kuzikode Intelligent Technologies'
 blurb='Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.'
 
@@ -618,6 +620,16 @@ writeFileSync(
     'Every Palsa client is generated from the same OpenAPI document and released together, so a',
     'version here means the same thing in all nine.',
     '',
+    '## 0.2.0',
+    '',
+    '- Sending domains: add, list, read, check and remove the domains a workspace sends email from, with',
+    '  the DNS records to publish for each (seventeen operations in all).',
+    '- The TypeScript and Python clients now ship the webhook signature verifier too.',
+    '',
+    '## 0.1.1',
+    '',
+    '- The same code as 0.1.0, released to validate trusted publishing.',
+    '',
     '## 0.1.0',
     '',
     '- First release.',
@@ -742,7 +754,7 @@ publishing {
                 developers {
                     developer {
                         name = 'Kuzikode Intelligent Technologies'
-                        url = 'https://palsa.mhodieknowledge.workers.dev'
+                        url = 'https://palsa.co.zw'
                     }
                 }
                 scm {
@@ -772,9 +784,16 @@ for dir in clients/*/; do
 done
 echo "patched: every client carries the licence"
 
+# The generator writes the gradle wrappers without the executable bit, so `./gradlew` fails with
+# "permission denied" in CI and git records a mode change on every regeneration.
+for wrapper in clients/java/gradlew clients/kotlin/gradlew; do
+  [ -f "$wrapper" ] && chmod +x "$wrapper"
+done
+
 for file in clients/*/README.md; do
   [ -f "$file" ] || continue
-  if ! grep -q 'Licensed under the MIT' "$file"; then
+  # Matched on the heading this adds, so a second run on the same tree adds nothing.
+  if ! grep -q '^## Licence$' "$file"; then
     printf '\n## Licence\n\nMIT. See the repository for the full text.\n' >>"$file"
   fi
 done

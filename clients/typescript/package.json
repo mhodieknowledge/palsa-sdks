@@ -1,6 +1,6 @@
 {
   "name": "@palsa/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.",
   "author": "Kuzikode Intelligent Technologies",
   "repository": {
@@ -19,8 +19,11 @@
   "devDependencies": {
     "typescript": "^4.0 || ^5.0"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
-  "homepage": "https://palsa.mhodieknowledge.workers.dev/docs",
+  "homepage": "https://palsa.co.zw/docs",
   "bugs": {
     "url": "https://github.com/mhodieknowledge/palsa-sdks/issues"
   },
@@ -31,8 +34,5 @@
     "push",
     "notifications",
     "zimbabwe"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

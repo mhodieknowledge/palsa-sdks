@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   contact:
-    name: Palsa
-    url: https://palsa.mhodieknowledge.workers.dev
+    name: Kuzikode Intelligent Technologies
+    url: https://palsa.co.zw/contact
   description: |
     Palsa is prepaid. Credit is reserved before anything reaches a supplier and only what a supplier
     accepted is charged, so a balance cannot go below nothing. `QUOTA_EXCEEDED` means exactly that: the
@@ -20,11 +20,13 @@ info:
     produced from it, so an API change is a change here followed by a regeneration. It is also tested
     against the running server, because a specification is a claim about what the server does and a wrong
     claim would be inherited by every client at once.
+  license:
+    name: MIT
   title: Palsa API
   version: 1.0.0
 servers:
 - description: Production
-  url: https://palsa.mhodieknowledge.workers.dev
+  url: https://api.palsa.co.zw
 security:
 - bearerAuth: []
 tags:
@@ -36,6 +38,8 @@ tags:
   name: Contacts
 - description: What credit is left.
   name: Billing
+- description: "The domains a workspace sends email from, verified with Amazon SES."
+  name: Sending domains
 paths:
   /v1/notifications:
     get:
@@ -423,6 +427,167 @@ paths:
       - Contacts
       x-accepts:
       - application/json
+  /v1/sending-domains:
+    get:
+      description: |
+        Every domain this workspace sends email from, with its verification state and the DNS records to
+        publish. Requires the `domains.read` scope.
+      operationId: listSendingDomains
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/listSendingDomains_200_response"
+          description: The domains.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: List sending domains
+      tags:
+      - Sending domains
+      x-accepts:
+      - application/json
+    post:
+      description: |
+        Registers the domain with Amazon SES under this workspace's own tenant and returns the DNS records
+        to publish: three DKIM CNAMEs, and an MX and SPF TXT for the custom MAIL FROM `bounce.<domain>`.
+        Palsa checks automatically and the domain becomes `verified` once SES finds them. A domain another
+        workspace holds is refused. Requires the `domains.write` scope.
+
+        Until email sending is live the domain is stored as `awaiting_provider` with no records; they
+        appear as soon as it is.
+      operationId: addSendingDomain
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addSendingDomain_request"
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/addSendingDomain_201_response"
+          description: "The domain, with its records."
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/ValidationFailed"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Add a sending domain
+      tags:
+      - Sending domains
+      x-content-type: application/json
+      x-accepts:
+      - application/json
+  /v1/sending-domains/{id}:
+    delete:
+      description: |
+        Removes the domain from Amazon SES and stops every address on it. Requires the `domains.write` scope.
+      operationId: removeSendingDomain
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/removeSendingDomain_200_response"
+          description: The domain is gone.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Remove a sending domain
+      tags:
+      - Sending domains
+      x-accepts:
+      - application/json
+    get:
+      description: Requires the `domains.read` scope.
+      operationId: getSendingDomain
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/addSendingDomain_201_response"
+          description: The domain.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Get a sending domain
+      tags:
+      - Sending domains
+      x-accepts:
+      - application/json
+  /v1/sending-domains/{id}/check:
+    post:
+      description: |
+        Asks SES straight away rather than waiting for the next automatic check. Up to twelve times an hour
+        per domain. Requires the `domains.write` scope.
+      operationId: checkSendingDomain
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/addSendingDomain_201_response"
+          description: The domain as it now is.
+        "401":
+          $ref: "#/components/responses/Unauthenticated"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+      summary: Check a sending domain now
+      tags:
+      - Sending domains
+      x-accepts:
+      - application/json
   /v1/devices:
     post:
       description: |
@@ -463,6 +628,8 @@ paths:
         deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would
         describe the transport rather than the protocol, and an agent should reach it through an MCP
         client, not a Palsa SDK.
+
+        Requires the `notifications.read` scope.
 
         An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to
         give it first.
@@ -541,6 +708,83 @@ components:
             $ref: "#/components/schemas/ErrorEnvelope"
       description: Too many requests for this key's plan. Try again shortly.
   schemas:
+    SendingDomain:
+      example:
+        lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        dkimStatus: dkimStatus
+        mailFromStatus: mailFromStatus
+        records:
+        - purpose: dkim
+          name: name
+          type: CNAME
+          priority: 0
+          value: value
+          required: true
+        - purpose: dkim
+          name: name
+          type: CNAME
+          priority: 0
+          value: value
+          required: true
+        domain: domain
+        mailFromDomain: mailFromDomain
+        verifiedAt: 2000-01-23T04:56:07.000+00:00
+        nextCheckAt: 2000-01-23T04:56:07.000+00:00
+        id: id
+        message: message
+        status: awaiting_provider
+      properties:
+        id:
+          type: string
+        domain:
+          type: string
+        status:
+          enum:
+          - awaiting_provider
+          - pending_dns
+          - verified
+          - failed
+          - suspended
+          type: string
+        message:
+          description: What the state means
+          type: string
+        dkimStatus:
+          type: string
+          nullable: true
+        mailFromDomain:
+          type: string
+          nullable: true
+        mailFromStatus:
+          type: string
+          nullable: true
+        records:
+          items:
+            $ref: "#/components/schemas/SendingDomain_records_inner"
+          type: array
+        lastCheckedAt:
+          format: date-time
+          type: string
+          nullable: true
+        nextCheckAt:
+          format: date-time
+          type: string
+          nullable: true
+        verifiedAt:
+          format: date-time
+          type: string
+          nullable: true
+        createdAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - domain
+      - id
+      - message
+      - records
+      - status
     Channel:
       description: |
         SMS is charged per 160-character segment, and one character outside GSM 03.38 forces the whole
@@ -1794,6 +2038,177 @@ components:
           $ref: "#/components/schemas/deleteContact_200_response_data"
       required:
       - data
+    listSendingDomains_200_response_data:
+      example:
+        domains:
+        - lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          dkimStatus: dkimStatus
+          mailFromStatus: mailFromStatus
+          records:
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          domain: domain
+          mailFromDomain: mailFromDomain
+          verifiedAt: 2000-01-23T04:56:07.000+00:00
+          nextCheckAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          message: message
+          status: awaiting_provider
+        - lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          dkimStatus: dkimStatus
+          mailFromStatus: mailFromStatus
+          records:
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          domain: domain
+          mailFromDomain: mailFromDomain
+          verifiedAt: 2000-01-23T04:56:07.000+00:00
+          nextCheckAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          message: message
+          status: awaiting_provider
+      properties:
+        domains:
+          items:
+            $ref: "#/components/schemas/SendingDomain"
+          type: array
+      required:
+      - domains
+    listSendingDomains_200_response:
+      example:
+        data:
+          domains:
+          - lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            dkimStatus: dkimStatus
+            mailFromStatus: mailFromStatus
+            records:
+            - purpose: dkim
+              name: name
+              type: CNAME
+              priority: 0
+              value: value
+              required: true
+            - purpose: dkim
+              name: name
+              type: CNAME
+              priority: 0
+              value: value
+              required: true
+            domain: domain
+            mailFromDomain: mailFromDomain
+            verifiedAt: 2000-01-23T04:56:07.000+00:00
+            nextCheckAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            message: message
+            status: awaiting_provider
+          - lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            dkimStatus: dkimStatus
+            mailFromStatus: mailFromStatus
+            records:
+            - purpose: dkim
+              name: name
+              type: CNAME
+              priority: 0
+              value: value
+              required: true
+            - purpose: dkim
+              name: name
+              type: CNAME
+              priority: 0
+              value: value
+              required: true
+            domain: domain
+            mailFromDomain: mailFromDomain
+            verifiedAt: 2000-01-23T04:56:07.000+00:00
+            nextCheckAt: 2000-01-23T04:56:07.000+00:00
+            id: id
+            message: message
+            status: awaiting_provider
+      properties:
+        data:
+          $ref: "#/components/schemas/listSendingDomains_200_response_data"
+      required:
+      - data
+    addSendingDomain_request:
+      properties:
+        domain:
+          example: acme.co.zw
+          type: string
+      required:
+      - domain
+    addSendingDomain_201_response:
+      example:
+        data:
+          lastCheckedAt: 2000-01-23T04:56:07.000+00:00
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          dkimStatus: dkimStatus
+          mailFromStatus: mailFromStatus
+          records:
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          - purpose: dkim
+            name: name
+            type: CNAME
+            priority: 0
+            value: value
+            required: true
+          domain: domain
+          mailFromDomain: mailFromDomain
+          verifiedAt: 2000-01-23T04:56:07.000+00:00
+          nextCheckAt: 2000-01-23T04:56:07.000+00:00
+          id: id
+          message: message
+          status: awaiting_provider
+      properties:
+        data:
+          $ref: "#/components/schemas/SendingDomain"
+      required:
+      - data
+    removeSendingDomain_200_response_data:
+      example:
+        removed: true
+      properties:
+        removed:
+          type: boolean
+      required:
+      - removed
+    removeSendingDomain_200_response:
+      example:
+        data:
+          removed: true
+      properties:
+        data:
+          $ref: "#/components/schemas/removeSendingDomain_200_response_data"
+      required:
+      - data
     registerDevice_201_response_data:
       example:
         registered: true
@@ -1818,6 +2233,42 @@ components:
       properties:
         data:
           additionalProperties: {}
+    SendingDomain_records_inner:
+      example:
+        purpose: dkim
+        name: name
+        type: CNAME
+        priority: 0
+        value: value
+        required: true
+      properties:
+        purpose:
+          enum:
+          - dkim
+          - mail_from_mx
+          - mail_from_spf
+          - dmarc
+          type: string
+        type:
+          enum:
+          - CNAME
+          - MX
+          - TXT
+          type: string
+        name:
+          type: string
+        value:
+          type: string
+        priority:
+          type: integer
+        required:
+          type: boolean
+      required:
+      - name
+      - purpose
+      - required
+      - type
+      - value
     Quote_sms:
       example:
         encoding: GSM-7

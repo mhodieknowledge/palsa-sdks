@@ -1,6 +1,6 @@
 # palsa_api.NotificationsApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -21,6 +21,8 @@ deliberately **not** modelled as typed operations here: a generated method per J
 describe the transport rather than the protocol, and an agent should reach it through an MCP
 client, not a Palsa SDK.
 
+Requires the `notifications.read` scope.
+
 An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to
 give it first.
 
@@ -35,10 +37,10 @@ from palsa_api.models.describe_mcp200_response import DescribeMcp200Response
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -110,10 +112,10 @@ from palsa_api.models.get_notification200_response import GetNotification200Resp
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -194,10 +196,10 @@ from palsa_api.models.list_notifications200_response import ListNotifications200
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -288,10 +290,10 @@ from palsa_api.models.send_request import SendRequest
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -378,10 +380,10 @@ from palsa_api.models.send_request import SendRequest
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters

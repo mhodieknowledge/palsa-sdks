@@ -6,9 +6,12 @@ api/openapi.yaml
 api_billing.go
 api_contacts.go
 api_notifications.go
+api_sending_domains.go
 api_verification.go
 client.go
 configuration.go
+docs/AddSendingDomain201Response.md
+docs/AddSendingDomainRequest.md
 docs/Balance.md
 docs/BillingAPI.md
 docs/Blocker.md
@@ -34,6 +37,8 @@ docs/ListContacts200ResponseData.md
 docs/ListNotifications200Response.md
 docs/ListNotifications200ResponseData.md
 docs/ListNotifications200ResponseMeta.md
+docs/ListSendingDomains200Response.md
+docs/ListSendingDomains200ResponseData.md
 docs/Notification.md
 docs/NotificationSummary.md
 docs/NotificationsAPI.md
@@ -46,9 +51,14 @@ docs/QuotedRecipient.md
 docs/Recipients.md
 docs/RegisterDevice201Response.md
 docs/RegisterDevice201ResponseData.md
+docs/RemoveSendingDomain200Response.md
+docs/RemoveSendingDomain200ResponseData.md
 docs/SendNotification202Response.md
 docs/SendRequest.md
 docs/SendResult.md
+docs/SendingDomain.md
+docs/SendingDomainRecordsInner.md
+docs/SendingDomainsAPI.md
 docs/SkippedRecipient.md
 docs/StartVerification201Response.md
 docs/Verification.md
@@ -58,6 +68,8 @@ docs/VerificationRequest.md
 git_push.sh
 go.mod
 go.sum
+model_add_sending_domain_201_response.go
+model_add_sending_domain_request.go
 model_balance.go
 model_blocker.go
 model_channel.go
@@ -81,6 +93,8 @@ model_list_contacts_200_response_data.go
 model_list_notifications_200_response.go
 model_list_notifications_200_response_data.go
 model_list_notifications_200_response_meta.go
+model_list_sending_domains_200_response.go
+model_list_sending_domains_200_response_data.go
 model_notification.go
 model_notification_summary.go
 model_quote.go
@@ -92,9 +106,13 @@ model_quoted_recipient.go
 model_recipients.go
 model_register_device_201_response.go
 model_register_device_201_response_data.go
+model_remove_sending_domain_200_response.go
+model_remove_sending_domain_200_response_data.go
 model_send_notification_202_response.go
 model_send_request.go
 model_send_result.go
+model_sending_domain.go
+model_sending_domain_records_inner.go
 model_skipped_recipient.go
 model_start_verification_201_response.go
 model_verification.go
@@ -104,5 +122,6 @@ response.go
 test/api_billing_test.go
 test/api_contacts_test.go
 test/api_notifications_test.go
+test/api_sending_domains_test.go
 test/api_verification_test.go
 utils.go

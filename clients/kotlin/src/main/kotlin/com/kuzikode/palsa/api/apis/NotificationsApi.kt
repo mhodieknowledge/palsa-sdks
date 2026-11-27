@@ -47,14 +47,14 @@ class NotificationsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://palsa.mhodieknowledge.workers.dev")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.palsa.co.zw")
         }
     }
 
     /**
      * GET /v1/mcp
      * What the MCP endpoint is
-     * Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
+     * Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  Requires the &#x60;notifications.read&#x60; scope.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
      * @return DescribeMcp200Response
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
@@ -85,7 +85,7 @@ class NotificationsApi(basePath: kotlin.String = defaultBasePath, client: Call.F
     /**
      * GET /v1/mcp
      * What the MCP endpoint is
-     * Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
+     * Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  Requires the &#x60;notifications.read&#x60; scope.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
      * @return ApiResponse<DescribeMcp200Response?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception

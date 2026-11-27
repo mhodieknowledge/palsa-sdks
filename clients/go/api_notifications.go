@@ -40,6 +40,8 @@ deliberately **not** modelled as typed operations here: a generated method per J
 describe the transport rather than the protocol, and an agent should reach it through an MCP
 client, not a Palsa SDK.
 
+Requires the `notifications.read` scope.
+
 An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to
 give it first.
 

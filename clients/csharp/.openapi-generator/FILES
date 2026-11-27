@@ -4,6 +4,8 @@ Palsa.Api.sln
 README.md
 api/openapi.yaml
 appveyor.yml
+docs/AddSendingDomain201Response.md
+docs/AddSendingDomainRequest.md
 docs/Balance.md
 docs/BillingApi.md
 docs/Blocker.md
@@ -29,6 +31,8 @@ docs/ListContacts200ResponseData.md
 docs/ListNotifications200Response.md
 docs/ListNotifications200ResponseData.md
 docs/ListNotifications200ResponseMeta.md
+docs/ListSendingDomains200Response.md
+docs/ListSendingDomains200ResponseData.md
 docs/Notification.md
 docs/NotificationSummary.md
 docs/NotificationsApi.md
@@ -41,9 +45,14 @@ docs/QuotedRecipient.md
 docs/Recipients.md
 docs/RegisterDevice201Response.md
 docs/RegisterDevice201ResponseData.md
+docs/RemoveSendingDomain200Response.md
+docs/RemoveSendingDomain200ResponseData.md
 docs/SendNotification202Response.md
 docs/SendRequest.md
 docs/SendResult.md
+docs/SendingDomain.md
+docs/SendingDomainRecordsInner.md
+docs/SendingDomainsApi.md
 docs/SkippedRecipient.md
 docs/StartVerification201Response.md
 docs/Verification.md
@@ -54,7 +63,10 @@ git_push.sh
 src/Palsa.Api.Test/Api/BillingApiTests.cs
 src/Palsa.Api.Test/Api/ContactsApiTests.cs
 src/Palsa.Api.Test/Api/NotificationsApiTests.cs
+src/Palsa.Api.Test/Api/SendingDomainsApiTests.cs
 src/Palsa.Api.Test/Api/VerificationApiTests.cs
+src/Palsa.Api.Test/Model/AddSendingDomain201ResponseTests.cs
+src/Palsa.Api.Test/Model/AddSendingDomainRequestTests.cs
 src/Palsa.Api.Test/Model/BalanceTests.cs
 src/Palsa.Api.Test/Model/BlockerTests.cs
 src/Palsa.Api.Test/Model/ChannelTests.cs
@@ -78,6 +90,8 @@ src/Palsa.Api.Test/Model/ListContacts200ResponseTests.cs
 src/Palsa.Api.Test/Model/ListNotifications200ResponseDataTests.cs
 src/Palsa.Api.Test/Model/ListNotifications200ResponseMetaTests.cs
 src/Palsa.Api.Test/Model/ListNotifications200ResponseTests.cs
+src/Palsa.Api.Test/Model/ListSendingDomains200ResponseDataTests.cs
+src/Palsa.Api.Test/Model/ListSendingDomains200ResponseTests.cs
 src/Palsa.Api.Test/Model/NotificationSummaryTests.cs
 src/Palsa.Api.Test/Model/NotificationTests.cs
 src/Palsa.Api.Test/Model/QuoteHeldUntilTests.cs
@@ -89,9 +103,13 @@ src/Palsa.Api.Test/Model/QuotedRecipientTests.cs
 src/Palsa.Api.Test/Model/RecipientsTests.cs
 src/Palsa.Api.Test/Model/RegisterDevice201ResponseDataTests.cs
 src/Palsa.Api.Test/Model/RegisterDevice201ResponseTests.cs
+src/Palsa.Api.Test/Model/RemoveSendingDomain200ResponseDataTests.cs
+src/Palsa.Api.Test/Model/RemoveSendingDomain200ResponseTests.cs
 src/Palsa.Api.Test/Model/SendNotification202ResponseTests.cs
 src/Palsa.Api.Test/Model/SendRequestTests.cs
 src/Palsa.Api.Test/Model/SendResultTests.cs
+src/Palsa.Api.Test/Model/SendingDomainRecordsInnerTests.cs
+src/Palsa.Api.Test/Model/SendingDomainTests.cs
 src/Palsa.Api.Test/Model/SkippedRecipientTests.cs
 src/Palsa.Api.Test/Model/StartVerification201ResponseTests.cs
 src/Palsa.Api.Test/Model/VerificationCheckTests.cs
@@ -101,6 +119,7 @@ src/Palsa.Api.Test/Palsa.Api.Test.csproj
 src/Palsa.Api/Api/BillingApi.cs
 src/Palsa.Api/Api/ContactsApi.cs
 src/Palsa.Api/Api/NotificationsApi.cs
+src/Palsa.Api/Api/SendingDomainsApi.cs
 src/Palsa.Api/Api/VerificationApi.cs
 src/Palsa.Api/Client/ApiClient.cs
 src/Palsa.Api/Client/ApiException.cs
@@ -120,6 +139,8 @@ src/Palsa.Api/Client/RequestOptions.cs
 src/Palsa.Api/Client/RetryConfiguration.cs
 src/Palsa.Api/Client/WebRequestPathBuilder.cs
 src/Palsa.Api/Model/AbstractOpenAPISchema.cs
+src/Palsa.Api/Model/AddSendingDomain201Response.cs
+src/Palsa.Api/Model/AddSendingDomainRequest.cs
 src/Palsa.Api/Model/Balance.cs
 src/Palsa.Api/Model/Blocker.cs
 src/Palsa.Api/Model/Channel.cs
@@ -143,6 +164,8 @@ src/Palsa.Api/Model/ListContacts200ResponseData.cs
 src/Palsa.Api/Model/ListNotifications200Response.cs
 src/Palsa.Api/Model/ListNotifications200ResponseData.cs
 src/Palsa.Api/Model/ListNotifications200ResponseMeta.cs
+src/Palsa.Api/Model/ListSendingDomains200Response.cs
+src/Palsa.Api/Model/ListSendingDomains200ResponseData.cs
 src/Palsa.Api/Model/Notification.cs
 src/Palsa.Api/Model/NotificationSummary.cs
 src/Palsa.Api/Model/Quote.cs
@@ -154,9 +177,13 @@ src/Palsa.Api/Model/QuotedRecipient.cs
 src/Palsa.Api/Model/Recipients.cs
 src/Palsa.Api/Model/RegisterDevice201Response.cs
 src/Palsa.Api/Model/RegisterDevice201ResponseData.cs
+src/Palsa.Api/Model/RemoveSendingDomain200Response.cs
+src/Palsa.Api/Model/RemoveSendingDomain200ResponseData.cs
 src/Palsa.Api/Model/SendNotification202Response.cs
 src/Palsa.Api/Model/SendRequest.cs
 src/Palsa.Api/Model/SendResult.cs
+src/Palsa.Api/Model/SendingDomain.cs
+src/Palsa.Api/Model/SendingDomainRecordsInner.cs
 src/Palsa.Api/Model/SkippedRecipient.cs
 src/Palsa.Api/Model/StartVerification201Response.cs
 src/Palsa.Api/Model/Verification.cs

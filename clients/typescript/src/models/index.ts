@@ -1,6 +1,32 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+ * 
+ * @export
+ * @interface AddSendingDomain201Response
+ */
+export interface AddSendingDomain201Response {
+    /**
+     * 
+     * @type {SendingDomain}
+     * @memberof AddSendingDomain201Response
+     */
+    data: SendingDomain;
+}
+/**
+ * 
+ * @export
+ * @interface AddSendingDomainRequest
+ */
+export interface AddSendingDomainRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AddSendingDomainRequest
+     */
+    domain: string;
+}
+/**
  * Reservations and usage are split by where the units came from, because included units are spent
  * before purchased ones: the allowance the customer has already paid for goes first, and what they
  * bought separately is kept for when it runs out.
@@ -500,6 +526,32 @@ export interface ListNotifications200ResponseMeta {
     nextCursor?: string | null;
 }
 /**
+ * 
+ * @export
+ * @interface ListSendingDomains200Response
+ */
+export interface ListSendingDomains200Response {
+    /**
+     * 
+     * @type {ListSendingDomains200ResponseData}
+     * @memberof ListSendingDomains200Response
+     */
+    data: ListSendingDomains200ResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface ListSendingDomains200ResponseData
+ */
+export interface ListSendingDomains200ResponseData {
+    /**
+     * 
+     * @type {Array<SendingDomain>}
+     * @memberof ListSendingDomains200ResponseData
+     */
+    domains: Array<SendingDomain>;
+}
+/**
  * `code` is stable and worth branching on. `message` is written for a person and may change, so do
  * not match on it.
  * 
@@ -966,6 +1018,32 @@ export interface RegisterDevice201ResponseData {
 /**
  * 
  * @export
+ * @interface RemoveSendingDomain200Response
+ */
+export interface RemoveSendingDomain200Response {
+    /**
+     * 
+     * @type {RemoveSendingDomain200ResponseData}
+     * @memberof RemoveSendingDomain200Response
+     */
+    data: RemoveSendingDomain200ResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface RemoveSendingDomain200ResponseData
+ */
+export interface RemoveSendingDomain200ResponseData {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RemoveSendingDomain200ResponseData
+     */
+    removed: boolean;
+}
+/**
+ * 
+ * @export
  * @interface SendNotification202Response
  */
 export interface SendNotification202Response {
@@ -1256,6 +1334,165 @@ export const SendResultModeEnum = {
     Sandbox: 'sandbox'
 } as const;
 export type SendResultModeEnum = typeof SendResultModeEnum[keyof typeof SendResultModeEnum];
+
+/**
+ * 
+ * @export
+ * @interface SendingDomain
+ */
+export interface SendingDomain {
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    domain: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    status: SendingDomainStatusEnum;
+    /**
+     * What the state means
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    message: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    dkimStatus?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    mailFromDomain?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomain
+     */
+    mailFromStatus?: string;
+    /**
+     * 
+     * @type {Array<SendingDomainRecordsInner>}
+     * @memberof SendingDomain
+     */
+    records: Array<SendingDomainRecordsInner>;
+    /**
+     * 
+     * @type {Date}
+     * @memberof SendingDomain
+     */
+    lastCheckedAt?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof SendingDomain
+     */
+    nextCheckAt?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof SendingDomain
+     */
+    verifiedAt?: Date;
+    /**
+     * 
+     * @type {Date}
+     * @memberof SendingDomain
+     */
+    createdAt: Date;
+}
+
+
+/**
+ * @export
+ */
+export const SendingDomainStatusEnum = {
+    AwaitingProvider: 'awaiting_provider',
+    PendingDns: 'pending_dns',
+    Verified: 'verified',
+    Failed: 'failed',
+    Suspended: 'suspended'
+} as const;
+export type SendingDomainStatusEnum = typeof SendingDomainStatusEnum[keyof typeof SendingDomainStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface SendingDomainRecordsInner
+ */
+export interface SendingDomainRecordsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomainRecordsInner
+     */
+    purpose: SendingDomainRecordsInnerPurposeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomainRecordsInner
+     */
+    type: SendingDomainRecordsInnerTypeEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomainRecordsInner
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SendingDomainRecordsInner
+     */
+    value: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SendingDomainRecordsInner
+     */
+    priority?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof SendingDomainRecordsInner
+     */
+    required: boolean;
+}
+
+
+/**
+ * @export
+ */
+export const SendingDomainRecordsInnerPurposeEnum = {
+    Dkim: 'dkim',
+    MailFromMx: 'mail_from_mx',
+    MailFromSpf: 'mail_from_spf',
+    Dmarc: 'dmarc'
+} as const;
+export type SendingDomainRecordsInnerPurposeEnum = typeof SendingDomainRecordsInnerPurposeEnum[keyof typeof SendingDomainRecordsInnerPurposeEnum];
+
+/**
+ * @export
+ */
+export const SendingDomainRecordsInnerTypeEnum = {
+    Cname: 'CNAME',
+    Mx: 'MX',
+    Txt: 'TXT'
+} as const;
+export type SendingDomainRecordsInnerTypeEnum = typeof SendingDomainRecordsInnerTypeEnum[keyof typeof SendingDomainRecordsInnerTypeEnum];
 
 /**
  * 

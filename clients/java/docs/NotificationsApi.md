@@ -1,6 +1,6 @@
 # NotificationsApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -17,7 +17,7 @@ All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
 
 What the MCP endpoint is
 
-Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
+Palsa speaks the Model Context Protocol at this address, as JSON-RPC 2.0 over HTTP POST. It is deliberately **not** modelled as typed operations here: a generated method per JSON-RPC call would describe the transport rather than the protocol, and an agent should reach it through an MCP client, not a Palsa SDK.  Requires the &#x60;notifications.read&#x60; scope.  An agent gets exactly the scopes and the mode of the key it is given. A sandbox key is the one to give it first. 
 
 ### Example
 ```java
@@ -32,7 +32,7 @@ import com.kuzikode.palsa.api.api.NotificationsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
@@ -96,7 +96,7 @@ import com.kuzikode.palsa.api.api.NotificationsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
@@ -167,7 +167,7 @@ import com.kuzikode.palsa.api.api.NotificationsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
@@ -241,7 +241,7 @@ import com.kuzikode.palsa.api.api.NotificationsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");
@@ -312,7 +312,7 @@ import com.kuzikode.palsa.api.api.NotificationsApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");

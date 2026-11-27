@@ -1,0 +1,12 @@
+# Build and test output from scripts/test-sdks.sh. The clients are committed; what building them leaves
+# behind is not.
+clients/*/build/
+clients/*/target/
+clients/kotlin/.gradle/
+clients/java/.gradle/
+clients/typescript/node_modules/
+clients/typescript/dist/
+clients/typescript/package-lock.json
+clients/php/vendor/
+__pycache__/
+*.egg-info/

@@ -1,6 +1,6 @@
 # Palsa.Api.Api.VerificationApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
@@ -31,7 +31,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://palsa.mhodieknowledge.workers.dev";
+            config.BasePath = "https://api.palsa.co.zw";
             // Configure Bearer token for authorization: bearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 
@@ -135,7 +135,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "https://palsa.mhodieknowledge.workers.dev";
+            config.BasePath = "https://api.palsa.co.zw";
             // Configure Bearer token for authorization: bearerAuth
             config.AccessToken = "YOUR_BEARER_TOKEN";
 

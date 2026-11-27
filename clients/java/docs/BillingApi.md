@@ -1,6 +1,6 @@
 # BillingApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
@@ -28,7 +28,7 @@ import com.kuzikode.palsa.api.api.BillingApi;
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("https://palsa.mhodieknowledge.workers.dev");
+    defaultClient.setBasePath("https://api.palsa.co.zw");
     
     // Configure HTTP bearer authorization: bearerAuth
     HttpBearerAuth bearerAuth = (HttpBearerAuth) defaultClient.getAuthentication("bearerAuth");

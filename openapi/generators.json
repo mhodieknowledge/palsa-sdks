@@ -1,7 +1,7 @@
 {
   "comment": [
     "Every Palsa client is generated from openapi/palsa.yaml by scripts/generate-sdks.sh.",
-    "The generator version is pinned in package.json so a regeneration is reproducible: an unpinned",
+    "The generator version is pinned in openapitools.json so a regeneration is reproducible: an unpinned",
     "generator would rewrite nine libraries differently on a different day, and the diff would be noise.",
     "Change the API in the spec, run the script, commit what it produces."
   ],
@@ -10,11 +10,11 @@
     {
       "name": "typescript",
       "generator": "typescript-fetch",
-      "out": "sdk-generated/typescript",
+      "out": "clients/typescript",
       "registry": "npm",
       "properties": {
         "npmName": "@palsa/api",
-        "npmVersion": "0.1.0",
+        "npmVersion": "0.2.0",
         "supportsES6": "true",
         "typescriptThreePlus": "true",
         "withoutRuntimeChecks": "false"
@@ -25,12 +25,12 @@
     {
       "name": "python",
       "generator": "python",
-      "out": "sdk-generated/python",
+      "out": "clients/python",
       "registry": "PyPI",
       "properties": {
         "packageName": "palsa_api",
         "projectName": "palsa-api",
-        "packageVersion": "0.1.0",
+        "packageVersion": "0.2.0",
         "library": "urllib3"
       },
       "verified": "locally",
@@ -39,13 +39,13 @@
     {
       "name": "php",
       "generator": "php",
-      "out": "sdk-generated/php",
+      "out": "clients/php",
       "registry": "Packagist",
       "properties": {
         "composerVendorName": "palsa",
         "composerPackageName": "palsa-api",
         "invokerPackage": "Palsa\\Api",
-        "artifactVersion": "0.1.0"
+        "artifactVersion": "0.2.0"
       },
       "verified": "locally",
       "verifiedHow": "every file linted and the webhook test passing, and in CI"
@@ -53,12 +53,12 @@
     {
       "name": "dart",
       "generator": "dart",
-      "out": "sdk-generated/dart",
+      "out": "clients/dart",
       "registry": "pub.dev",
       "properties": {
         "pubName": "palsa_api",
         "pubLibrary": "palsa_api",
-        "pubVersion": "0.1.0",
+        "pubVersion": "0.2.0",
         "pubDescription": "Official Palsa client for Dart and Flutter generated from the OpenAPI specification"
       },
       "verified": "locally",
@@ -67,12 +67,12 @@
     {
       "name": "java",
       "generator": "java",
-      "out": "sdk-generated/java",
+      "out": "clients/java",
       "registry": "Maven Central",
       "properties": {
         "groupId": "dev.palsa",
         "artifactId": "palsa-api",
-        "artifactVersion": "0.1.0",
+        "artifactVersion": "0.2.0",
         "invokerPackage": "dev.palsa.api",
         "apiPackage": "dev.palsa.api.api",
         "modelPackage": "dev.palsa.api.model",
@@ -85,12 +85,12 @@
     {
       "name": "kotlin",
       "generator": "kotlin",
-      "out": "sdk-generated/kotlin",
+      "out": "clients/kotlin",
       "registry": "Maven Central",
       "properties": {
         "groupId": "dev.palsa",
         "artifactId": "palsa-api-kotlin",
-        "artifactVersion": "0.1.0",
+        "artifactVersion": "0.2.0",
         "packageName": "dev.palsa.api",
         "library": "jvm-okhttp4"
       },
@@ -100,11 +100,11 @@
     {
       "name": "csharp",
       "generator": "csharp",
-      "out": "sdk-generated/csharp",
+      "out": "clients/csharp",
       "registry": "NuGet",
       "properties": {
         "packageName": "Palsa.Api",
-        "packageVersion": "0.1.0",
+        "packageVersion": "0.2.0",
         "targetFramework": "net8.0",
         "library": "httpclient",
         "nullableReferenceTypes": "true"
@@ -115,11 +115,11 @@
     {
       "name": "go",
       "generator": "go",
-      "out": "sdk-generated/go",
+      "out": "clients/go",
       "registry": "Go Modules",
       "properties": {
         "packageName": "palsaapi",
-        "packageVersion": "0.1.0",
+        "packageVersion": "0.2.0",
         "isGoSubmodule": "false",
         "structPrefix": "true"
       },
@@ -129,11 +129,11 @@
     {
       "name": "swift",
       "generator": "swift5",
-      "out": "sdk-generated/swift",
+      "out": "clients/swift",
       "registry": "Swift Package Manager",
       "properties": {
         "projectName": "PalsaApi",
-        "podVersion": "0.1.0",
+        "podVersion": "0.2.0",
         "responseAs": "AsyncAwait",
         "useSPMFileStructure": "true",
         "swiftPackagePath": "."

@@ -13,7 +13,7 @@
  */
 
 
-export const BASE_PATH = "https://palsa.mhodieknowledge.workers.dev".replace(/\/+$/, "");
+export const BASE_PATH = "https://api.palsa.co.zw".replace(/\/+$/, "");
 
 export interface ConfigurationParameters {
     basePath?: string; // override base path

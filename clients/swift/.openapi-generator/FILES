@@ -6,6 +6,7 @@ APIs.swift
 APIs/BillingAPI.swift
 APIs/ContactsAPI.swift
 APIs/NotificationsAPI.swift
+APIs/SendingDomainsAPI.swift
 APIs/VerificationAPI.swift
 Cartfile
 CodableHelper.swift
@@ -14,6 +15,8 @@ Extensions.swift
 JSONDataEncoding.swift
 JSONEncodingHelper.swift
 Models.swift
+Models/AddSendingDomain201Response.swift
+Models/AddSendingDomainRequest.swift
 Models/Balance.swift
 Models/Blocker.swift
 Models/Channel.swift
@@ -36,6 +39,8 @@ Models/ListContacts200ResponseData.swift
 Models/ListNotifications200Response.swift
 Models/ListNotifications200ResponseData.swift
 Models/ListNotifications200ResponseMeta.swift
+Models/ListSendingDomains200Response.swift
+Models/ListSendingDomains200ResponseData.swift
 Models/ModelError.swift
 Models/Notification.swift
 Models/NotificationSummary.swift
@@ -48,9 +53,13 @@ Models/QuotedRecipient.swift
 Models/Recipients.swift
 Models/RegisterDevice201Response.swift
 Models/RegisterDevice201ResponseData.swift
+Models/RemoveSendingDomain200Response.swift
+Models/RemoveSendingDomain200ResponseData.swift
 Models/SendNotification202Response.swift
 Models/SendRequest.swift
 Models/SendResult.swift
+Models/SendingDomain.swift
+Models/SendingDomainRecordsInner.swift
 Models/SkippedRecipient.swift
 Models/StartVerification201Response.swift
 Models/Verification.swift
@@ -63,6 +72,8 @@ README.md
 SynchronizedDictionary.swift
 URLSessionImplementations.swift
 Validation.swift
+docs/AddSendingDomain201Response.md
+docs/AddSendingDomainRequest.md
 docs/Balance.md
 docs/BillingAPI.md
 docs/Blocker.md
@@ -87,6 +98,8 @@ docs/ListContacts200ResponseData.md
 docs/ListNotifications200Response.md
 docs/ListNotifications200ResponseData.md
 docs/ListNotifications200ResponseMeta.md
+docs/ListSendingDomains200Response.md
+docs/ListSendingDomains200ResponseData.md
 docs/ModelError.md
 docs/Notification.md
 docs/NotificationSummary.md
@@ -100,9 +113,14 @@ docs/QuotedRecipient.md
 docs/Recipients.md
 docs/RegisterDevice201Response.md
 docs/RegisterDevice201ResponseData.md
+docs/RemoveSendingDomain200Response.md
+docs/RemoveSendingDomain200ResponseData.md
 docs/SendNotification202Response.md
 docs/SendRequest.md
 docs/SendResult.md
+docs/SendingDomain.md
+docs/SendingDomainRecordsInner.md
+docs/SendingDomainsAPI.md
 docs/SkippedRecipient.md
 docs/StartVerification201Response.md
 docs/Verification.md

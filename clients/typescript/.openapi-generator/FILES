@@ -6,9 +6,12 @@ package.json
 src/apis/BillingApi.ts
 src/apis/ContactsApi.ts
 src/apis/NotificationsApi.ts
+src/apis/SendingDomainsApi.ts
 src/apis/VerificationApi.ts
 src/apis/index.ts
 src/index.ts
+src/models/AddSendingDomain201Response.ts
+src/models/AddSendingDomainRequest.ts
 src/models/Balance.ts
 src/models/Blocker.ts
 src/models/Channel.ts
@@ -31,6 +34,8 @@ src/models/ListContacts200ResponseData.ts
 src/models/ListNotifications200Response.ts
 src/models/ListNotifications200ResponseData.ts
 src/models/ListNotifications200ResponseMeta.ts
+src/models/ListSendingDomains200Response.ts
+src/models/ListSendingDomains200ResponseData.ts
 src/models/ModelError.ts
 src/models/Notification.ts
 src/models/NotificationSummary.ts
@@ -43,9 +48,13 @@ src/models/QuotedRecipient.ts
 src/models/Recipients.ts
 src/models/RegisterDevice201Response.ts
 src/models/RegisterDevice201ResponseData.ts
+src/models/RemoveSendingDomain200Response.ts
+src/models/RemoveSendingDomain200ResponseData.ts
 src/models/SendNotification202Response.ts
 src/models/SendRequest.ts
 src/models/SendResult.ts
+src/models/SendingDomain.ts
+src/models/SendingDomainRecordsInner.ts
 src/models/SkippedRecipient.ts
 src/models/StartVerification201Response.ts
 src/models/Verification.ts

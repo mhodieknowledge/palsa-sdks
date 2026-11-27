@@ -1,6 +1,6 @@
 # palsa_api.BillingApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -26,10 +26,10 @@ from palsa_api.models.get_balances200_response import GetBalances200Response
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters

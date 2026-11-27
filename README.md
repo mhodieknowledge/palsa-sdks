@@ -1,6 +1,6 @@
 # Palsa client libraries
 
-Nine clients for the [Palsa](https://palsa.mhodieknowledge.workers.dev) API, every one generated from
+Nine clients for the [Palsa](https://palsa.co.zw) API, every one generated from
 the same OpenAPI document the server is tested against.
 
 Nothing here is written by hand except the parts a generator cannot produce: the webhook signature
@@ -24,7 +24,7 @@ Released at 0.1.0 on PyPI, NuGet, Maven Central and by Go module tag. npm, pub.d
 need a one-time step from the account owner before a first release; `docs/RELEASING.md` says which.
 
 Each client's own README has its usage. The API reference is at
-[palsa.mhodieknowledge.workers.dev/docs](https://palsa.mhodieknowledge.workers.dev/docs).
+[palsa.co.zw/docs](https://palsa.co.zw/docs).
 
 ## How this repository is built
 

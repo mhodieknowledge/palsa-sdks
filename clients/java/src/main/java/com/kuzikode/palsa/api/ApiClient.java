@@ -61,10 +61,10 @@ import com.kuzikode.palsa.api.auth.ApiKeyAuth;
  */
 public class ApiClient {
 
-    protected String basePath = "https://palsa.mhodieknowledge.workers.dev";
+    protected String basePath = "https://api.palsa.co.zw";
     protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "https://palsa.mhodieknowledge.workers.dev",
+      "https://api.palsa.co.zw",
       "Production",
       new HashMap<String, ServerVariable>()
     )
@@ -141,7 +141,7 @@ public class ApiClient {
         json = new JSON();
 
         // Set default User-Agent.
-        setUserAgent("OpenAPI-Generator/0.1.0/java");
+        setUserAgent("OpenAPI-Generator/0.2.0/java");
 
         authentications = new HashMap<String, Authentication>();
     }
@@ -158,7 +158,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g https://palsa.mhodieknowledge.workers.dev
+     * @param basePath Base path of the URL (e.g https://api.palsa.co.zw
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {

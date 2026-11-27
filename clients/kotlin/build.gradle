@@ -1,5 +1,5 @@
 group 'com.kuzikode.palsa'
-version '0.1.0'
+version '0.2.0'
 
 wrapper {
     gradleVersion = '8.7'
@@ -92,7 +92,7 @@ publishing {
                 developers {
                     developer {
                         name = 'Kuzikode Intelligent Technologies'
-                        url = 'https://palsa.mhodieknowledge.workers.dev'
+                        url = 'https://palsa.co.zw'
                     }
                 }
                 scm {

@@ -53,7 +53,7 @@ print(target['out'])
   rm -rf "$out"
   mkdir -p "$out"
 
-  npx --yes @openapitools/openapi-generator-cli generate \
+  npx --yes @openapitools/openapi-generator-cli@2.15.3 generate \
     --input-spec "$SPEC" \
     --config "$config_file" \
     --output "$out" \
@@ -70,6 +70,18 @@ print(target['out'])
   extras="sdk-extras/$name"
   if [ -d "$extras" ]; then
     case "$name" in
+      typescript)
+        cp "$extras"/webhook.ts "$out/src/"
+        mkdir -p "$out/test"
+        cp sdk-extras/typescript-test/*.mjs "$out/test/"
+        echo "export * from './webhook';" >>"$out/src/index.ts"
+        ;;
+      python)
+        cp "$extras"/webhook.py "$out/palsa_api/"
+        mkdir -p "$out/test"
+        cp sdk-extras/python-test/*.py "$out/test/"
+        printf '\n# Hand-written: webhook signature verification (sdk-extras/python).\nfrom palsa_api.webhook import WebhookSignatureError as WebhookSignatureError\nfrom palsa_api.webhook import parse_webhook as parse_webhook\nfrom palsa_api.webhook import verify_webhook as verify_webhook\n__all__ += ["WebhookSignatureError", "parse_webhook", "verify_webhook"]\n' >>"$out/palsa_api/__init__.py"
+        ;;
       go)
         cp "$extras"/*.go "$out"/
         ;;

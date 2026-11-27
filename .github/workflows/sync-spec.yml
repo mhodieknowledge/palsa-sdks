@@ -90,9 +90,11 @@ jobs:
       - name: Regenerate
         if: steps.check.outputs.changed == 'true'
         run: |
-          npm install -g @openapitools/openapi-generator-cli
+          # The generator version comes from openapitools.json (7.14.0), which the CLI reads from here; the
+          # CLI itself is pinned too, so a new release of either cannot rewrite nine clients unasked.
+          # generate-sdks.sh runs patch-sdks.sh and sdk-docs.sh itself.
+          npm install -g @openapitools/openapi-generator-cli@2.15.3
           bash scripts/generate-sdks.sh
-          bash scripts/patch-sdks.sh
 
       - name: Check the metadata survived
         if: steps.check.outputs.changed == 'true'

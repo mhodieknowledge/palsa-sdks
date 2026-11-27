@@ -11,7 +11,7 @@
 part of palsa_api;
 
 class ApiClient {
-  ApiClient({this.basePath = 'https://palsa.mhodieknowledge.workers.dev', this.authentication,});
+  ApiClient({this.basePath = 'https://api.palsa.co.zw', this.authentication,});
 
   final String basePath;
   final Authentication? authentication;
@@ -182,6 +182,10 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'AddSendingDomain201Response':
+          return AddSendingDomain201Response.fromJson(value);
+        case 'AddSendingDomainRequest':
+          return AddSendingDomainRequest.fromJson(value);
         case 'Balance':
           return Balance.fromJson(value);
         case 'Blocker':
@@ -228,6 +232,10 @@ class ApiClient {
           return ListNotifications200ResponseData.fromJson(value);
         case 'ListNotifications200ResponseMeta':
           return ListNotifications200ResponseMeta.fromJson(value);
+        case 'ListSendingDomains200Response':
+          return ListSendingDomains200Response.fromJson(value);
+        case 'ListSendingDomains200ResponseData':
+          return ListSendingDomains200ResponseData.fromJson(value);
         case 'Notification':
           return Notification.fromJson(value);
         case 'NotificationSummary':
@@ -250,12 +258,20 @@ class ApiClient {
           return RegisterDevice201Response.fromJson(value);
         case 'RegisterDevice201ResponseData':
           return RegisterDevice201ResponseData.fromJson(value);
+        case 'RemoveSendingDomain200Response':
+          return RemoveSendingDomain200Response.fromJson(value);
+        case 'RemoveSendingDomain200ResponseData':
+          return RemoveSendingDomain200ResponseData.fromJson(value);
         case 'SendNotification202Response':
           return SendNotification202Response.fromJson(value);
         case 'SendRequest':
           return SendRequest.fromJson(value);
         case 'SendResult':
           return SendResult.fromJson(value);
+        case 'SendingDomain':
+          return SendingDomain.fromJson(value);
+        case 'SendingDomainRecordsInner':
+          return SendingDomainRecordsInner.fromJson(value);
         case 'SkippedRecipient':
           return SkippedRecipient.fromJson(value);
         case 'StartVerification201Response':

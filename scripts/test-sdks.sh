@@ -35,7 +35,7 @@ log() { echo "$LOGS/$1.log"; }
 if should_run typescript; then
   if command -v node >/dev/null; then
     ( cd clients/typescript && npm install --silent --no-audit --no-fund \
-      && npx tsc --noEmit -p tsconfig.json ) > "$(log typescript)" 2>&1
+      && npx tsc --noEmit -p tsconfig.json && npm run build --silent && node test/webhook.test.mjs ) > "$(log typescript)" 2>&1
     [ $? -eq 0 ] && record pass typescript || record fail typescript
   else
     record skip typescript "no node"
@@ -46,7 +46,8 @@ fi
 if should_run python; then
   if command -v python3 >/dev/null; then
     { ( cd clients/python && python3 -m pip install -q -e . ) \
-      && ( cd /tmp && python3 -c "import palsa_api" ); } > "$(log python)" 2>&1
+      && ( cd /tmp && python3 -c "import palsa_api" ) \
+      && ( cd clients/python && python3 -m unittest -q test.test_webhook ); } > "$(log python)" 2>&1
     [ $? -eq 0 ] && record pass python || record fail python
   else
     record skip python "no python3"

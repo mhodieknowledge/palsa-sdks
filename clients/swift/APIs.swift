@@ -9,7 +9,7 @@ import Foundation
 import FoundationNetworking
 #endif
 open class PalsaApiAPI {
-    public static var basePath = "https://palsa.mhodieknowledge.workers.dev"
+    public static var basePath = "https://api.palsa.co.zw"
     public static var customHeaders: [String: String] = [:]
     public static var credential: URLCredential?
     public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()

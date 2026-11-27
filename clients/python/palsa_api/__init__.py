@@ -14,13 +14,14 @@
 """  # noqa: E501
 
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 # Define package exports
 __all__ = [
     "BillingApi",
     "ContactsApi",
     "NotificationsApi",
+    "SendingDomainsApi",
     "VerificationApi",
     "ApiResponse",
     "ApiClient",
@@ -31,6 +32,8 @@ __all__ = [
     "ApiKeyError",
     "ApiAttributeError",
     "ApiException",
+    "AddSendingDomain201Response",
+    "AddSendingDomainRequest",
     "Balance",
     "Blocker",
     "Channel",
@@ -54,6 +57,8 @@ __all__ = [
     "ListNotifications200Response",
     "ListNotifications200ResponseData",
     "ListNotifications200ResponseMeta",
+    "ListSendingDomains200Response",
+    "ListSendingDomains200ResponseData",
     "Notification",
     "NotificationSummary",
     "Quote",
@@ -65,9 +70,13 @@ __all__ = [
     "Recipients",
     "RegisterDevice201Response",
     "RegisterDevice201ResponseData",
+    "RemoveSendingDomain200Response",
+    "RemoveSendingDomain200ResponseData",
     "SendNotification202Response",
     "SendRequest",
     "SendResult",
+    "SendingDomain",
+    "SendingDomainRecordsInner",
     "SkippedRecipient",
     "StartVerification201Response",
     "Verification",
@@ -79,6 +88,7 @@ __all__ = [
 from palsa_api.api.billing_api import BillingApi as BillingApi
 from palsa_api.api.contacts_api import ContactsApi as ContactsApi
 from palsa_api.api.notifications_api import NotificationsApi as NotificationsApi
+from palsa_api.api.sending_domains_api import SendingDomainsApi as SendingDomainsApi
 from palsa_api.api.verification_api import VerificationApi as VerificationApi
 
 # import ApiClient
@@ -93,6 +103,8 @@ from palsa_api.exceptions import ApiAttributeError as ApiAttributeError
 from palsa_api.exceptions import ApiException as ApiException
 
 # import models into sdk package
+from palsa_api.models.add_sending_domain201_response import AddSendingDomain201Response as AddSendingDomain201Response
+from palsa_api.models.add_sending_domain_request import AddSendingDomainRequest as AddSendingDomainRequest
 from palsa_api.models.balance import Balance as Balance
 from palsa_api.models.blocker import Blocker as Blocker
 from palsa_api.models.channel import Channel as Channel
@@ -116,6 +128,8 @@ from palsa_api.models.list_contacts200_response_data import ListContacts200Respo
 from palsa_api.models.list_notifications200_response import ListNotifications200Response as ListNotifications200Response
 from palsa_api.models.list_notifications200_response_data import ListNotifications200ResponseData as ListNotifications200ResponseData
 from palsa_api.models.list_notifications200_response_meta import ListNotifications200ResponseMeta as ListNotifications200ResponseMeta
+from palsa_api.models.list_sending_domains200_response import ListSendingDomains200Response as ListSendingDomains200Response
+from palsa_api.models.list_sending_domains200_response_data import ListSendingDomains200ResponseData as ListSendingDomains200ResponseData
 from palsa_api.models.notification import Notification as Notification
 from palsa_api.models.notification_summary import NotificationSummary as NotificationSummary
 from palsa_api.models.quote import Quote as Quote
@@ -127,11 +141,21 @@ from palsa_api.models.quoted_recipient import QuotedRecipient as QuotedRecipient
 from palsa_api.models.recipients import Recipients as Recipients
 from palsa_api.models.register_device201_response import RegisterDevice201Response as RegisterDevice201Response
 from palsa_api.models.register_device201_response_data import RegisterDevice201ResponseData as RegisterDevice201ResponseData
+from palsa_api.models.remove_sending_domain200_response import RemoveSendingDomain200Response as RemoveSendingDomain200Response
+from palsa_api.models.remove_sending_domain200_response_data import RemoveSendingDomain200ResponseData as RemoveSendingDomain200ResponseData
 from palsa_api.models.send_notification202_response import SendNotification202Response as SendNotification202Response
 from palsa_api.models.send_request import SendRequest as SendRequest
 from palsa_api.models.send_result import SendResult as SendResult
+from palsa_api.models.sending_domain import SendingDomain as SendingDomain
+from palsa_api.models.sending_domain_records_inner import SendingDomainRecordsInner as SendingDomainRecordsInner
 from palsa_api.models.skipped_recipient import SkippedRecipient as SkippedRecipient
 from palsa_api.models.start_verification201_response import StartVerification201Response as StartVerification201Response
 from palsa_api.models.verification import Verification as Verification
 from palsa_api.models.verification_check import VerificationCheck as VerificationCheck
 from palsa_api.models.verification_request import VerificationRequest as VerificationRequest
+
+# Hand-written: webhook signature verification (sdk-extras/python).
+from palsa_api.webhook import WebhookSignatureError as WebhookSignatureError
+from palsa_api.webhook import parse_webhook as parse_webhook
+from palsa_api.webhook import verify_webhook as verify_webhook
+__all__ += ["WebhookSignatureError", "parse_webhook", "verify_webhook"]

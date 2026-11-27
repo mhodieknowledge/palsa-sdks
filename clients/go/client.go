@@ -55,6 +55,8 @@ type APIClient struct {
 
 	NotificationsAPI *NotificationsAPIService
 
+	SendingDomainsAPI *SendingDomainsAPIService
+
 	VerificationAPI *VerificationAPIService
 }
 
@@ -77,6 +79,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.BillingAPI = (*BillingAPIService)(&c.common)
 	c.ContactsAPI = (*ContactsAPIService)(&c.common)
 	c.NotificationsAPI = (*NotificationsAPIService)(&c.common)
+	c.SendingDomainsAPI = (*SendingDomainsAPIService)(&c.common)
 	c.VerificationAPI = (*VerificationAPIService)(&c.common)
 
 	return c

@@ -42,7 +42,7 @@ class BillingApi(basePath: kotlin.String = defaultBasePath, client: Call.Factory
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://palsa.mhodieknowledge.workers.dev")
+            System.getProperties().getProperty(ApiClient.baseUrlKey, "https://api.palsa.co.zw")
         }
     }
 

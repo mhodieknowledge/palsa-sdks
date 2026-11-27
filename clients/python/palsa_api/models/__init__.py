@@ -14,6 +14,8 @@
 
 
 # import models into model package
+from palsa_api.models.add_sending_domain201_response import AddSendingDomain201Response
+from palsa_api.models.add_sending_domain_request import AddSendingDomainRequest
 from palsa_api.models.balance import Balance
 from palsa_api.models.blocker import Blocker
 from palsa_api.models.channel import Channel
@@ -37,6 +39,8 @@ from palsa_api.models.list_contacts200_response_data import ListContacts200Respo
 from palsa_api.models.list_notifications200_response import ListNotifications200Response
 from palsa_api.models.list_notifications200_response_data import ListNotifications200ResponseData
 from palsa_api.models.list_notifications200_response_meta import ListNotifications200ResponseMeta
+from palsa_api.models.list_sending_domains200_response import ListSendingDomains200Response
+from palsa_api.models.list_sending_domains200_response_data import ListSendingDomains200ResponseData
 from palsa_api.models.notification import Notification
 from palsa_api.models.notification_summary import NotificationSummary
 from palsa_api.models.quote import Quote
@@ -48,9 +52,13 @@ from palsa_api.models.quoted_recipient import QuotedRecipient
 from palsa_api.models.recipients import Recipients
 from palsa_api.models.register_device201_response import RegisterDevice201Response
 from palsa_api.models.register_device201_response_data import RegisterDevice201ResponseData
+from palsa_api.models.remove_sending_domain200_response import RemoveSendingDomain200Response
+from palsa_api.models.remove_sending_domain200_response_data import RemoveSendingDomain200ResponseData
 from palsa_api.models.send_notification202_response import SendNotification202Response
 from palsa_api.models.send_request import SendRequest
 from palsa_api.models.send_result import SendResult
+from palsa_api.models.sending_domain import SendingDomain
+from palsa_api.models.sending_domain_records_inner import SendingDomainRecordsInner
 from palsa_api.models.skipped_recipient import SkippedRecipient
 from palsa_api.models.start_verification201_response import StartVerification201Response
 from palsa_api.models.verification import Verification

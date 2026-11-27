@@ -1,6 +1,6 @@
 # palsa_api.ContactsApi
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -31,10 +31,10 @@ from palsa_api.models.create_contact201_response import CreateContact201Response
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -123,10 +123,10 @@ from palsa_api.models.delete_contact200_response import DeleteContact200Response
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -205,10 +205,10 @@ from palsa_api.models.list_contacts200_response import ListContacts200Response
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters
@@ -289,10 +289,10 @@ from palsa_api.models.register_device201_response import RegisterDevice201Respon
 from palsa_api.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to https://palsa.mhodieknowledge.workers.dev
+# Defining the host is optional and defaults to https://api.palsa.co.zw
 # See configuration.py for a list of all supported configuration parameters.
 configuration = palsa_api.Configuration(
-    host = "https://palsa.mhodieknowledge.workers.dev"
+    host = "https://api.palsa.co.zw"
 )
 
 # The client must configure the authentication and authorization parameters

@@ -1,4 +1,4 @@
-## @palsa/api@0.1.0
+## @palsa/api@0.2.0
 
 This generator creates TypeScript/JavaScript client that utilizes [Fetch API](https://fetch.spec.whatwg.org/). The generated Node module can be used in the following environments:
 
@@ -36,7 +36,7 @@ navigate to the folder of your consuming project and run one of the following co
 _published:_
 
 ```
-npm install @palsa/api@0.1.0 --save
+npm install @palsa/api@0.2.0 --save
 ```
 
 _unPublished (not recommended):_
@@ -44,90 +44,6 @@ _unPublished (not recommended):_
 ```
 npm install PATH_TO_GENERATED_PACKAGE --save
 ```
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
-
-## Licence
-
-MIT. See the repository for the full text.
 
 ## Licence
 

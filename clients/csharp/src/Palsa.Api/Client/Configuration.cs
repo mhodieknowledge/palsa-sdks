@@ -33,7 +33,7 @@ namespace Palsa.Api.Client
         /// Version of the package.
         /// </summary>
         /// <value>Version of the package.</value>
-        public const string Version = "0.1.0";
+        public const string Version = "0.2.0";
 
         /// <summary>
         /// Identifier for ISO 8601 DateTime Format
@@ -117,8 +117,8 @@ namespace Palsa.Api.Client
         public Configuration()
         {
             Proxy = null;
-            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/0.1.0/csharp");
-            BasePath = "https://palsa.mhodieknowledge.workers.dev";
+            UserAgent = WebUtility.UrlEncode("OpenAPI-Generator/0.2.0/csharp");
+            BasePath = "https://api.palsa.co.zw";
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
@@ -126,7 +126,7 @@ namespace Palsa.Api.Client
             {
                 {
                     new Dictionary<string, object> {
-                        {"url", "https://palsa.mhodieknowledge.workers.dev"},
+                        {"url", "https://api.palsa.co.zw"},
                         {"description", "Production"},
                     }
                 }
@@ -147,7 +147,7 @@ namespace Palsa.Api.Client
             IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
-            string basePath = "https://palsa.mhodieknowledge.workers.dev") : this()
+            string basePath = "https://api.palsa.co.zw") : this()
         {
             if (string.IsNullOrWhiteSpace(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
@@ -540,7 +540,7 @@ namespace Palsa.Api.Client
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
             report += "    Version of the API: 1.0.0\n";
-            report += "    SDK Package Version: 0.1.0\n";
+            report += "    SDK Package Version: 0.2.0\n";
 
             return report;
         }

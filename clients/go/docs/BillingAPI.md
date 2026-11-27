@@ -1,6 +1,6 @@
 # \BillingAPI
 
-All URIs are relative to *https://palsa.mhodieknowledge.workers.dev*
+All URIs are relative to *https://api.palsa.co.zw*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------

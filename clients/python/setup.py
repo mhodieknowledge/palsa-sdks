@@ -21,7 +21,7 @@ from setuptools import setup, find_packages  # noqa: H301
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
 NAME = "palsa-api"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 PYTHON_REQUIRES = ">= 3.9"
 REQUIRES = [
     "urllib3 >= 2.1.0, < 3.0.0",
@@ -34,13 +34,14 @@ setup(
     name=NAME,
     version=VERSION,
     description="Palsa API",
-    author="Palsa",
+    author="Kuzikode Intelligent Technologies",
     author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "Palsa API"],
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
+    license="MIT",
     long_description_content_type='text/markdown',
     long_description="""\
     Palsa is prepaid. Credit is reserved before anything reaches a supplier and only what a supplier accepted is charged, so a balance cannot go below nothing. &#x60;QUOTA_EXCEEDED&#x60; means exactly that: the workspace could not pay for the send, and nothing was sent.  A key belongs to one workspace, so no path here names a workspace and no key can reach another&#39;s data.  What happened to a send is reported by webhook, signed as &#x60;Palsa-Signature: t&#x3D;&lt;milliseconds&gt;,v1&#x3D;&lt;hex&gt;&#x60;: an HMAC-SHA256 over &#x60;&lt;t&gt;.&lt;raw body&gt;&#x60;. Verify against the raw body, because parsing and re-serialising it changes the bytes, and refuse a signature older than five minutes, which is what stops an old delivery being replayed at you later. Every client library ships a verifier, since no generator produces one.  **This file is generated from nothing and generates everything.** Every Palsa client library is produced from it, so an API change is a change here followed by a regeneration. It is also tested against the running server, because a specification is a claim about what the server does and a wrong claim would be inherited by every client at once. 

@@ -12,14 +12,14 @@
     <Description>Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.</Description>
     <Copyright>No Copyright</Copyright>
     <RootNamespace>Palsa.Api</RootNamespace>
-    <Version>0.1.0</Version>
+    <Version>0.2.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Palsa.Api.xml</DocumentationFile>
     <RepositoryUrl>https://github.com/mhodieknowledge/palsa-sdks.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>Minor update</PackageReleaseNotes>
     <Nullable>annotations</Nullable>
     <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
-    <PackageProjectUrl>https://palsa.mhodieknowledge.workers.dev/docs</PackageProjectUrl>
+    <PackageProjectUrl>https://palsa.co.zw/docs</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>palsa;sms;email;push;notifications</PackageTags>
   </PropertyGroup>
