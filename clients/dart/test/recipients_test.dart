@@ -32,6 +32,12 @@ void main() {
       // TODO
     });
 
+    // Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+    // String topic
+    test('to test the property `topic`', () async {
+      // TODO
+    });
+
 
   });
 

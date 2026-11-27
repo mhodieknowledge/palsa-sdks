@@ -18,8 +18,11 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.kuzikode.palsa.api.model.AndroidPushOptions;
 import com.kuzikode.palsa.api.model.Channel;
+import com.kuzikode.palsa.api.model.IosPushOptions;
 import com.kuzikode.palsa.api.model.Recipients;
+import com.kuzikode.palsa.api.model.WebPushOptions;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -227,6 +230,70 @@ public class SendRequestTest {
     @Test
     public void imageUrlTest() {
         // TODO: test imageUrl
+    }
+
+    /**
+     * Test the property 'appId'
+     */
+    @Test
+    public void appIdTest() {
+        // TODO: test appId
+    }
+
+    /**
+     * Test the property 'sound'
+     */
+    @Test
+    public void soundTest() {
+        // TODO: test sound
+    }
+
+    /**
+     * Test the property 'collapseKey'
+     */
+    @Test
+    public void collapseKeyTest() {
+        // TODO: test collapseKey
+    }
+
+    /**
+     * Test the property 'data'
+     */
+    @Test
+    public void dataTest() {
+        // TODO: test data
+    }
+
+    /**
+     * Test the property 'silent'
+     */
+    @Test
+    public void silentTest() {
+        // TODO: test silent
+    }
+
+    /**
+     * Test the property 'android'
+     */
+    @Test
+    public void androidTest() {
+        // TODO: test android
+    }
+
+    /**
+     * Test the property 'ios'
+     */
+    @Test
+    public void iosTest() {
+        // TODO: test ios
+    }
+
+    /**
+     * Test the property 'web'
+     */
+    @Test
+    public void webTest() {
+        // TODO: test web
     }
 
     /**

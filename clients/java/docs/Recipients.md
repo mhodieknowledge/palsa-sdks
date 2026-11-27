@@ -11,6 +11,7 @@ Who the send goes to. Give exactly one of these three.
 |**contactIds** | **List&lt;String&gt;** |  |  [optional] |
 |**addresses** | **List&lt;String&gt;** | Phone numbers or email addresses, for people who are not saved contacts. |  [optional] |
 |**audienceId** | **String** |  |  [optional] |
+|**topic** | **String** | Push only, and on push alone. Every device subscribed to this topic, as one delivery. |  [optional] |
 
 
 

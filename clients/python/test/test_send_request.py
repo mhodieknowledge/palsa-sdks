@@ -45,7 +45,8 @@ class TestSendRequest(unittest.TestCase):
                     addresses = [
                         ''
                         ], 
-                    audience_id = '', ),
+                    audience_id = '', 
+                    topic = 'zBAMDTMv2D2ylmgd10Z3U', ),
                 body = '0',
                 subject = '',
                 template_id = '',
@@ -69,6 +70,24 @@ class TestSendRequest(unittest.TestCase):
                 priority = 'high',
                 badge = 0,
                 image_url = '',
+                app_id = '',
+                sound = '26bUUGjjNSwg0_bs9ZayIMrKdgNvb6gvxmPb9GcsM61ate1',
+                collapse_key = 'zBAMDTMv2D2ylmgd10Z3UB6U',
+                data = {
+                    'key' : ''
+                    },
+                silent = True,
+                android = palsa_api.models.android_push_options.AndroidPushOptions(
+                    channel_id = '', 
+                    tag = '', 
+                    color = '#62ECB0', ),
+                ios = palsa_api.models.ios_push_options.IosPushOptions(
+                    thread_id = '', 
+                    category = '', 
+                    interruption_level = 'passive', ),
+                web = palsa_api.models.web_push_options.WebPushOptions(
+                    icon = '', 
+                    require_interaction = True, ),
                 scheduled_at = '',
                 callback_url = '',
                 metadata = { },
@@ -86,7 +105,8 @@ class TestSendRequest(unittest.TestCase):
                     addresses = [
                         ''
                         ], 
-                    audience_id = '', ),
+                    audience_id = '', 
+                    topic = 'zBAMDTMv2D2ylmgd10Z3U', ),
         )
         """
 

@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Data** | [**RegisterDevice201ResponseData**](RegisterDevice201ResponseData.md) |  | 
+**Data** | [**DeviceRegistered**](DeviceRegistered.md) |  | 
 
 ## Methods
 
 ### NewRegisterDevice201Response
 
-`func NewRegisterDevice201Response(data RegisterDevice201ResponseData, ) *RegisterDevice201Response`
+`func NewRegisterDevice201Response(data DeviceRegistered, ) *RegisterDevice201Response`
 
 NewRegisterDevice201Response instantiates a new RegisterDevice201Response object
 This constructor will assign default values to properties that have it defined,
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetData
 
-`func (o *RegisterDevice201Response) GetData() RegisterDevice201ResponseData`
+`func (o *RegisterDevice201Response) GetData() DeviceRegistered`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *RegisterDevice201Response) GetDataOk() (*RegisterDevice201ResponseData, bool)`
+`func (o *RegisterDevice201Response) GetDataOk() (*DeviceRegistered, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *RegisterDevice201Response) SetData(v RegisterDevice201ResponseData)`
+`func (o *RegisterDevice201Response) SetData(v DeviceRegistered)`
 
 SetData sets Data field to given value.
 

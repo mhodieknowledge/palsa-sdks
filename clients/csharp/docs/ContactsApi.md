@@ -7,7 +7,9 @@ All URIs are relative to *https://api.palsa.co.zw*
 | [**CreateContact**](ContactsApi.md#createcontact) | **POST** /v1/contacts | Save a contact |
 | [**DeleteContact**](ContactsApi.md#deletecontact) | **DELETE** /v1/contacts/{id} | Erase a contact |
 | [**ListContacts**](ContactsApi.md#listcontacts) | **GET** /v1/contacts | List contacts |
+| [**ListDevices**](ContactsApi.md#listdevices) | **GET** /v1/devices | List registered devices |
 | [**RegisterDevice**](ContactsApi.md#registerdevice) | **POST** /v1/devices | Register a device for push |
+| [**UnregisterDevice**](ContactsApi.md#unregisterdevice) | **POST** /v1/devices/unregister | Stop sending to a device |
 
 <a id="createcontact"></a>
 # **CreateContact**
@@ -315,6 +317,107 @@ catch (ApiException e)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="listdevices"></a>
+# **ListDevices**
+> ListDevices200Response ListDevices (string? contactId = null)
+
+List registered devices
+
+The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Palsa.Api.Api;
+using Palsa.Api.Client;
+using Palsa.Api.Model;
+
+namespace Example
+{
+    public class ListDevicesExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.palsa.co.zw";
+            // Configure Bearer token for authorization: bearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ContactsApi(httpClient, config, httpClientHandler);
+            var contactId = "contactId_example";  // string? |  (optional) 
+
+            try
+            {
+                // List registered devices
+                ListDevices200Response result = apiInstance.ListDevices(contactId);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ContactsApi.ListDevices: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the ListDevicesWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // List registered devices
+    ApiResponse<ListDevices200Response> response = apiInstance.ListDevicesWithHttpInfo(contactId);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ContactsApi.ListDevicesWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **contactId** | **string?** |  | [optional]  |
+
+### Return type
+
+[**ListDevices200Response**](ListDevices200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The devices. |  -  |
+| **401** | No key, or a key that has been revoked. |  -  |
+| **403** | The key is missing the scope this operation needs. |  -  |
+| **429** | Too many requests for this key&#39;s plan. Try again shortly. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="registerdevice"></a>
 # **RegisterDevice**
 > RegisterDevice201Response RegisterDevice (DeviceRegister deviceRegister)
@@ -410,8 +513,112 @@ catch (ApiException e)
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **201** | Registered. |  -  |
+| **200** | A refreshed token replaced &#x60;previousToken&#x60; in place. |  -  |
 | **401** | No key, or a key that has been revoked. |  -  |
 | **403** | The key is missing the scope this operation needs. |  -  |
+| **422** | The request was wrong. &#x60;fields&#x60; names what, by field. |  -  |
+| **429** | Too many requests for this key&#39;s plan. Try again shortly. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="unregisterdevice"></a>
+# **UnregisterDevice**
+> InlineObject UnregisterDevice (UnregisterDeviceRequest unregisterDeviceRequest)
+
+Stop sending to a device
+
+For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Palsa.Api.Api;
+using Palsa.Api.Client;
+using Palsa.Api.Model;
+
+namespace Example
+{
+    public class UnregisterDeviceExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "https://api.palsa.co.zw";
+            // Configure Bearer token for authorization: bearerAuth
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+
+            // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
+            HttpClient httpClient = new HttpClient();
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            var apiInstance = new ContactsApi(httpClient, config, httpClientHandler);
+            var unregisterDeviceRequest = new UnregisterDeviceRequest(); // UnregisterDeviceRequest | 
+
+            try
+            {
+                // Stop sending to a device
+                InlineObject result = apiInstance.UnregisterDevice(unregisterDeviceRequest);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling ContactsApi.UnregisterDevice: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the UnregisterDeviceWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Stop sending to a device
+    ApiResponse<InlineObject> response = apiInstance.UnregisterDeviceWithHttpInfo(unregisterDeviceRequest);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling ContactsApi.UnregisterDeviceWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **unregisterDeviceRequest** | [**UnregisterDeviceRequest**](UnregisterDeviceRequest.md) |  |  |
+
+### Return type
+
+[**InlineObject**](InlineObject.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Done. |  -  |
+| **401** | No key, or a key that has been revoked. |  -  |
+| **403** | The key is missing the scope this operation needs. |  -  |
+| **404** | No such thing in this workspace. An id from elsewhere answers the same way. |  -  |
 | **422** | The request was wrong. &#x60;fields&#x60; names what, by field. |  -  |
 | **429** | Too many requests for this key&#39;s plan. Try again shortly. |  -  |
 

@@ -43,6 +43,18 @@ class DeviceRegisterTest : ShouldSpec() {
             //modelInstance.contactId shouldBe ("TODO")
         }
 
+        // to test the property `appId` - The push app the token belongs to. Default the workspace's default app.
+        should("test appId") {
+            // uncomment below to test the property
+            //modelInstance.appId shouldBe ("TODO")
+        }
+
+        // to test the property `previousToken` - The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+        should("test previousToken") {
+            // uncomment below to test the property
+            //modelInstance.previousToken shouldBe ("TODO")
+        }
+
         // to test the property `appVersion`
         should("test appVersion") {
             // uncomment below to test the property

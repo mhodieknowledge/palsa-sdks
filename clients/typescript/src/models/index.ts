@@ -27,6 +27,31 @@ export interface AddSendingDomainRequest {
     domain: string;
 }
 /**
+ * 
+ * @export
+ * @interface AndroidPushOptions
+ */
+export interface AndroidPushOptions {
+    /**
+     * The Android notification channel.
+     * @type {string}
+     * @memberof AndroidPushOptions
+     */
+    channelId?: string;
+    /**
+     * A notification with the same tag replaces the one shown.
+     * @type {string}
+     * @memberof AndroidPushOptions
+     */
+    tag?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AndroidPushOptions
+     */
+    color?: string;
+}
+/**
  * Reservations and usage are split by where the units came from, because included units are spent
  * before purchased ones: the allowance the customer has already paid for goes first, and what they
  * bought separately is kept for when it runs out.
@@ -163,6 +188,19 @@ export interface CheckVerificationRequest {
      * 
      * @type {string}
      * @memberof CheckVerificationRequest
+     */
+    code: string;
+}
+/**
+ * 
+ * @export
+ * @interface ConfirmPushAppOwnershipRequest
+ */
+export interface ConfirmPushAppOwnershipRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ConfirmPushAppOwnershipRequest
      */
     code: string;
 }
@@ -356,6 +394,97 @@ export interface DescribeMcp200Response {
 /**
  * 
  * @export
+ * @interface Device
+ */
+export interface Device {
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    contactId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    appId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    platform: DevicePlatformEnum;
+    /**
+     * The last eight characters of the token. The token itself is never returned.
+     * @type {string}
+     * @memberof Device
+     */
+    tokenEnd: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    appVersion?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    locale?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    lastSeenAt?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    tokenRefreshedAt?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    invalidatedAt?: string | null;
+    /**
+     * unregistered (Firebase no longer knows the token), sender_mismatch (the token belongs to another project), unregistered_by_app, or app_removed.
+     * @type {string}
+     * @memberof Device
+     */
+    invalidReason?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Device
+     */
+    createdAt: string;
+}
+
+
+/**
+ * @export
+ */
+export const DevicePlatformEnum = {
+    Android: 'android',
+    Ios: 'ios',
+    Web: 'web'
+} as const;
+export type DevicePlatformEnum = typeof DevicePlatformEnum[keyof typeof DevicePlatformEnum];
+
+/**
+ * 
+ * @export
  * @interface DeviceRegister
  */
 export interface DeviceRegister {
@@ -377,6 +506,18 @@ export interface DeviceRegister {
      * @memberof DeviceRegister
      */
     contactId?: string | null;
+    /**
+     * The push app the token belongs to. Default the workspace's default app.
+     * @type {string}
+     * @memberof DeviceRegister
+     */
+    appId?: string | null;
+    /**
+     * The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+     * @type {string}
+     * @memberof DeviceRegister
+     */
+    previousToken?: string | null;
     /**
      * 
      * @type {string}
@@ -402,6 +543,62 @@ export const DeviceRegisterPlatformEnum = {
 } as const;
 export type DeviceRegisterPlatformEnum = typeof DeviceRegisterPlatformEnum[keyof typeof DeviceRegisterPlatformEnum];
 
+/**
+ * 
+ * @export
+ * @interface DeviceRegistered
+ */
+export interface DeviceRegistered {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeviceRegistered
+     */
+    registered: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceRegistered
+     */
+    deviceId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeviceRegistered
+     */
+    appId?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof DeviceRegistered
+     */
+    refreshed: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface DeviceTargets
+ */
+export interface DeviceTargets {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DeviceTargets
+     */
+    deviceIds?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DeviceTargets
+     */
+    tokens?: Array<string>;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof DeviceTargets
+     */
+    contactIds?: Array<string>;
+}
 /**
  * 
  * @export
@@ -457,6 +654,132 @@ export interface GetNotification200Response {
 /**
  * 
  * @export
+ * @interface InlineObject
+ */
+export interface InlineObject {
+    /**
+     * 
+     * @type {{ [key: string]: any; }}
+     * @memberof InlineObject
+     */
+    data: { [key: string]: any; };
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject1
+ */
+export interface InlineObject1 {
+    /**
+     * 
+     * @type {PushApp}
+     * @memberof InlineObject1
+     */
+    data: PushApp;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject2
+ */
+export interface InlineObject2 {
+    /**
+     * 
+     * @type {InlineObject2Data}
+     * @memberof InlineObject2
+     */
+    data: InlineObject2Data;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject2Data
+ */
+export interface InlineObject2Data {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject2Data
+     */
+    topic: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineObject2Data
+     */
+    subscribed?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineObject2Data
+     */
+    unsubscribed?: number;
+    /**
+     * 
+     * @type {Array<InlineObject2DataFailedInner>}
+     * @memberof InlineObject2Data
+     */
+    failed: Array<InlineObject2DataFailedInner>;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject2DataFailedInner
+ */
+export interface InlineObject2DataFailedInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject2DataFailedInner
+     */
+    deviceId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject2DataFailedInner
+     */
+    reason: string;
+}
+/**
+ * 
+ * @export
+ * @interface IosPushOptions
+ */
+export interface IosPushOptions {
+    /**
+     * Groups notifications together.
+     * @type {string}
+     * @memberof IosPushOptions
+     */
+    threadId?: string;
+    /**
+     * The notification category
+     * @type {string}
+     * @memberof IosPushOptions
+     */
+    category?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof IosPushOptions
+     */
+    interruptionLevel?: IosPushOptionsInterruptionLevelEnum;
+}
+
+
+/**
+ * @export
+ */
+export const IosPushOptionsInterruptionLevelEnum = {
+    Passive: 'passive',
+    Active: 'active',
+    TimeSensitive: 'time-sensitive'
+} as const;
+export type IosPushOptionsInterruptionLevelEnum = typeof IosPushOptionsInterruptionLevelEnum[keyof typeof IosPushOptionsInterruptionLevelEnum];
+
+/**
+ * 
+ * @export
  * @interface ListContacts200Response
  */
 export interface ListContacts200Response {
@@ -479,6 +802,32 @@ export interface ListContacts200ResponseData {
      * @memberof ListContacts200ResponseData
      */
     contacts: Array<Contact>;
+}
+/**
+ * 
+ * @export
+ * @interface ListDevices200Response
+ */
+export interface ListDevices200Response {
+    /**
+     * 
+     * @type {ListDevices200ResponseData}
+     * @memberof ListDevices200Response
+     */
+    data: ListDevices200ResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface ListDevices200ResponseData
+ */
+export interface ListDevices200ResponseData {
+    /**
+     * 
+     * @type {Array<Device>}
+     * @memberof ListDevices200ResponseData
+     */
+    devices: Array<Device>;
 }
 /**
  * 
@@ -524,6 +873,77 @@ export interface ListNotifications200ResponseMeta {
      * @memberof ListNotifications200ResponseMeta
      */
     nextCursor?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface ListPushApps200Response
+ */
+export interface ListPushApps200Response {
+    /**
+     * 
+     * @type {ListPushApps200ResponseData}
+     * @memberof ListPushApps200Response
+     */
+    data: ListPushApps200ResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface ListPushApps200ResponseData
+ */
+export interface ListPushApps200ResponseData {
+    /**
+     * 
+     * @type {Array<PushApp>}
+     * @memberof ListPushApps200ResponseData
+     */
+    apps: Array<PushApp>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPushTopics200Response
+ */
+export interface ListPushTopics200Response {
+    /**
+     * 
+     * @type {ListPushTopics200ResponseData}
+     * @memberof ListPushTopics200Response
+     */
+    data: ListPushTopics200ResponseData;
+}
+/**
+ * 
+ * @export
+ * @interface ListPushTopics200ResponseData
+ */
+export interface ListPushTopics200ResponseData {
+    /**
+     * 
+     * @type {Array<ListPushTopics200ResponseDataTopicsInner>}
+     * @memberof ListPushTopics200ResponseData
+     */
+    topics: Array<ListPushTopics200ResponseDataTopicsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface ListPushTopics200ResponseDataTopicsInner
+ */
+export interface ListPushTopics200ResponseDataTopicsInner {
+    /**
+     * 
+     * @type {string}
+     * @memberof ListPushTopics200ResponseDataTopicsInner
+     */
+    topic: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ListPushTopics200ResponseDataTopicsInner
+     */
+    devices: number;
 }
 /**
  * 
@@ -742,6 +1162,197 @@ export interface NotificationSummary {
      */
     createdAt: string;
 }
+/**
+ * 
+ * @export
+ * @interface PushApp
+ */
+export interface PushApp {
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    projectId: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    authMode: PushAppAuthModeEnum;
+    /**
+     * The uploaded key's service account. The key itself is never returned.
+     * @type {string}
+     * @memberof PushApp
+     */
+    clientEmail?: string | null;
+    /**
+     * Delegated only. The account to grant the role to.
+     * @type {string}
+     * @memberof PushApp
+     */
+    grantTo?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    role?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    androidPackage?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    iosBundleId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    webOrigin?: string | null;
+    /**
+     * Only a verified app sends. awaiting_device means delegated access works and ownership is still to be proved.
+     * @type {string}
+     * @memberof PushApp
+     */
+    status: PushAppStatusEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    message?: string | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PushApp
+     */
+    isDefault: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    verifiedAt?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    checkedAt?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    createdAt: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushApp
+     */
+    updatedAt: string;
+}
+
+
+/**
+ * @export
+ */
+export const PushAppAuthModeEnum = {
+    ServiceAccount: 'service_account',
+    Delegated: 'delegated'
+} as const;
+export type PushAppAuthModeEnum = typeof PushAppAuthModeEnum[keyof typeof PushAppAuthModeEnum];
+
+/**
+ * @export
+ */
+export const PushAppStatusEnum = {
+    Pending: 'pending',
+    AwaitingDevice: 'awaiting_device',
+    Verified: 'verified',
+    Failed: 'failed'
+} as const;
+export type PushAppStatusEnum = typeof PushAppStatusEnum[keyof typeof PushAppStatusEnum];
+
+/**
+ * 
+ * @export
+ * @interface PushAppCreate
+ */
+export interface PushAppCreate {
+    /**
+     * 
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    authMode: PushAppCreateAuthModeEnum;
+    /**
+     * Required for delegated.
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    projectId?: string;
+    /**
+     * The whole service-account JSON file as a string. Required for service_account.
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    serviceAccount?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    androidPackage?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    iosBundleId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PushAppCreate
+     */
+    webOrigin?: string | null;
+}
+
+
+/**
+ * @export
+ */
+export const PushAppCreateAuthModeEnum = {
+    ServiceAccount: 'service_account',
+    Delegated: 'delegated'
+} as const;
+export type PushAppCreateAuthModeEnum = typeof PushAppCreateAuthModeEnum[keyof typeof PushAppCreateAuthModeEnum];
+
 /**
  * 
  * @export
@@ -988,6 +1599,12 @@ export interface Recipients {
      * @memberof Recipients
      */
     audienceId?: string;
+    /**
+     * Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+     * @type {string}
+     * @memberof Recipients
+     */
+    topic?: string;
 }
 /**
  * 
@@ -997,23 +1614,10 @@ export interface Recipients {
 export interface RegisterDevice201Response {
     /**
      * 
-     * @type {RegisterDevice201ResponseData}
+     * @type {DeviceRegistered}
      * @memberof RegisterDevice201Response
      */
-    data: RegisterDevice201ResponseData;
-}
-/**
- * 
- * @export
- * @interface RegisterDevice201ResponseData
- */
-export interface RegisterDevice201ResponseData {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RegisterDevice201ResponseData
-     */
-    registered: boolean;
+    data: DeviceRegistered;
 }
 /**
  * 
@@ -1044,6 +1648,19 @@ export interface RemoveSendingDomain200ResponseData {
 /**
  * 
  * @export
+ * @interface ReplacePushAppKeyRequest
+ */
+export interface ReplacePushAppKeyRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof ReplacePushAppKeyRequest
+     */
+    serviceAccount: string;
+}
+/**
+ * 
+ * @export
  * @interface SendNotification202Response
  */
 export interface SendNotification202Response {
@@ -1053,6 +1670,19 @@ export interface SendNotification202Response {
      * @memberof SendNotification202Response
      */
     data: SendResult;
+}
+/**
+ * 
+ * @export
+ * @interface SendPushAppOwnershipCodeRequest
+ */
+export interface SendPushAppOwnershipCodeRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SendPushAppOwnershipCodeRequest
+     */
+    deviceToken: string;
 }
 /**
  * 
@@ -1211,6 +1841,54 @@ export interface SendRequest {
      * @memberof SendRequest
      */
     imageUrl?: string;
+    /**
+     * Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    appId?: string;
+    /**
+     * Push only. `default`, or the name of a sound bundled with the app.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    sound?: string;
+    /**
+     * Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    collapseKey?: string;
+    /**
+     * Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+     * @type {{ [key: string]: string; }}
+     * @memberof SendRequest
+     */
+    data?: { [key: string]: string; };
+    /**
+     * Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+     * @type {boolean}
+     * @memberof SendRequest
+     */
+    silent?: boolean;
+    /**
+     * 
+     * @type {AndroidPushOptions}
+     * @memberof SendRequest
+     */
+    android?: AndroidPushOptions;
+    /**
+     * 
+     * @type {IosPushOptions}
+     * @memberof SendRequest
+     */
+    ios?: IosPushOptions;
+    /**
+     * 
+     * @type {WebPushOptions}
+     * @memberof SendRequest
+     */
+    web?: WebPushOptions;
     /**
      * ISO 8601. Omit to send now.
      * @type {string}
@@ -1529,6 +2207,56 @@ export interface StartVerification201Response {
 /**
  * 
  * @export
+ * @interface UnregisterDeviceRequest
+ */
+export interface UnregisterDeviceRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UnregisterDeviceRequest
+     */
+    token: string;
+}
+/**
+ * 
+ * @export
+ * @interface UpdatePushAppRequest
+ */
+export interface UpdatePushAppRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePushAppRequest
+     */
+    name?: string;
+    /**
+     * Only true is accepted. Make this verified app the default.
+     * @type {boolean}
+     * @memberof UpdatePushAppRequest
+     */
+    isDefault?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePushAppRequest
+     */
+    androidPackage?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePushAppRequest
+     */
+    iosBundleId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePushAppRequest
+     */
+    webOrigin?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface Verification
  */
 export interface Verification {
@@ -1674,3 +2402,22 @@ export const VerificationRequestChannelEnum = {
 } as const;
 export type VerificationRequestChannelEnum = typeof VerificationRequestChannelEnum[keyof typeof VerificationRequestChannelEnum];
 
+/**
+ * 
+ * @export
+ * @interface WebPushOptions
+ */
+export interface WebPushOptions {
+    /**
+     * 
+     * @type {string}
+     * @memberof WebPushOptions
+     */
+    icon?: string;
+    /**
+     * Keep it on screen until the person acts on it.
+     * @type {boolean}
+     * @memberof WebPushOptions
+     */
+    requireInteraction?: boolean;
+}

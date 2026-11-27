@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
-import type { RegisterDevice201ResponseData } from './RegisterDevice201ResponseData';
+import type { DeviceRegistered } from './DeviceRegistered';
 import {
-    RegisterDevice201ResponseDataFromJSON,
-    RegisterDevice201ResponseDataFromJSONTyped,
-    RegisterDevice201ResponseDataToJSON,
-    RegisterDevice201ResponseDataToJSONTyped,
-} from './RegisterDevice201ResponseData';
+    DeviceRegisteredFromJSON,
+    DeviceRegisteredFromJSONTyped,
+    DeviceRegisteredToJSON,
+    DeviceRegisteredToJSONTyped,
+} from './DeviceRegistered';
 
 /**
  * 
@@ -29,10 +29,10 @@ import {
 export interface RegisterDevice201Response {
     /**
      * 
-     * @type {RegisterDevice201ResponseData}
+     * @type {DeviceRegistered}
      * @memberof RegisterDevice201Response
      */
-    data: RegisterDevice201ResponseData;
+    data: DeviceRegistered;
 }
 
 /**
@@ -53,7 +53,7 @@ export function RegisterDevice201ResponseFromJSONTyped(json: any, ignoreDiscrimi
     }
     return {
         
-        'data': RegisterDevice201ResponseDataFromJSON(json['data']),
+        'data': DeviceRegisteredFromJSON(json['data']),
     };
 }
 
@@ -68,7 +68,7 @@ export function RegisterDevice201ResponseToJSONTyped(value?: RegisterDevice201Re
 
     return {
         
-        'data': RegisterDevice201ResponseDataToJSON(value['data']),
+        'data': DeviceRegisteredToJSON(value['data']),
     };
 }
 

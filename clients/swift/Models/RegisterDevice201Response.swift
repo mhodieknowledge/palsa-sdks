@@ -12,9 +12,9 @@ import AnyCodable
 
 public struct RegisterDevice201Response: Codable, JSONEncodable, Hashable {
 
-    public var data: RegisterDevice201ResponseData
+    public var data: DeviceRegistered
 
-    public init(data: RegisterDevice201ResponseData) {
+    public init(data: DeviceRegistered) {
         self.data = data
     }
 

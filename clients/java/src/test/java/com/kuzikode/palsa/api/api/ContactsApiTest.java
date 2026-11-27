@@ -19,8 +19,11 @@ import com.kuzikode.palsa.api.model.CreateContact201Response;
 import com.kuzikode.palsa.api.model.DeleteContact200Response;
 import com.kuzikode.palsa.api.model.DeviceRegister;
 import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.InlineObject;
 import com.kuzikode.palsa.api.model.ListContacts200Response;
+import com.kuzikode.palsa.api.model.ListDevices200Response;
 import com.kuzikode.palsa.api.model.RegisterDevice201Response;
+import com.kuzikode.palsa.api.model.UnregisterDeviceRequest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -80,6 +83,20 @@ public class ContactsApiTest {
     }
 
     /**
+     * List registered devices
+     *
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void listDevicesTest() throws ApiException {
+        String contactId = null;
+        ListDevices200Response response = api.listDevices(contactId);
+        // TODO: test validations
+    }
+
+    /**
      * Register a device for push
      *
      * Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the &#x60;contacts.write&#x60; scope. 
@@ -90,6 +107,20 @@ public class ContactsApiTest {
     public void registerDeviceTest() throws ApiException {
         DeviceRegister deviceRegister = null;
         RegisterDevice201Response response = api.registerDevice(deviceRegister);
+        // TODO: test validations
+    }
+
+    /**
+     * Stop sending to a device
+     *
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void unregisterDeviceTest() throws ApiException {
+        UnregisterDeviceRequest unregisterDeviceRequest = null;
+        InlineObject response = api.unregisterDevice(unregisterDeviceRequest);
         // TODO: test validations
     }
 

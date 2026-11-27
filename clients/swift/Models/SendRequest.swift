@@ -45,6 +45,9 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
     public static let ttlSecondsRule = NumericRule<Int>(minimum: 0, exclusiveMinimum: false, maximum: 2419200, exclusiveMaximum: false, multipleOf: nil)
     public static let badgeRule = NumericRule<Int>(minimum: 0, exclusiveMinimum: false, maximum: 99999, exclusiveMaximum: false, multipleOf: nil)
     public static let imageUrlRule = StringRule(minLength: nil, maxLength: 500, pattern: nil)
+    public static let appIdRule = StringRule(minLength: nil, maxLength: 60, pattern: nil)
+    public static let soundRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[A-Za-z0-9_.-]{1,64}$/")
+    public static let collapseKeyRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[A-Za-z0-9_-]{1,32}$/")
     public static let scheduledAtRule = StringRule(minLength: nil, maxLength: 40, pattern: nil)
     public static let callbackUrlRule = StringRule(minLength: nil, maxLength: 500, pattern: nil)
     public static let nameRule = StringRule(minLength: nil, maxLength: 120, pattern: nil)
@@ -87,6 +90,19 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
     public var badge: Int?
     /** Push only. A picture shown with the notification. */
     public var imageUrl: String?
+    /** Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used. */
+    public var appId: String?
+    /** Push only. `default`, or the name of a sound bundled with the app. */
+    public var sound: String?
+    /** Push only. A newer message with the same key replaces an undelivered older one, on every platform. */
+    public var collapseKey: String?
+    /** Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm. */
+    public var data: [String: String]?
+    /** Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted. */
+    public var silent: Bool?
+    public var android: AndroidPushOptions?
+    public var ios: IosPushOptions?
+    public var web: WebPushOptions?
     /** ISO 8601. Omit to send now. */
     public var scheduledAt: String?
     public var callbackUrl: String?
@@ -95,7 +111,7 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
     /** Also seeds the A/B division */
     public var name: String?
 
-    public init(channels: [Channel], to: Recipients, body: String? = nil, subject: String? = nil, templateId: String? = nil, variables: [String: AnyCodable]? = nil, purpose: Purpose? = .transactional, routing: Routing? = .parallel, fallbackOn: FallbackOn? = .failure, fallbackWaitSeconds: Int? = nil, variantBody: String? = nil, variantSubject: String? = nil, splitPercent: Int? = nil, trackLinks: Bool? = false, quietStart: String? = nil, quietEnd: String? = nil, timezone: String? = nil, attachmentIds: [String]? = nil, deepLink: String? = nil, ttlSeconds: Int? = nil, priority: Priority? = nil, badge: Int? = nil, imageUrl: String? = nil, scheduledAt: String? = nil, callbackUrl: String? = nil, metadata: [String: AnyCodable]? = nil, name: String? = nil) {
+    public init(channels: [Channel], to: Recipients, body: String? = nil, subject: String? = nil, templateId: String? = nil, variables: [String: AnyCodable]? = nil, purpose: Purpose? = .transactional, routing: Routing? = .parallel, fallbackOn: FallbackOn? = .failure, fallbackWaitSeconds: Int? = nil, variantBody: String? = nil, variantSubject: String? = nil, splitPercent: Int? = nil, trackLinks: Bool? = false, quietStart: String? = nil, quietEnd: String? = nil, timezone: String? = nil, attachmentIds: [String]? = nil, deepLink: String? = nil, ttlSeconds: Int? = nil, priority: Priority? = nil, badge: Int? = nil, imageUrl: String? = nil, appId: String? = nil, sound: String? = nil, collapseKey: String? = nil, data: [String: String]? = nil, silent: Bool? = nil, android: AndroidPushOptions? = nil, ios: IosPushOptions? = nil, web: WebPushOptions? = nil, scheduledAt: String? = nil, callbackUrl: String? = nil, metadata: [String: AnyCodable]? = nil, name: String? = nil) {
         self.channels = channels
         self.to = to
         self.body = body
@@ -119,6 +135,14 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
         self.priority = priority
         self.badge = badge
         self.imageUrl = imageUrl
+        self.appId = appId
+        self.sound = sound
+        self.collapseKey = collapseKey
+        self.data = data
+        self.silent = silent
+        self.android = android
+        self.ios = ios
+        self.web = web
         self.scheduledAt = scheduledAt
         self.callbackUrl = callbackUrl
         self.metadata = metadata
@@ -149,6 +173,14 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
         case priority
         case badge
         case imageUrl
+        case appId
+        case sound
+        case collapseKey
+        case data
+        case silent
+        case android
+        case ios
+        case web
         case scheduledAt
         case callbackUrl
         case metadata
@@ -182,6 +214,14 @@ public struct SendRequest: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(priority, forKey: .priority)
         try container.encodeIfPresent(badge, forKey: .badge)
         try container.encodeIfPresent(imageUrl, forKey: .imageUrl)
+        try container.encodeIfPresent(appId, forKey: .appId)
+        try container.encodeIfPresent(sound, forKey: .sound)
+        try container.encodeIfPresent(collapseKey, forKey: .collapseKey)
+        try container.encodeIfPresent(data, forKey: .data)
+        try container.encodeIfPresent(silent, forKey: .silent)
+        try container.encodeIfPresent(android, forKey: .android)
+        try container.encodeIfPresent(ios, forKey: .ios)
+        try container.encodeIfPresent(web, forKey: .web)
         try container.encodeIfPresent(scheduledAt, forKey: .scheduledAt)
         try container.encodeIfPresent(callbackUrl, forKey: .callbackUrl)
         try container.encodeIfPresent(metadata, forKey: .metadata)

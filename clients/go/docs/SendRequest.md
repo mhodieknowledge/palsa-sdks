@@ -27,6 +27,14 @@ Name | Type | Description | Notes
 **Priority** | Pointer to **string** | Push only. | [optional] 
 **Badge** | Pointer to **int32** | Push only. The number on the app icon. Zero is meaningful: it clears the badge. | [optional] 
 **ImageUrl** | Pointer to **string** | Push only. A picture shown with the notification. | [optional] 
+**AppId** | Pointer to **string** | Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used. | [optional] 
+**Sound** | Pointer to **string** | Push only. &#x60;default&#x60;, or the name of a sound bundled with the app. | [optional] 
+**CollapseKey** | Pointer to **string** | Push only. A newer message with the same key replaces an undelivered older one, on every platform. | [optional] 
+**Data** | Pointer to **map[string]string** | Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm. | [optional] 
+**Silent** | Pointer to **bool** | Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted. | [optional] 
+**Android** | Pointer to [**AndroidPushOptions**](AndroidPushOptions.md) |  | [optional] 
+**Ios** | Pointer to [**IosPushOptions**](IosPushOptions.md) |  | [optional] 
+**Web** | Pointer to [**WebPushOptions**](WebPushOptions.md) |  | [optional] 
 **ScheduledAt** | Pointer to **NullableString** | ISO 8601. Omit to send now. | [optional] 
 **CallbackUrl** | Pointer to **string** |  | [optional] 
 **Metadata** | Pointer to **map[string]interface{}** | Yours. Returned on the send and on webhooks about it. | [optional] 
@@ -645,6 +653,206 @@ SetImageUrl sets ImageUrl field to given value.
 `func (o *SendRequest) HasImageUrl() bool`
 
 HasImageUrl returns a boolean if a field has been set.
+
+### GetAppId
+
+`func (o *SendRequest) GetAppId() string`
+
+GetAppId returns the AppId field if non-nil, zero value otherwise.
+
+### GetAppIdOk
+
+`func (o *SendRequest) GetAppIdOk() (*string, bool)`
+
+GetAppIdOk returns a tuple with the AppId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAppId
+
+`func (o *SendRequest) SetAppId(v string)`
+
+SetAppId sets AppId field to given value.
+
+### HasAppId
+
+`func (o *SendRequest) HasAppId() bool`
+
+HasAppId returns a boolean if a field has been set.
+
+### GetSound
+
+`func (o *SendRequest) GetSound() string`
+
+GetSound returns the Sound field if non-nil, zero value otherwise.
+
+### GetSoundOk
+
+`func (o *SendRequest) GetSoundOk() (*string, bool)`
+
+GetSoundOk returns a tuple with the Sound field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSound
+
+`func (o *SendRequest) SetSound(v string)`
+
+SetSound sets Sound field to given value.
+
+### HasSound
+
+`func (o *SendRequest) HasSound() bool`
+
+HasSound returns a boolean if a field has been set.
+
+### GetCollapseKey
+
+`func (o *SendRequest) GetCollapseKey() string`
+
+GetCollapseKey returns the CollapseKey field if non-nil, zero value otherwise.
+
+### GetCollapseKeyOk
+
+`func (o *SendRequest) GetCollapseKeyOk() (*string, bool)`
+
+GetCollapseKeyOk returns a tuple with the CollapseKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCollapseKey
+
+`func (o *SendRequest) SetCollapseKey(v string)`
+
+SetCollapseKey sets CollapseKey field to given value.
+
+### HasCollapseKey
+
+`func (o *SendRequest) HasCollapseKey() bool`
+
+HasCollapseKey returns a boolean if a field has been set.
+
+### GetData
+
+`func (o *SendRequest) GetData() map[string]string`
+
+GetData returns the Data field if non-nil, zero value otherwise.
+
+### GetDataOk
+
+`func (o *SendRequest) GetDataOk() (*map[string]string, bool)`
+
+GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetData
+
+`func (o *SendRequest) SetData(v map[string]string)`
+
+SetData sets Data field to given value.
+
+### HasData
+
+`func (o *SendRequest) HasData() bool`
+
+HasData returns a boolean if a field has been set.
+
+### GetSilent
+
+`func (o *SendRequest) GetSilent() bool`
+
+GetSilent returns the Silent field if non-nil, zero value otherwise.
+
+### GetSilentOk
+
+`func (o *SendRequest) GetSilentOk() (*bool, bool)`
+
+GetSilentOk returns a tuple with the Silent field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSilent
+
+`func (o *SendRequest) SetSilent(v bool)`
+
+SetSilent sets Silent field to given value.
+
+### HasSilent
+
+`func (o *SendRequest) HasSilent() bool`
+
+HasSilent returns a boolean if a field has been set.
+
+### GetAndroid
+
+`func (o *SendRequest) GetAndroid() AndroidPushOptions`
+
+GetAndroid returns the Android field if non-nil, zero value otherwise.
+
+### GetAndroidOk
+
+`func (o *SendRequest) GetAndroidOk() (*AndroidPushOptions, bool)`
+
+GetAndroidOk returns a tuple with the Android field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAndroid
+
+`func (o *SendRequest) SetAndroid(v AndroidPushOptions)`
+
+SetAndroid sets Android field to given value.
+
+### HasAndroid
+
+`func (o *SendRequest) HasAndroid() bool`
+
+HasAndroid returns a boolean if a field has been set.
+
+### GetIos
+
+`func (o *SendRequest) GetIos() IosPushOptions`
+
+GetIos returns the Ios field if non-nil, zero value otherwise.
+
+### GetIosOk
+
+`func (o *SendRequest) GetIosOk() (*IosPushOptions, bool)`
+
+GetIosOk returns a tuple with the Ios field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIos
+
+`func (o *SendRequest) SetIos(v IosPushOptions)`
+
+SetIos sets Ios field to given value.
+
+### HasIos
+
+`func (o *SendRequest) HasIos() bool`
+
+HasIos returns a boolean if a field has been set.
+
+### GetWeb
+
+`func (o *SendRequest) GetWeb() WebPushOptions`
+
+GetWeb returns the Web field if non-nil, zero value otherwise.
+
+### GetWebOk
+
+`func (o *SendRequest) GetWebOk() (*WebPushOptions, bool)`
+
+GetWebOk returns a tuple with the Web field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetWeb
+
+`func (o *SendRequest) SetWeb(v WebPushOptions)`
+
+SetWeb sets Web field to given value.
+
+### HasWeb
+
+`func (o *SendRequest) HasWeb() bool`
+
+HasWeb returns a boolean if a field has been set.
 
 ### GetScheduledAt
 

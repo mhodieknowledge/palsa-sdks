@@ -74,9 +74,11 @@ namespace Palsa.Api.Model
         /// <param name="token">token (required).</param>
         /// <param name="platform">platform (required).</param>
         /// <param name="contactId">contactId.</param>
+        /// <param name="appId">The push app the token belongs to. Default the workspace&#39;s default app..</param>
+        /// <param name="previousToken">The token this one replaces, from the app&#39;s token-refresh callback. The device keeps its id, contact and topics..</param>
         /// <param name="appVersion">appVersion.</param>
         /// <param name="locale">locale.</param>
-        public DeviceRegister(string token = default, PlatformEnum platform = default, string contactId = default, string appVersion = default, string locale = default)
+        public DeviceRegister(string token = default, PlatformEnum platform = default, string contactId = default, string appId = default, string previousToken = default, string appVersion = default, string locale = default)
         {
             // to ensure "token" is required (not null)
             if (token == null)
@@ -86,6 +88,8 @@ namespace Palsa.Api.Model
             this.Token = token;
             this.Platform = platform;
             this.ContactId = contactId;
+            this.AppId = appId;
+            this.PreviousToken = previousToken;
             this.AppVersion = appVersion;
             this.Locale = locale;
         }
@@ -101,6 +105,20 @@ namespace Palsa.Api.Model
         /// </summary>
         [DataMember(Name = "contactId", EmitDefaultValue = true)]
         public string ContactId { get; set; }
+
+        /// <summary>
+        /// The push app the token belongs to. Default the workspace&#39;s default app.
+        /// </summary>
+        /// <value>The push app the token belongs to. Default the workspace&#39;s default app.</value>
+        [DataMember(Name = "appId", EmitDefaultValue = true)]
+        public string AppId { get; set; }
+
+        /// <summary>
+        /// The token this one replaces, from the app&#39;s token-refresh callback. The device keeps its id, contact and topics.
+        /// </summary>
+        /// <value>The token this one replaces, from the app&#39;s token-refresh callback. The device keeps its id, contact and topics.</value>
+        [DataMember(Name = "previousToken", EmitDefaultValue = true)]
+        public string PreviousToken { get; set; }
 
         /// <summary>
         /// Gets or Sets AppVersion
@@ -125,6 +143,8 @@ namespace Palsa.Api.Model
             sb.Append("  Token: ").Append(Token).Append("\n");
             sb.Append("  Platform: ").Append(Platform).Append("\n");
             sb.Append("  ContactId: ").Append(ContactId).Append("\n");
+            sb.Append("  AppId: ").Append(AppId).Append("\n");
+            sb.Append("  PreviousToken: ").Append(PreviousToken).Append("\n");
             sb.Append("  AppVersion: ").Append(AppVersion).Append("\n");
             sb.Append("  Locale: ").Append(Locale).Append("\n");
             sb.Append("}\n");
@@ -163,6 +183,24 @@ namespace Palsa.Api.Model
             if (this.ContactId != null && this.ContactId.Length > 60)
             {
                 yield return new ValidationResult("Invalid value for ContactId, length must be less than 60.", new [] { "ContactId" });
+            }
+
+            // AppId (string) maxLength
+            if (this.AppId != null && this.AppId.Length > 60)
+            {
+                yield return new ValidationResult("Invalid value for AppId, length must be less than 60.", new [] { "AppId" });
+            }
+
+            // PreviousToken (string) maxLength
+            if (this.PreviousToken != null && this.PreviousToken.Length > 400)
+            {
+                yield return new ValidationResult("Invalid value for PreviousToken, length must be less than 400.", new [] { "PreviousToken" });
+            }
+
+            // PreviousToken (string) minLength
+            if (this.PreviousToken != null && this.PreviousToken.Length < 10)
+            {
+                yield return new ValidationResult("Invalid value for PreviousToken, length must be greater than 10.", new [] { "PreviousToken" });
             }
 
             // AppVersion (string) maxLength

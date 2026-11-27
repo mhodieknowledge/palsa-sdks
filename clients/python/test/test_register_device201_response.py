@@ -35,13 +35,19 @@ class TestRegisterDevice201Response(unittest.TestCase):
         model = RegisterDevice201Response()
         if include_optional:
             return RegisterDevice201Response(
-                data = palsa_api.models.register_device_201_response_data.registerDevice_201_response_data(
-                    registered = True, )
+                data = palsa_api.models.device_registered.DeviceRegistered(
+                    registered = True, 
+                    device_id = '', 
+                    app_id = '', 
+                    refreshed = True, )
             )
         else:
             return RegisterDevice201Response(
-                data = palsa_api.models.register_device_201_response_data.registerDevice_201_response_data(
-                    registered = True, ),
+                data = palsa_api.models.device_registered.DeviceRegistered(
+                    registered = True, 
+                    device_id = '', 
+                    app_id = '', 
+                    refreshed = True, ),
         )
         """
 

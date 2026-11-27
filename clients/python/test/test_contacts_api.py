@@ -47,10 +47,24 @@ class TestContactsApi(unittest.TestCase):
         """
         pass
 
+    def test_list_devices(self) -> None:
+        """Test case for list_devices
+
+        List registered devices
+        """
+        pass
+
     def test_register_device(self) -> None:
         """Test case for register_device
 
         Register a device for push
+        """
+        pass
+
+    def test_unregister_device(self) -> None:
+        """Test case for unregister_device
+
+        Stop sending to a device
         """
         pass
 

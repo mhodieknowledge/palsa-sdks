@@ -24,6 +24,10 @@ type DeviceRegister struct {
 	Token string `json:"token"`
 	Platform string `json:"platform"`
 	ContactId NullableString `json:"contactId,omitempty"`
+	// The push app the token belongs to. Default the workspace's default app.
+	AppId NullableString `json:"appId,omitempty"`
+	// The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+	PreviousToken NullableString `json:"previousToken,omitempty"`
 	AppVersion NullableString `json:"appVersion,omitempty"`
 	Locale NullableString `json:"locale,omitempty"`
 }
@@ -139,6 +143,90 @@ func (o *DeviceRegister) UnsetContactId() {
 	o.ContactId.Unset()
 }
 
+// GetAppId returns the AppId field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DeviceRegister) GetAppId() string {
+	if o == nil || IsNil(o.AppId.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.AppId.Get()
+}
+
+// GetAppIdOk returns a tuple with the AppId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DeviceRegister) GetAppIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.AppId.Get(), o.AppId.IsSet()
+}
+
+// HasAppId returns a boolean if a field has been set.
+func (o *DeviceRegister) HasAppId() bool {
+	if o != nil && o.AppId.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetAppId gets a reference to the given NullableString and assigns it to the AppId field.
+func (o *DeviceRegister) SetAppId(v string) {
+	o.AppId.Set(&v)
+}
+// SetAppIdNil sets the value for AppId to be an explicit nil
+func (o *DeviceRegister) SetAppIdNil() {
+	o.AppId.Set(nil)
+}
+
+// UnsetAppId ensures that no value is present for AppId, not even an explicit nil
+func (o *DeviceRegister) UnsetAppId() {
+	o.AppId.Unset()
+}
+
+// GetPreviousToken returns the PreviousToken field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *DeviceRegister) GetPreviousToken() string {
+	if o == nil || IsNil(o.PreviousToken.Get()) {
+		var ret string
+		return ret
+	}
+	return *o.PreviousToken.Get()
+}
+
+// GetPreviousTokenOk returns a tuple with the PreviousToken field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *DeviceRegister) GetPreviousTokenOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.PreviousToken.Get(), o.PreviousToken.IsSet()
+}
+
+// HasPreviousToken returns a boolean if a field has been set.
+func (o *DeviceRegister) HasPreviousToken() bool {
+	if o != nil && o.PreviousToken.IsSet() {
+		return true
+	}
+
+	return false
+}
+
+// SetPreviousToken gets a reference to the given NullableString and assigns it to the PreviousToken field.
+func (o *DeviceRegister) SetPreviousToken(v string) {
+	o.PreviousToken.Set(&v)
+}
+// SetPreviousTokenNil sets the value for PreviousToken to be an explicit nil
+func (o *DeviceRegister) SetPreviousTokenNil() {
+	o.PreviousToken.Set(nil)
+}
+
+// UnsetPreviousToken ensures that no value is present for PreviousToken, not even an explicit nil
+func (o *DeviceRegister) UnsetPreviousToken() {
+	o.PreviousToken.Unset()
+}
+
 // GetAppVersion returns the AppVersion field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceRegister) GetAppVersion() string {
 	if o == nil || IsNil(o.AppVersion.Get()) {
@@ -237,6 +325,12 @@ func (o DeviceRegister) ToMap() (map[string]interface{}, error) {
 	toSerialize["platform"] = o.Platform
 	if o.ContactId.IsSet() {
 		toSerialize["contactId"] = o.ContactId.Get()
+	}
+	if o.AppId.IsSet() {
+		toSerialize["appId"] = o.AppId.Get()
+	}
+	if o.PreviousToken.IsSet() {
+		toSerialize["previousToken"] = o.PreviousToken.Get()
 	}
 	if o.AppVersion.IsSet() {
 		toSerialize["appVersion"] = o.AppVersion.Get()

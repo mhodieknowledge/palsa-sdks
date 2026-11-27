@@ -15,7 +15,7 @@
 
 package com.kuzikode.palsa.api.models
 
-import com.kuzikode.palsa.api.models.RegisterDevice201ResponseData
+import com.kuzikode.palsa.api.models.DeviceRegistered
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -30,7 +30,7 @@ import com.squareup.moshi.JsonClass
 data class RegisterDevice201Response (
 
     @Json(name = "data")
-    val `data`: RegisterDevice201ResponseData
+    val `data`: DeviceRegistered
 
 ) {
 

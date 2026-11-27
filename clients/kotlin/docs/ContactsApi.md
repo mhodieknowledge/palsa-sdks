@@ -7,7 +7,9 @@ All URIs are relative to *https://api.palsa.co.zw*
 | [**createContact**](ContactsApi.md#createContact) | **POST** /v1/contacts | Save a contact |
 | [**deleteContact**](ContactsApi.md#deleteContact) | **DELETE** /v1/contacts/{id} | Erase a contact |
 | [**listContacts**](ContactsApi.md#listContacts) | **GET** /v1/contacts | List contacts |
+| [**listDevices**](ContactsApi.md#listDevices) | **GET** /v1/devices | List registered devices |
 | [**registerDevice**](ContactsApi.md#registerDevice) | **POST** /v1/devices | Register a device for push |
+| [**unregisterDevice**](ContactsApi.md#unregisterDevice) | **POST** /v1/devices/unregister | Stop sending to a device |
 
 
 <a id="createContact"></a>
@@ -154,6 +156,54 @@ Configure bearerAuth:
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+<a id="listDevices"></a>
+# **listDevices**
+> ListDevices200Response listDevices(contactId)
+
+List registered devices
+
+The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+
+### Example
+```kotlin
+// Import classes:
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
+
+val apiInstance = ContactsApi()
+val contactId : kotlin.String = contactId_example // kotlin.String | 
+try {
+    val result : ListDevices200Response = apiInstance.listDevices(contactId)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ContactsApi#listDevices")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ContactsApi#listDevices")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **contactId** | **kotlin.String**|  | [optional] |
+
+### Return type
+
+[**ListDevices200Response**](ListDevices200Response.md)
+
+### Authorization
+
+
+Configure bearerAuth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
 <a id="registerDevice"></a>
 # **registerDevice**
 > RegisterDevice201Response registerDevice(deviceRegister)
@@ -190,6 +240,54 @@ try {
 ### Return type
 
 [**RegisterDevice201Response**](RegisterDevice201Response.md)
+
+### Authorization
+
+
+Configure bearerAuth:
+    ApiClient.accessToken = ""
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+<a id="unregisterDevice"></a>
+# **unregisterDevice**
+> InlineObject unregisterDevice(unregisterDeviceRequest)
+
+Stop sending to a device
+
+For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+
+### Example
+```kotlin
+// Import classes:
+//import com.kuzikode.palsa.api.infrastructure.*
+//import com.kuzikode.palsa.api.models.*
+
+val apiInstance = ContactsApi()
+val unregisterDeviceRequest : UnregisterDeviceRequest =  // UnregisterDeviceRequest | 
+try {
+    val result : InlineObject = apiInstance.unregisterDevice(unregisterDeviceRequest)
+    println(result)
+} catch (e: ClientException) {
+    println("4xx response calling ContactsApi#unregisterDevice")
+    e.printStackTrace()
+} catch (e: ServerException) {
+    println("5xx response calling ContactsApi#unregisterDevice")
+    e.printStackTrace()
+}
+```
+
+### Parameters
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **unregisterDeviceRequest** | [**UnregisterDeviceRequest**](UnregisterDeviceRequest.md)|  | |
+
+### Return type
+
+[**InlineObject**](InlineObject.md)
 
 ### Authorization
 

@@ -16,21 +16,26 @@ public struct Recipients: Codable, JSONEncodable, Hashable {
     public static let contactIdsRule = ArrayRule(minItems: nil, maxItems: 50000, uniqueItems: false)
     public static let addressesRule = ArrayRule(minItems: nil, maxItems: 1000, uniqueItems: false)
     public static let audienceIdRule = StringRule(minLength: nil, maxLength: 60, pattern: nil)
+    public static let topicRule = StringRule(minLength: nil, maxLength: nil, pattern: "/^[A-Za-z0-9_-]{1,80}$/")
     public var contactIds: [String]?
     /** Phone numbers or email addresses, for people who are not saved contacts. */
     public var addresses: [String]?
     public var audienceId: String?
+    /** Push only, and on push alone. Every device subscribed to this topic, as one delivery. */
+    public var topic: String?
 
-    public init(contactIds: [String]? = nil, addresses: [String]? = nil, audienceId: String? = nil) {
+    public init(contactIds: [String]? = nil, addresses: [String]? = nil, audienceId: String? = nil, topic: String? = nil) {
         self.contactIds = contactIds
         self.addresses = addresses
         self.audienceId = audienceId
+        self.topic = topic
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case contactIds
         case addresses
         case audienceId
+        case topic
     }
 
     // Encodable protocol methods
@@ -40,6 +45,7 @@ public struct Recipients: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(contactIds, forKey: .contactIds)
         try container.encodeIfPresent(addresses, forKey: .addresses)
         try container.encodeIfPresent(audienceId, forKey: .audienceId)
+        try container.encodeIfPresent(topic, forKey: .topic)
     }
 }
 

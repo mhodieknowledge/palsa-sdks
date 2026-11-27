@@ -60,7 +60,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPITypes = [
         'contact_ids' => 'string[]',
         'addresses' => 'string[]',
-        'audience_id' => 'string'
+        'audience_id' => 'string',
+        'topic' => 'string'
     ];
 
     /**
@@ -73,7 +74,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $openAPIFormats = [
         'contact_ids' => null,
         'addresses' => null,
-        'audience_id' => null
+        'audience_id' => null,
+        'topic' => null
     ];
 
     /**
@@ -84,7 +86,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static array $openAPINullables = [
         'contact_ids' => false,
         'addresses' => false,
-        'audience_id' => false
+        'audience_id' => false,
+        'topic' => false
     ];
 
     /**
@@ -175,7 +178,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $attributeMap = [
         'contact_ids' => 'contactIds',
         'addresses' => 'addresses',
-        'audience_id' => 'audienceId'
+        'audience_id' => 'audienceId',
+        'topic' => 'topic'
     ];
 
     /**
@@ -186,7 +190,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $setters = [
         'contact_ids' => 'setContactIds',
         'addresses' => 'setAddresses',
-        'audience_id' => 'setAudienceId'
+        'audience_id' => 'setAudienceId',
+        'topic' => 'setTopic'
     ];
 
     /**
@@ -197,7 +202,8 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
     protected static $getters = [
         'contact_ids' => 'getContactIds',
         'addresses' => 'getAddresses',
-        'audience_id' => 'getAudienceId'
+        'audience_id' => 'getAudienceId',
+        'topic' => 'getTopic'
     ];
 
     /**
@@ -260,6 +266,7 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('contact_ids', $data ?? [], null);
         $this->setIfExists('addresses', $data ?? [], null);
         $this->setIfExists('audience_id', $data ?? [], null);
+        $this->setIfExists('topic', $data ?? [], null);
     }
 
     /**
@@ -299,6 +306,10 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['audience_id']) && (mb_strlen($this->container['audience_id']) > 60)) {
             $invalidProperties[] = "invalid value for 'audience_id', the character length must be smaller than or equal to 60.";
+        }
+
+        if (!is_null($this->container['topic']) && !preg_match("/^[A-Za-z0-9_-]{1,80}$/", $this->container['topic'])) {
+            $invalidProperties[] = "invalid value for 'topic', must be conform to the pattern /^[A-Za-z0-9_-]{1,80}$/.";
         }
 
         return $invalidProperties;
@@ -405,6 +416,38 @@ class Recipients implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['audience_id'] = $audience_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets topic
+     *
+     * @return string|null
+     */
+    public function getTopic()
+    {
+        return $this->container['topic'];
+    }
+
+    /**
+     * Sets topic
+     *
+     * @param string|null $topic Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+     *
+     * @return self
+     */
+    public function setTopic($topic)
+    {
+        if (is_null($topic)) {
+            throw new \InvalidArgumentException('non-nullable topic cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9_-]{1,80}$/", ObjectSerializer::toString($topic)))) {
+            throw new \InvalidArgumentException("invalid value for \$topic when calling Recipients., must conform to the pattern /^[A-Za-z0-9_-]{1,80}$/.");
+        }
+
+        $this->container['topic'] = $topic;
 
         return $this;
     }

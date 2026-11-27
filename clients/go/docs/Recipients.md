@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **ContactIds** | Pointer to **[]string** |  | [optional] 
 **Addresses** | Pointer to **[]string** | Phone numbers or email addresses, for people who are not saved contacts. | [optional] 
 **AudienceId** | Pointer to **string** |  | [optional] 
+**Topic** | Pointer to **string** | Push only, and on push alone. Every device subscribed to this topic, as one delivery. | [optional] 
 
 ## Methods
 
@@ -101,6 +102,31 @@ SetAudienceId sets AudienceId field to given value.
 `func (o *Recipients) HasAudienceId() bool`
 
 HasAudienceId returns a boolean if a field has been set.
+
+### GetTopic
+
+`func (o *Recipients) GetTopic() string`
+
+GetTopic returns the Topic field if non-nil, zero value otherwise.
+
+### GetTopicOk
+
+`func (o *Recipients) GetTopicOk() (*string, bool)`
+
+GetTopicOk returns a tuple with the Topic field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTopic
+
+`func (o *Recipients) SetTopic(v string)`
+
+SetTopic sets Topic field to given value.
+
+### HasTopic
+
+`func (o *Recipients) HasTopic() bool`
+
+HasTopic returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

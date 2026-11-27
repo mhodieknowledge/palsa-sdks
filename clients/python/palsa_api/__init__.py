@@ -14,13 +14,14 @@
 """  # noqa: E501
 
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 # Define package exports
 __all__ = [
     "BillingApi",
     "ContactsApi",
     "NotificationsApi",
+    "PushApi",
     "SendingDomainsApi",
     "VerificationApi",
     "ApiResponse",
@@ -34,11 +35,13 @@ __all__ = [
     "ApiException",
     "AddSendingDomain201Response",
     "AddSendingDomainRequest",
+    "AndroidPushOptions",
     "Balance",
     "Blocker",
     "Channel",
     "CheckVerification200Response",
     "CheckVerificationRequest",
+    "ConfirmPushAppOwnershipRequest",
     "Contact",
     "ContactCreate",
     "CreateContact201Response",
@@ -46,21 +49,39 @@ __all__ = [
     "DeleteContact200Response",
     "DeleteContact200ResponseData",
     "DescribeMcp200Response",
+    "Device",
     "DeviceRegister",
+    "DeviceRegistered",
+    "DeviceTargets",
     "Error",
     "ErrorEnvelope",
     "GetBalances200Response",
     "GetBalances200ResponseData",
     "GetNotification200Response",
+    "InlineObject",
+    "InlineObject1",
+    "InlineObject2",
+    "InlineObject2Data",
+    "InlineObject2DataFailedInner",
+    "IosPushOptions",
     "ListContacts200Response",
     "ListContacts200ResponseData",
+    "ListDevices200Response",
+    "ListDevices200ResponseData",
     "ListNotifications200Response",
     "ListNotifications200ResponseData",
     "ListNotifications200ResponseMeta",
+    "ListPushApps200Response",
+    "ListPushApps200ResponseData",
+    "ListPushTopics200Response",
+    "ListPushTopics200ResponseData",
+    "ListPushTopics200ResponseDataTopicsInner",
     "ListSendingDomains200Response",
     "ListSendingDomains200ResponseData",
     "Notification",
     "NotificationSummary",
+    "PushApp",
+    "PushAppCreate",
     "Quote",
     "QuoteHeldUntil",
     "QuoteSend200Response",
@@ -69,25 +90,30 @@ __all__ = [
     "QuotedRecipient",
     "Recipients",
     "RegisterDevice201Response",
-    "RegisterDevice201ResponseData",
     "RemoveSendingDomain200Response",
     "RemoveSendingDomain200ResponseData",
+    "ReplacePushAppKeyRequest",
     "SendNotification202Response",
+    "SendPushAppOwnershipCodeRequest",
     "SendRequest",
     "SendResult",
     "SendingDomain",
     "SendingDomainRecordsInner",
     "SkippedRecipient",
     "StartVerification201Response",
+    "UnregisterDeviceRequest",
+    "UpdatePushAppRequest",
     "Verification",
     "VerificationCheck",
     "VerificationRequest",
+    "WebPushOptions",
 ]
 
 # import apis into sdk package
 from palsa_api.api.billing_api import BillingApi as BillingApi
 from palsa_api.api.contacts_api import ContactsApi as ContactsApi
 from palsa_api.api.notifications_api import NotificationsApi as NotificationsApi
+from palsa_api.api.push_api import PushApi as PushApi
 from palsa_api.api.sending_domains_api import SendingDomainsApi as SendingDomainsApi
 from palsa_api.api.verification_api import VerificationApi as VerificationApi
 
@@ -105,11 +131,13 @@ from palsa_api.exceptions import ApiException as ApiException
 # import models into sdk package
 from palsa_api.models.add_sending_domain201_response import AddSendingDomain201Response as AddSendingDomain201Response
 from palsa_api.models.add_sending_domain_request import AddSendingDomainRequest as AddSendingDomainRequest
+from palsa_api.models.android_push_options import AndroidPushOptions as AndroidPushOptions
 from palsa_api.models.balance import Balance as Balance
 from palsa_api.models.blocker import Blocker as Blocker
 from palsa_api.models.channel import Channel as Channel
 from palsa_api.models.check_verification200_response import CheckVerification200Response as CheckVerification200Response
 from palsa_api.models.check_verification_request import CheckVerificationRequest as CheckVerificationRequest
+from palsa_api.models.confirm_push_app_ownership_request import ConfirmPushAppOwnershipRequest as ConfirmPushAppOwnershipRequest
 from palsa_api.models.contact import Contact as Contact
 from palsa_api.models.contact_create import ContactCreate as ContactCreate
 from palsa_api.models.create_contact201_response import CreateContact201Response as CreateContact201Response
@@ -117,21 +145,39 @@ from palsa_api.models.create_contact201_response_data import CreateContact201Res
 from palsa_api.models.delete_contact200_response import DeleteContact200Response as DeleteContact200Response
 from palsa_api.models.delete_contact200_response_data import DeleteContact200ResponseData as DeleteContact200ResponseData
 from palsa_api.models.describe_mcp200_response import DescribeMcp200Response as DescribeMcp200Response
+from palsa_api.models.device import Device as Device
 from palsa_api.models.device_register import DeviceRegister as DeviceRegister
+from palsa_api.models.device_registered import DeviceRegistered as DeviceRegistered
+from palsa_api.models.device_targets import DeviceTargets as DeviceTargets
 from palsa_api.models.error import Error as Error
 from palsa_api.models.error_envelope import ErrorEnvelope as ErrorEnvelope
 from palsa_api.models.get_balances200_response import GetBalances200Response as GetBalances200Response
 from palsa_api.models.get_balances200_response_data import GetBalances200ResponseData as GetBalances200ResponseData
 from palsa_api.models.get_notification200_response import GetNotification200Response as GetNotification200Response
+from palsa_api.models.inline_object import InlineObject as InlineObject
+from palsa_api.models.inline_object1 import InlineObject1 as InlineObject1
+from palsa_api.models.inline_object2 import InlineObject2 as InlineObject2
+from palsa_api.models.inline_object2_data import InlineObject2Data as InlineObject2Data
+from palsa_api.models.inline_object2_data_failed_inner import InlineObject2DataFailedInner as InlineObject2DataFailedInner
+from palsa_api.models.ios_push_options import IosPushOptions as IosPushOptions
 from palsa_api.models.list_contacts200_response import ListContacts200Response as ListContacts200Response
 from palsa_api.models.list_contacts200_response_data import ListContacts200ResponseData as ListContacts200ResponseData
+from palsa_api.models.list_devices200_response import ListDevices200Response as ListDevices200Response
+from palsa_api.models.list_devices200_response_data import ListDevices200ResponseData as ListDevices200ResponseData
 from palsa_api.models.list_notifications200_response import ListNotifications200Response as ListNotifications200Response
 from palsa_api.models.list_notifications200_response_data import ListNotifications200ResponseData as ListNotifications200ResponseData
 from palsa_api.models.list_notifications200_response_meta import ListNotifications200ResponseMeta as ListNotifications200ResponseMeta
+from palsa_api.models.list_push_apps200_response import ListPushApps200Response as ListPushApps200Response
+from palsa_api.models.list_push_apps200_response_data import ListPushApps200ResponseData as ListPushApps200ResponseData
+from palsa_api.models.list_push_topics200_response import ListPushTopics200Response as ListPushTopics200Response
+from palsa_api.models.list_push_topics200_response_data import ListPushTopics200ResponseData as ListPushTopics200ResponseData
+from palsa_api.models.list_push_topics200_response_data_topics_inner import ListPushTopics200ResponseDataTopicsInner as ListPushTopics200ResponseDataTopicsInner
 from palsa_api.models.list_sending_domains200_response import ListSendingDomains200Response as ListSendingDomains200Response
 from palsa_api.models.list_sending_domains200_response_data import ListSendingDomains200ResponseData as ListSendingDomains200ResponseData
 from palsa_api.models.notification import Notification as Notification
 from palsa_api.models.notification_summary import NotificationSummary as NotificationSummary
+from palsa_api.models.push_app import PushApp as PushApp
+from palsa_api.models.push_app_create import PushAppCreate as PushAppCreate
 from palsa_api.models.quote import Quote as Quote
 from palsa_api.models.quote_held_until import QuoteHeldUntil as QuoteHeldUntil
 from palsa_api.models.quote_send200_response import QuoteSend200Response as QuoteSend200Response
@@ -140,19 +186,23 @@ from palsa_api.models.quote_variants import QuoteVariants as QuoteVariants
 from palsa_api.models.quoted_recipient import QuotedRecipient as QuotedRecipient
 from palsa_api.models.recipients import Recipients as Recipients
 from palsa_api.models.register_device201_response import RegisterDevice201Response as RegisterDevice201Response
-from palsa_api.models.register_device201_response_data import RegisterDevice201ResponseData as RegisterDevice201ResponseData
 from palsa_api.models.remove_sending_domain200_response import RemoveSendingDomain200Response as RemoveSendingDomain200Response
 from palsa_api.models.remove_sending_domain200_response_data import RemoveSendingDomain200ResponseData as RemoveSendingDomain200ResponseData
+from palsa_api.models.replace_push_app_key_request import ReplacePushAppKeyRequest as ReplacePushAppKeyRequest
 from palsa_api.models.send_notification202_response import SendNotification202Response as SendNotification202Response
+from palsa_api.models.send_push_app_ownership_code_request import SendPushAppOwnershipCodeRequest as SendPushAppOwnershipCodeRequest
 from palsa_api.models.send_request import SendRequest as SendRequest
 from palsa_api.models.send_result import SendResult as SendResult
 from palsa_api.models.sending_domain import SendingDomain as SendingDomain
 from palsa_api.models.sending_domain_records_inner import SendingDomainRecordsInner as SendingDomainRecordsInner
 from palsa_api.models.skipped_recipient import SkippedRecipient as SkippedRecipient
 from palsa_api.models.start_verification201_response import StartVerification201Response as StartVerification201Response
+from palsa_api.models.unregister_device_request import UnregisterDeviceRequest as UnregisterDeviceRequest
+from palsa_api.models.update_push_app_request import UpdatePushAppRequest as UpdatePushAppRequest
 from palsa_api.models.verification import Verification as Verification
 from palsa_api.models.verification_check import VerificationCheck as VerificationCheck
 from palsa_api.models.verification_request import VerificationRequest as VerificationRequest
+from palsa_api.models.web_push_options import WebPushOptions as WebPushOptions
 
 # Hand-written: webhook signature verification (sdk-extras/python).
 from palsa_api.webhook import WebhookSignatureError as WebhookSignatureError

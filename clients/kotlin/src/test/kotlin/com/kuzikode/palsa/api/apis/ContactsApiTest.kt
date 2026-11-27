@@ -24,8 +24,11 @@ import com.kuzikode.palsa.api.models.CreateContact201Response
 import com.kuzikode.palsa.api.models.DeleteContact200Response
 import com.kuzikode.palsa.api.models.DeviceRegister
 import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.InlineObject
 import com.kuzikode.palsa.api.models.ListContacts200Response
+import com.kuzikode.palsa.api.models.ListDevices200Response
 import com.kuzikode.palsa.api.models.RegisterDevice201Response
+import com.kuzikode.palsa.api.models.UnregisterDeviceRequest
 
 class ContactsApiTest : ShouldSpec() {
     init {
@@ -56,11 +59,27 @@ class ContactsApiTest : ShouldSpec() {
             //result shouldBe ("TODO")
         }
 
+        // to test listDevices
+        should("test listDevices") {
+            // uncomment below to test listDevices
+            //val contactId : kotlin.String = contactId_example // kotlin.String | 
+            //val result : ListDevices200Response = apiInstance.listDevices(contactId)
+            //result shouldBe ("TODO")
+        }
+
         // to test registerDevice
         should("test registerDevice") {
             // uncomment below to test registerDevice
             //val deviceRegister : DeviceRegister =  // DeviceRegister | 
             //val result : RegisterDevice201Response = apiInstance.registerDevice(deviceRegister)
+            //result shouldBe ("TODO")
+        }
+
+        // to test unregisterDevice
+        should("test unregisterDevice") {
+            // uncomment below to test unregisterDevice
+            //val unregisterDeviceRequest : UnregisterDeviceRequest =  // UnregisterDeviceRequest | 
+            //val result : InlineObject = apiInstance.unregisterDevice(unregisterDeviceRequest)
             //result shouldBe ("TODO")
         }
 

@@ -41,7 +41,8 @@ class TestRecipients(unittest.TestCase):
                 addresses = [
                     ''
                     ],
-                audience_id = ''
+                audience_id = '',
+                topic = 'zBAMDTMv2D2ylmgd10Z3U'
             )
         else:
             return Recipients(

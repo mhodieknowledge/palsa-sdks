@@ -19,8 +19,11 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.kuzikode.palsa.api.models.SendRequest
+import com.kuzikode.palsa.api.models.AndroidPushOptions
 import com.kuzikode.palsa.api.models.Channel
+import com.kuzikode.palsa.api.models.IosPushOptions
 import com.kuzikode.palsa.api.models.Recipients
+import com.kuzikode.palsa.api.models.WebPushOptions
 
 class SendRequestTest : ShouldSpec() {
     init {
@@ -163,6 +166,54 @@ class SendRequestTest : ShouldSpec() {
         should("test imageUrl") {
             // uncomment below to test the property
             //modelInstance.imageUrl shouldBe ("TODO")
+        }
+
+        // to test the property `appId` - Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+        should("test appId") {
+            // uncomment below to test the property
+            //modelInstance.appId shouldBe ("TODO")
+        }
+
+        // to test the property `sound` - Push only. `default`, or the name of a sound bundled with the app.
+        should("test sound") {
+            // uncomment below to test the property
+            //modelInstance.sound shouldBe ("TODO")
+        }
+
+        // to test the property `collapseKey` - Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+        should("test collapseKey") {
+            // uncomment below to test the property
+            //modelInstance.collapseKey shouldBe ("TODO")
+        }
+
+        // to test the property ``data`` - Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+        should("test `data`") {
+            // uncomment below to test the property
+            //modelInstance.`data` shouldBe ("TODO")
+        }
+
+        // to test the property `silent` - Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+        should("test silent") {
+            // uncomment below to test the property
+            //modelInstance.silent shouldBe ("TODO")
+        }
+
+        // to test the property `android`
+        should("test android") {
+            // uncomment below to test the property
+            //modelInstance.android shouldBe ("TODO")
+        }
+
+        // to test the property `ios`
+        should("test ios") {
+            // uncomment below to test the property
+            //modelInstance.ios shouldBe ("TODO")
+        }
+
+        // to test the property `web`
+        should("test web") {
+            // uncomment below to test the property
+            //modelInstance.web shouldBe ("TODO")
         }
 
         // to test the property `scheduledAt` - ISO 8601. Omit to send now.

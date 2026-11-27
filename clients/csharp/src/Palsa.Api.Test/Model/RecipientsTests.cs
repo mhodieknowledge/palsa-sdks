@@ -80,5 +80,14 @@ namespace Palsa.Api.Test.Model
         {
             // TODO unit test for the property 'AudienceId'
         }
+
+        /// <summary>
+        /// Test the property 'Topic'
+        /// </summary>
+        [Fact]
+        public void TopicTest()
+        {
+            // TODO unit test for the property 'Topic'
+        }
     }
 }

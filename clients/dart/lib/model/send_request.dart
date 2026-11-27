@@ -36,6 +36,14 @@ class SendRequest {
     this.priority,
     this.badge,
     this.imageUrl,
+    this.appId,
+    this.sound,
+    this.collapseKey,
+    this.data = const {},
+    this.silent,
+    this.android,
+    this.ios,
+    this.web,
     this.scheduledAt,
     this.callbackUrl,
     this.metadata = const {},
@@ -181,6 +189,69 @@ class SendRequest {
   ///
   String? imageUrl;
 
+  /// Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? appId;
+
+  /// Push only. `default`, or the name of a sound bundled with the app.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? sound;
+
+  /// Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? collapseKey;
+
+  /// Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+  Map<String, String> data;
+
+  /// Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  bool? silent;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  AndroidPushOptions? android;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  IosPushOptions? ios;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  WebPushOptions? web;
+
   /// ISO 8601. Omit to send now.
   String? scheduledAt;
 
@@ -229,6 +300,14 @@ class SendRequest {
     other.priority == priority &&
     other.badge == badge &&
     other.imageUrl == imageUrl &&
+    other.appId == appId &&
+    other.sound == sound &&
+    other.collapseKey == collapseKey &&
+    _deepEquality.equals(other.data, data) &&
+    other.silent == silent &&
+    other.android == android &&
+    other.ios == ios &&
+    other.web == web &&
     other.scheduledAt == scheduledAt &&
     other.callbackUrl == callbackUrl &&
     _deepEquality.equals(other.metadata, metadata) &&
@@ -260,13 +339,21 @@ class SendRequest {
     (priority == null ? 0 : priority!.hashCode) +
     (badge == null ? 0 : badge!.hashCode) +
     (imageUrl == null ? 0 : imageUrl!.hashCode) +
+    (appId == null ? 0 : appId!.hashCode) +
+    (sound == null ? 0 : sound!.hashCode) +
+    (collapseKey == null ? 0 : collapseKey!.hashCode) +
+    (data.hashCode) +
+    (silent == null ? 0 : silent!.hashCode) +
+    (android == null ? 0 : android!.hashCode) +
+    (ios == null ? 0 : ios!.hashCode) +
+    (web == null ? 0 : web!.hashCode) +
     (scheduledAt == null ? 0 : scheduledAt!.hashCode) +
     (callbackUrl == null ? 0 : callbackUrl!.hashCode) +
     (metadata.hashCode) +
     (name == null ? 0 : name!.hashCode);
 
   @override
-  String toString() => 'SendRequest[channels=$channels, to=$to, body=$body, subject=$subject, templateId=$templateId, variables=$variables, purpose=$purpose, routing=$routing, fallbackOn=$fallbackOn, fallbackWaitSeconds=$fallbackWaitSeconds, variantBody=$variantBody, variantSubject=$variantSubject, splitPercent=$splitPercent, trackLinks=$trackLinks, quietStart=$quietStart, quietEnd=$quietEnd, timezone=$timezone, attachmentIds=$attachmentIds, deepLink=$deepLink, ttlSeconds=$ttlSeconds, priority=$priority, badge=$badge, imageUrl=$imageUrl, scheduledAt=$scheduledAt, callbackUrl=$callbackUrl, metadata=$metadata, name=$name]';
+  String toString() => 'SendRequest[channels=$channels, to=$to, body=$body, subject=$subject, templateId=$templateId, variables=$variables, purpose=$purpose, routing=$routing, fallbackOn=$fallbackOn, fallbackWaitSeconds=$fallbackWaitSeconds, variantBody=$variantBody, variantSubject=$variantSubject, splitPercent=$splitPercent, trackLinks=$trackLinks, quietStart=$quietStart, quietEnd=$quietEnd, timezone=$timezone, attachmentIds=$attachmentIds, deepLink=$deepLink, ttlSeconds=$ttlSeconds, priority=$priority, badge=$badge, imageUrl=$imageUrl, appId=$appId, sound=$sound, collapseKey=$collapseKey, data=$data, silent=$silent, android=$android, ios=$ios, web=$web, scheduledAt=$scheduledAt, callbackUrl=$callbackUrl, metadata=$metadata, name=$name]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -353,6 +440,42 @@ class SendRequest {
     } else {
       json[r'imageUrl'] = null;
     }
+    if (this.appId != null) {
+      json[r'appId'] = this.appId;
+    } else {
+      json[r'appId'] = null;
+    }
+    if (this.sound != null) {
+      json[r'sound'] = this.sound;
+    } else {
+      json[r'sound'] = null;
+    }
+    if (this.collapseKey != null) {
+      json[r'collapseKey'] = this.collapseKey;
+    } else {
+      json[r'collapseKey'] = null;
+    }
+      json[r'data'] = this.data;
+    if (this.silent != null) {
+      json[r'silent'] = this.silent;
+    } else {
+      json[r'silent'] = null;
+    }
+    if (this.android != null) {
+      json[r'android'] = this.android;
+    } else {
+      json[r'android'] = null;
+    }
+    if (this.ios != null) {
+      json[r'ios'] = this.ios;
+    } else {
+      json[r'ios'] = null;
+    }
+    if (this.web != null) {
+      json[r'web'] = this.web;
+    } else {
+      json[r'web'] = null;
+    }
     if (this.scheduledAt != null) {
       json[r'scheduledAt'] = this.scheduledAt;
     } else {
@@ -416,6 +539,14 @@ class SendRequest {
         priority: SendRequestPriorityEnum.fromJson(json[r'priority']),
         badge: mapValueOfType<int>(json, r'badge'),
         imageUrl: mapValueOfType<String>(json, r'imageUrl'),
+        appId: mapValueOfType<String>(json, r'appId'),
+        sound: mapValueOfType<String>(json, r'sound'),
+        collapseKey: mapValueOfType<String>(json, r'collapseKey'),
+        data: mapCastOfType<String, String>(json, r'data') ?? const {},
+        silent: mapValueOfType<bool>(json, r'silent'),
+        android: AndroidPushOptions.fromJson(json[r'android']),
+        ios: IosPushOptions.fromJson(json[r'ios']),
+        web: WebPushOptions.fromJson(json[r'web']),
         scheduledAt: mapValueOfType<String>(json, r'scheduledAt'),
         callbackUrl: mapValueOfType<String>(json, r'callbackUrl'),
         metadata: mapCastOfType<String, Object>(json, r'metadata') ?? const {},

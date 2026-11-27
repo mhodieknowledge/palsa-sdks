@@ -19,7 +19,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import com.kuzikode.palsa.api.models.RegisterDevice201Response
-import com.kuzikode.palsa.api.models.RegisterDevice201ResponseData
+import com.kuzikode.palsa.api.models.DeviceRegistered
 
 class RegisterDevice201ResponseTest : ShouldSpec() {
     init {

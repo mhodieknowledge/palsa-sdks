@@ -43,5 +43,11 @@ class RecipientsTest : ShouldSpec() {
             //modelInstance.audienceId shouldBe ("TODO")
         }
 
+        // to test the property `topic` - Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+        should("test topic") {
+            // uncomment below to test the property
+            //modelInstance.topic shouldBe ("TODO")
+        }
+
     }
 }

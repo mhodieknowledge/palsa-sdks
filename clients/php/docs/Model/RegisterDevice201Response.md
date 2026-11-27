@@ -4,6 +4,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**\Palsa\Api\Model\RegisterDevice201ResponseData**](RegisterDevice201ResponseData.md) |  |
+**data** | [**\Palsa\Api\Model\DeviceRegistered**](DeviceRegistered.md) |  |
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

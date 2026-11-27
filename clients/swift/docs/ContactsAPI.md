@@ -7,7 +7,9 @@ Method | HTTP request | Description
 [**createContact**](ContactsAPI.md#createcontact) | **POST** /v1/contacts | Save a contact
 [**deleteContact**](ContactsAPI.md#deletecontact) | **DELETE** /v1/contacts/{id} | Erase a contact
 [**listContacts**](ContactsAPI.md#listcontacts) | **GET** /v1/contacts | List contacts
+[**listDevices**](ContactsAPI.md#listdevices) | **GET** /v1/devices | List registered devices
 [**registerDevice**](ContactsAPI.md#registerdevice) | **POST** /v1/devices | Register a device for push
+[**unregisterDevice**](ContactsAPI.md#unregisterdevice) | **POST** /v1/devices/unregister | Stop sending to a device
 
 
 # **createContact**
@@ -160,6 +162,56 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **listDevices**
+```swift
+    open class func listDevices(contactId: String? = nil, completion: @escaping (_ data: ListDevices200Response?, _ error: Error?) -> Void)
+```
+
+List registered devices
+
+The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PalsaApi
+
+let contactId = "contactId_example" // String |  (optional)
+
+// List registered devices
+ContactsAPI.listDevices(contactId: contactId) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **contactId** | **String** |  | [optional] 
+
+### Return type
+
+[**ListDevices200Response**](ListDevices200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **registerDevice**
 ```swift
     open class func registerDevice(deviceRegister: DeviceRegister, completion: @escaping (_ data: RegisterDevice201Response?, _ error: Error?) -> Void)
@@ -174,7 +226,7 @@ Registering the same token again updates it rather than adding another, and revi
 // The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
 import PalsaApi
 
-let deviceRegister = DeviceRegister(token: "token_example", platform: "platform_example", contactId: "contactId_example", appVersion: "appVersion_example", locale: "locale_example") // DeviceRegister | 
+let deviceRegister = DeviceRegister(token: "token_example", platform: "platform_example", contactId: "contactId_example", appId: "appId_example", previousToken: "previousToken_example", appVersion: "appVersion_example", locale: "locale_example") // DeviceRegister | 
 
 // Register a device for push
 ContactsAPI.registerDevice(deviceRegister: deviceRegister) { (response, error) in
@@ -198,6 +250,56 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterDevice201Response**](RegisterDevice201Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **unregisterDevice**
+```swift
+    open class func unregisterDevice(unregisterDeviceRequest: UnregisterDeviceRequest, completion: @escaping (_ data: InlineObject?, _ error: Error?) -> Void)
+```
+
+Stop sending to a device
+
+For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+
+### Example
+```swift
+// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
+import PalsaApi
+
+let unregisterDeviceRequest = unregisterDevice_request(token: "token_example") // UnregisterDeviceRequest | 
+
+// Stop sending to a device
+ContactsAPI.unregisterDevice(unregisterDeviceRequest: unregisterDeviceRequest) { (response, error) in
+    guard error == nil else {
+        print(error)
+        return
+    }
+
+    if (response) {
+        dump(response)
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unregisterDeviceRequest** | [**UnregisterDeviceRequest**](UnregisterDeviceRequest.md) |  | 
+
+### Return type
+
+[**InlineObject**](InlineObject.md)
 
 ### Authorization
 

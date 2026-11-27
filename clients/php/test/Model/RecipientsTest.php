@@ -105,4 +105,13 @@ class RecipientsTest extends TestCase
         // TODO: implement
         self::markTestIncomplete('Not implemented');
     }
+
+    /**
+     * Test attribute "topic"
+     */
+    public function testPropertyTopic()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
 }

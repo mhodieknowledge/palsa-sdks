@@ -66,12 +66,26 @@ All URIs are relative to *https://api.palsa.co.zw*
 | *ContactsApi* | [**createContact**](docs/ContactsApi.md#createcontact) | **POST** /v1/contacts | Save a contact |
 | *ContactsApi* | [**deleteContact**](docs/ContactsApi.md#deletecontact) | **DELETE** /v1/contacts/{id} | Erase a contact |
 | *ContactsApi* | [**listContacts**](docs/ContactsApi.md#listcontacts) | **GET** /v1/contacts | List contacts |
+| *ContactsApi* | [**listDevices**](docs/ContactsApi.md#listdevices) | **GET** /v1/devices | List registered devices |
 | *ContactsApi* | [**registerDevice**](docs/ContactsApi.md#registerdevice) | **POST** /v1/devices | Register a device for push |
+| *ContactsApi* | [**unregisterDevice**](docs/ContactsApi.md#unregisterdevice) | **POST** /v1/devices/unregister | Stop sending to a device |
 | *NotificationsApi* | [**describeMcp**](docs/NotificationsApi.md#describemcp) | **GET** /v1/mcp | What the MCP endpoint is |
 | *NotificationsApi* | [**getNotification**](docs/NotificationsApi.md#getnotification) | **GET** /v1/notifications/{id} | One send |
 | *NotificationsApi* | [**listNotifications**](docs/NotificationsApi.md#listnotifications) | **GET** /v1/notifications | List sends |
 | *NotificationsApi* | [**quoteSend**](docs/NotificationsApi.md#quotesend) | **POST** /v1/quotes | Price a send without making it |
 | *NotificationsApi* | [**sendNotification**](docs/NotificationsApi.md#sendnotification) | **POST** /v1/notifications | Send a notification |
+| *PushApi* | [**addPushApp**](docs/PushApi.md#addpushapp) | **POST** /v1/push-apps | Connect an app's Firebase project |
+| *PushApi* | [**checkPushApp**](docs/PushApi.md#checkpushapp) | **POST** /v1/push-apps/{id}/check | Check a push app's access again |
+| *PushApi* | [**confirmPushAppOwnership**](docs/PushApi.md#confirmpushappownership) | **POST** /v1/push-apps/{id}/ownership | Confirm the code, verifying a delegated app |
+| *PushApi* | [**getPushApp**](docs/PushApi.md#getpushapp) | **GET** /v1/push-apps/{id} | Get a push app |
+| *PushApi* | [**listPushApps**](docs/PushApi.md#listpushapps) | **GET** /v1/push-apps | List push apps |
+| *PushApi* | [**listPushTopics**](docs/PushApi.md#listpushtopics) | **GET** /v1/push-topics | List topics and how many devices each has |
+| *PushApi* | [**removePushApp**](docs/PushApi.md#removepushapp) | **DELETE** /v1/push-apps/{id} | Remove a push app |
+| *PushApi* | [**replacePushAppKey**](docs/PushApi.md#replacepushappkey) | **PUT** /v1/push-apps/{id}/key | Replace a push app's service-account key |
+| *PushApi* | [**sendPushAppOwnershipCode**](docs/PushApi.md#sendpushappownershipcode) | **POST** /v1/push-apps/{id}/ownership-code | Push a six-digit code to one of your devices |
+| *PushApi* | [**subscribeToPushTopic**](docs/PushApi.md#subscribetopushtopic) | **POST** /v1/push-topics/{topic}/subscribe | Subscribe devices to a topic |
+| *PushApi* | [**unsubscribeFromPushTopic**](docs/PushApi.md#unsubscribefrompushtopic) | **POST** /v1/push-topics/{topic}/unsubscribe | Unsubscribe devices from a topic |
+| *PushApi* | [**updatePushApp**](docs/PushApi.md#updatepushapp) | **PATCH** /v1/push-apps/{id} | Rename a push app or make it the default |
 | *SendingDomainsApi* | [**addSendingDomain**](docs/SendingDomainsApi.md#addsendingdomain) | **POST** /v1/sending-domains | Add a sending domain |
 | *SendingDomainsApi* | [**checkSendingDomain**](docs/SendingDomainsApi.md#checksendingdomain) | **POST** /v1/sending-domains/{id}/check | Check a sending domain now |
 | *SendingDomainsApi* | [**getSendingDomain**](docs/SendingDomainsApi.md#getsendingdomain) | **GET** /v1/sending-domains/{id} | Get a sending domain |
@@ -86,11 +100,13 @@ All URIs are relative to *https://api.palsa.co.zw*
 
  - [com.kuzikode.palsa.api.models.AddSendingDomain201Response](docs/AddSendingDomain201Response.md)
  - [com.kuzikode.palsa.api.models.AddSendingDomainRequest](docs/AddSendingDomainRequest.md)
+ - [com.kuzikode.palsa.api.models.AndroidPushOptions](docs/AndroidPushOptions.md)
  - [com.kuzikode.palsa.api.models.Balance](docs/Balance.md)
  - [com.kuzikode.palsa.api.models.Blocker](docs/Blocker.md)
  - [com.kuzikode.palsa.api.models.Channel](docs/Channel.md)
  - [com.kuzikode.palsa.api.models.CheckVerification200Response](docs/CheckVerification200Response.md)
  - [com.kuzikode.palsa.api.models.CheckVerificationRequest](docs/CheckVerificationRequest.md)
+ - [com.kuzikode.palsa.api.models.ConfirmPushAppOwnershipRequest](docs/ConfirmPushAppOwnershipRequest.md)
  - [com.kuzikode.palsa.api.models.Contact](docs/Contact.md)
  - [com.kuzikode.palsa.api.models.ContactCreate](docs/ContactCreate.md)
  - [com.kuzikode.palsa.api.models.CreateContact201Response](docs/CreateContact201Response.md)
@@ -98,21 +114,39 @@ All URIs are relative to *https://api.palsa.co.zw*
  - [com.kuzikode.palsa.api.models.DeleteContact200Response](docs/DeleteContact200Response.md)
  - [com.kuzikode.palsa.api.models.DeleteContact200ResponseData](docs/DeleteContact200ResponseData.md)
  - [com.kuzikode.palsa.api.models.DescribeMcp200Response](docs/DescribeMcp200Response.md)
+ - [com.kuzikode.palsa.api.models.Device](docs/Device.md)
  - [com.kuzikode.palsa.api.models.DeviceRegister](docs/DeviceRegister.md)
+ - [com.kuzikode.palsa.api.models.DeviceRegistered](docs/DeviceRegistered.md)
+ - [com.kuzikode.palsa.api.models.DeviceTargets](docs/DeviceTargets.md)
  - [com.kuzikode.palsa.api.models.Error](docs/Error.md)
  - [com.kuzikode.palsa.api.models.ErrorEnvelope](docs/ErrorEnvelope.md)
  - [com.kuzikode.palsa.api.models.GetBalances200Response](docs/GetBalances200Response.md)
  - [com.kuzikode.palsa.api.models.GetBalances200ResponseData](docs/GetBalances200ResponseData.md)
  - [com.kuzikode.palsa.api.models.GetNotification200Response](docs/GetNotification200Response.md)
+ - [com.kuzikode.palsa.api.models.InlineObject](docs/InlineObject.md)
+ - [com.kuzikode.palsa.api.models.InlineObject1](docs/InlineObject1.md)
+ - [com.kuzikode.palsa.api.models.InlineObject2](docs/InlineObject2.md)
+ - [com.kuzikode.palsa.api.models.InlineObject2Data](docs/InlineObject2Data.md)
+ - [com.kuzikode.palsa.api.models.InlineObject2DataFailedInner](docs/InlineObject2DataFailedInner.md)
+ - [com.kuzikode.palsa.api.models.IosPushOptions](docs/IosPushOptions.md)
  - [com.kuzikode.palsa.api.models.ListContacts200Response](docs/ListContacts200Response.md)
  - [com.kuzikode.palsa.api.models.ListContacts200ResponseData](docs/ListContacts200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ListDevices200Response](docs/ListDevices200Response.md)
+ - [com.kuzikode.palsa.api.models.ListDevices200ResponseData](docs/ListDevices200ResponseData.md)
  - [com.kuzikode.palsa.api.models.ListNotifications200Response](docs/ListNotifications200Response.md)
  - [com.kuzikode.palsa.api.models.ListNotifications200ResponseData](docs/ListNotifications200ResponseData.md)
  - [com.kuzikode.palsa.api.models.ListNotifications200ResponseMeta](docs/ListNotifications200ResponseMeta.md)
+ - [com.kuzikode.palsa.api.models.ListPushApps200Response](docs/ListPushApps200Response.md)
+ - [com.kuzikode.palsa.api.models.ListPushApps200ResponseData](docs/ListPushApps200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ListPushTopics200Response](docs/ListPushTopics200Response.md)
+ - [com.kuzikode.palsa.api.models.ListPushTopics200ResponseData](docs/ListPushTopics200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ListPushTopics200ResponseDataTopicsInner](docs/ListPushTopics200ResponseDataTopicsInner.md)
  - [com.kuzikode.palsa.api.models.ListSendingDomains200Response](docs/ListSendingDomains200Response.md)
  - [com.kuzikode.palsa.api.models.ListSendingDomains200ResponseData](docs/ListSendingDomains200ResponseData.md)
  - [com.kuzikode.palsa.api.models.Notification](docs/Notification.md)
  - [com.kuzikode.palsa.api.models.NotificationSummary](docs/NotificationSummary.md)
+ - [com.kuzikode.palsa.api.models.PushApp](docs/PushApp.md)
+ - [com.kuzikode.palsa.api.models.PushAppCreate](docs/PushAppCreate.md)
  - [com.kuzikode.palsa.api.models.Quote](docs/Quote.md)
  - [com.kuzikode.palsa.api.models.QuoteHeldUntil](docs/QuoteHeldUntil.md)
  - [com.kuzikode.palsa.api.models.QuoteSend200Response](docs/QuoteSend200Response.md)
@@ -121,19 +155,23 @@ All URIs are relative to *https://api.palsa.co.zw*
  - [com.kuzikode.palsa.api.models.QuotedRecipient](docs/QuotedRecipient.md)
  - [com.kuzikode.palsa.api.models.Recipients](docs/Recipients.md)
  - [com.kuzikode.palsa.api.models.RegisterDevice201Response](docs/RegisterDevice201Response.md)
- - [com.kuzikode.palsa.api.models.RegisterDevice201ResponseData](docs/RegisterDevice201ResponseData.md)
  - [com.kuzikode.palsa.api.models.RemoveSendingDomain200Response](docs/RemoveSendingDomain200Response.md)
  - [com.kuzikode.palsa.api.models.RemoveSendingDomain200ResponseData](docs/RemoveSendingDomain200ResponseData.md)
+ - [com.kuzikode.palsa.api.models.ReplacePushAppKeyRequest](docs/ReplacePushAppKeyRequest.md)
  - [com.kuzikode.palsa.api.models.SendNotification202Response](docs/SendNotification202Response.md)
+ - [com.kuzikode.palsa.api.models.SendPushAppOwnershipCodeRequest](docs/SendPushAppOwnershipCodeRequest.md)
  - [com.kuzikode.palsa.api.models.SendRequest](docs/SendRequest.md)
  - [com.kuzikode.palsa.api.models.SendResult](docs/SendResult.md)
  - [com.kuzikode.palsa.api.models.SendingDomain](docs/SendingDomain.md)
  - [com.kuzikode.palsa.api.models.SendingDomainRecordsInner](docs/SendingDomainRecordsInner.md)
  - [com.kuzikode.palsa.api.models.SkippedRecipient](docs/SkippedRecipient.md)
  - [com.kuzikode.palsa.api.models.StartVerification201Response](docs/StartVerification201Response.md)
+ - [com.kuzikode.palsa.api.models.UnregisterDeviceRequest](docs/UnregisterDeviceRequest.md)
+ - [com.kuzikode.palsa.api.models.UpdatePushAppRequest](docs/UpdatePushAppRequest.md)
  - [com.kuzikode.palsa.api.models.Verification](docs/Verification.md)
  - [com.kuzikode.palsa.api.models.VerificationCheck](docs/VerificationCheck.md)
  - [com.kuzikode.palsa.api.models.VerificationRequest](docs/VerificationRequest.md)
+ - [com.kuzikode.palsa.api.models.WebPushOptions](docs/WebPushOptions.md)
 
 
 <a id="documentation-for-authorization"></a>

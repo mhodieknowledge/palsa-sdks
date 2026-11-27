@@ -30,9 +30,11 @@ class DeviceRegister(BaseModel):
     token: Annotated[str, Field(min_length=10, strict=True, max_length=400)]
     platform: StrictStr
     contact_id: Optional[Annotated[str, Field(strict=True, max_length=60)]] = Field(default=None, alias="contactId")
+    app_id: Optional[Annotated[str, Field(strict=True, max_length=60)]] = Field(default=None, description="The push app the token belongs to. Default the workspace's default app.", alias="appId")
+    previous_token: Optional[Annotated[str, Field(min_length=10, strict=True, max_length=400)]] = Field(default=None, description="The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.", alias="previousToken")
     app_version: Optional[Annotated[str, Field(strict=True, max_length=40)]] = Field(default=None, alias="appVersion")
     locale: Optional[Annotated[str, Field(strict=True, max_length=10)]] = None
-    __properties: ClassVar[List[str]] = ["token", "platform", "contactId", "appVersion", "locale"]
+    __properties: ClassVar[List[str]] = ["token", "platform", "contactId", "appId", "previousToken", "appVersion", "locale"]
 
     @field_validator('platform')
     def platform_validate_enum(cls, value):
@@ -85,6 +87,16 @@ class DeviceRegister(BaseModel):
         if self.contact_id is None and "contact_id" in self.model_fields_set:
             _dict['contactId'] = None
 
+        # set to None if app_id (nullable) is None
+        # and model_fields_set contains the field
+        if self.app_id is None and "app_id" in self.model_fields_set:
+            _dict['appId'] = None
+
+        # set to None if previous_token (nullable) is None
+        # and model_fields_set contains the field
+        if self.previous_token is None and "previous_token" in self.model_fields_set:
+            _dict['previousToken'] = None
+
         # set to None if app_version (nullable) is None
         # and model_fields_set contains the field
         if self.app_version is None and "app_version" in self.model_fields_set:
@@ -110,6 +122,8 @@ class DeviceRegister(BaseModel):
             "token": obj.get("token"),
             "platform": obj.get("platform"),
             "contactId": obj.get("contactId"),
+            "appId": obj.get("appId"),
+            "previousToken": obj.get("previousToken"),
             "appVersion": obj.get("appVersion"),
             "locale": obj.get("locale")
         })

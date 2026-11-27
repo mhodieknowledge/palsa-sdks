@@ -107,6 +107,24 @@ class DeviceRegisterTest extends TestCase
     }
 
     /**
+     * Test attribute "app_id"
+     */
+    public function testPropertyAppId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "previous_token"
+     */
+    public function testPropertyPreviousToken()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "app_version"
      */
     public function testPropertyAppVersion()

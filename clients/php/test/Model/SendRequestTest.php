@@ -287,6 +287,78 @@ class SendRequestTest extends TestCase
     }
 
     /**
+     * Test attribute "app_id"
+     */
+    public function testPropertyAppId()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "sound"
+     */
+    public function testPropertySound()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "collapse_key"
+     */
+    public function testPropertyCollapseKey()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "data"
+     */
+    public function testPropertyData()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "silent"
+     */
+    public function testPropertySilent()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "android"
+     */
+    public function testPropertyAndroid()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "ios"
+     */
+    public function testPropertyIos()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test attribute "web"
+     */
+    public function testPropertyWeb()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test attribute "scheduled_at"
      */
     public function testPropertyScheduledAt()

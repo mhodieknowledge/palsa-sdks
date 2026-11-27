@@ -25,6 +25,7 @@ import com.squareup.moshi.JsonClass
  * @param contactIds 
  * @param addresses Phone numbers or email addresses, for people who are not saved contacts.
  * @param audienceId 
+ * @param topic Push only, and on push alone. Every device subscribed to this topic, as one delivery.
  */
 
 
@@ -38,7 +39,11 @@ data class Recipients (
     val addresses: kotlin.collections.List<kotlin.String>? = null,
 
     @Json(name = "audienceId")
-    val audienceId: kotlin.String? = null
+    val audienceId: kotlin.String? = null,
+
+    /* Push only, and on push alone. Every device subscribed to this topic, as one delivery. */
+    @Json(name = "topic")
+    val topic: kotlin.String? = null
 
 ) {
 

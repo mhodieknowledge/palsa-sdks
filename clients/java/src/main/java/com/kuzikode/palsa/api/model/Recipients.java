@@ -67,6 +67,11 @@ public class Recipients {
   @javax.annotation.Nullable
   private String audienceId;
 
+  public static final String SERIALIZED_NAME_TOPIC = "topic";
+  @SerializedName(SERIALIZED_NAME_TOPIC)
+  @javax.annotation.Nullable
+  private String topic;
+
   public Recipients() {
   }
 
@@ -143,6 +148,25 @@ public class Recipients {
   }
 
 
+  public Recipients topic(@javax.annotation.Nullable String topic) {
+    this.topic = topic;
+    return this;
+  }
+
+  /**
+   * Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+   * @return topic
+   */
+  @javax.annotation.Nullable
+  public String getTopic() {
+    return topic;
+  }
+
+  public void setTopic(@javax.annotation.Nullable String topic) {
+    this.topic = topic;
+  }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -155,12 +179,13 @@ public class Recipients {
     Recipients recipients = (Recipients) o;
     return Objects.equals(this.contactIds, recipients.contactIds) &&
         Objects.equals(this.addresses, recipients.addresses) &&
-        Objects.equals(this.audienceId, recipients.audienceId);
+        Objects.equals(this.audienceId, recipients.audienceId) &&
+        Objects.equals(this.topic, recipients.topic);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(contactIds, addresses, audienceId);
+    return Objects.hash(contactIds, addresses, audienceId, topic);
   }
 
   @Override
@@ -170,6 +195,7 @@ public class Recipients {
     sb.append("    contactIds: ").append(toIndentedString(contactIds)).append("\n");
     sb.append("    addresses: ").append(toIndentedString(addresses)).append("\n");
     sb.append("    audienceId: ").append(toIndentedString(audienceId)).append("\n");
+    sb.append("    topic: ").append(toIndentedString(topic)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -191,7 +217,7 @@ public class Recipients {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("contactIds", "addresses", "audienceId"));
+    openapiFields = new HashSet<String>(Arrays.asList("contactIds", "addresses", "audienceId", "topic"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(0);
@@ -228,6 +254,9 @@ public class Recipients {
       }
       if ((jsonObj.get("audienceId") != null && !jsonObj.get("audienceId").isJsonNull()) && !jsonObj.get("audienceId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `audienceId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("audienceId").toString()));
+      }
+      if ((jsonObj.get("topic") != null && !jsonObj.get("topic").isJsonNull()) && !jsonObj.get("topic").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `topic` to be a primitive type in the JSON string but got `%s`", jsonObj.get("topic").toString()));
       }
   }
 

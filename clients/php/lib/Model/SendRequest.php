@@ -80,6 +80,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => 'string',
         'badge' => 'int',
         'image_url' => 'string',
+        'app_id' => 'string',
+        'sound' => 'string',
+        'collapse_key' => 'string',
+        'data' => 'array<string,string>',
+        'silent' => 'bool',
+        'android' => '\Palsa\Api\Model\AndroidPushOptions',
+        'ios' => '\Palsa\Api\Model\IosPushOptions',
+        'web' => '\Palsa\Api\Model\WebPushOptions',
         'scheduled_at' => 'string',
         'callback_url' => 'string',
         'metadata' => 'array<string,mixed>',
@@ -117,6 +125,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => null,
         'badge' => null,
         'image_url' => 'uri',
+        'app_id' => null,
+        'sound' => null,
+        'collapse_key' => null,
+        'data' => null,
+        'silent' => null,
+        'android' => null,
+        'ios' => null,
+        'web' => null,
         'scheduled_at' => null,
         'callback_url' => 'uri',
         'metadata' => null,
@@ -152,6 +168,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => false,
         'badge' => false,
         'image_url' => false,
+        'app_id' => false,
+        'sound' => false,
+        'collapse_key' => false,
+        'data' => false,
+        'silent' => false,
+        'android' => false,
+        'ios' => false,
+        'web' => false,
         'scheduled_at' => true,
         'callback_url' => false,
         'metadata' => false,
@@ -267,6 +291,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => 'priority',
         'badge' => 'badge',
         'image_url' => 'imageUrl',
+        'app_id' => 'appId',
+        'sound' => 'sound',
+        'collapse_key' => 'collapseKey',
+        'data' => 'data',
+        'silent' => 'silent',
+        'android' => 'android',
+        'ios' => 'ios',
+        'web' => 'web',
         'scheduled_at' => 'scheduledAt',
         'callback_url' => 'callbackUrl',
         'metadata' => 'metadata',
@@ -302,6 +334,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => 'setPriority',
         'badge' => 'setBadge',
         'image_url' => 'setImageUrl',
+        'app_id' => 'setAppId',
+        'sound' => 'setSound',
+        'collapse_key' => 'setCollapseKey',
+        'data' => 'setData',
+        'silent' => 'setSilent',
+        'android' => 'setAndroid',
+        'ios' => 'setIos',
+        'web' => 'setWeb',
         'scheduled_at' => 'setScheduledAt',
         'callback_url' => 'setCallbackUrl',
         'metadata' => 'setMetadata',
@@ -337,6 +377,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         'priority' => 'getPriority',
         'badge' => 'getBadge',
         'image_url' => 'getImageUrl',
+        'app_id' => 'getAppId',
+        'sound' => 'getSound',
+        'collapse_key' => 'getCollapseKey',
+        'data' => 'getData',
+        'silent' => 'getSilent',
+        'android' => 'getAndroid',
+        'ios' => 'getIos',
+        'web' => 'getWeb',
         'scheduled_at' => 'getScheduledAt',
         'callback_url' => 'getCallbackUrl',
         'metadata' => 'getMetadata',
@@ -485,6 +533,14 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('priority', $data ?? [], null);
         $this->setIfExists('badge', $data ?? [], null);
         $this->setIfExists('image_url', $data ?? [], null);
+        $this->setIfExists('app_id', $data ?? [], null);
+        $this->setIfExists('sound', $data ?? [], null);
+        $this->setIfExists('collapse_key', $data ?? [], null);
+        $this->setIfExists('data', $data ?? [], null);
+        $this->setIfExists('silent', $data ?? [], null);
+        $this->setIfExists('android', $data ?? [], null);
+        $this->setIfExists('ios', $data ?? [], null);
+        $this->setIfExists('web', $data ?? [], null);
         $this->setIfExists('scheduled_at', $data ?? [], null);
         $this->setIfExists('callback_url', $data ?? [], null);
         $this->setIfExists('metadata', $data ?? [], null);
@@ -646,6 +702,22 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['image_url']) && (mb_strlen($this->container['image_url']) > 500)) {
             $invalidProperties[] = "invalid value for 'image_url', the character length must be smaller than or equal to 500.";
+        }
+
+        if (!is_null($this->container['app_id']) && (mb_strlen($this->container['app_id']) > 60)) {
+            $invalidProperties[] = "invalid value for 'app_id', the character length must be smaller than or equal to 60.";
+        }
+
+        if (!is_null($this->container['sound']) && !preg_match("/^[A-Za-z0-9_.-]{1,64}$/", $this->container['sound'])) {
+            $invalidProperties[] = "invalid value for 'sound', must be conform to the pattern /^[A-Za-z0-9_.-]{1,64}$/.";
+        }
+
+        if (!is_null($this->container['collapse_key']) && !preg_match("/^[A-Za-z0-9_-]{1,32}$/", $this->container['collapse_key'])) {
+            $invalidProperties[] = "invalid value for 'collapse_key', must be conform to the pattern /^[A-Za-z0-9_-]{1,32}$/.";
+        }
+
+        if (!is_null($this->container['data']) && (count($this->container['data']) > 30)) {
+            $invalidProperties[] = "invalid value for 'data', number of items must be less than or equal to 30.";
         }
 
         if (!is_null($this->container['scheduled_at']) && (mb_strlen($this->container['scheduled_at']) > 40)) {
@@ -1439,6 +1511,240 @@ class SendRequest implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['image_url'] = $image_url;
+
+        return $this;
+    }
+
+    /**
+     * Gets app_id
+     *
+     * @return string|null
+     */
+    public function getAppId()
+    {
+        return $this->container['app_id'];
+    }
+
+    /**
+     * Sets app_id
+     *
+     * @param string|null $app_id Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+     *
+     * @return self
+     */
+    public function setAppId($app_id)
+    {
+        if (is_null($app_id)) {
+            throw new \InvalidArgumentException('non-nullable app_id cannot be null');
+        }
+        if ((mb_strlen($app_id) > 60)) {
+            throw new \InvalidArgumentException('invalid length for $app_id when calling SendRequest., must be smaller than or equal to 60.');
+        }
+
+        $this->container['app_id'] = $app_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets sound
+     *
+     * @return string|null
+     */
+    public function getSound()
+    {
+        return $this->container['sound'];
+    }
+
+    /**
+     * Sets sound
+     *
+     * @param string|null $sound Push only. `default`, or the name of a sound bundled with the app.
+     *
+     * @return self
+     */
+    public function setSound($sound)
+    {
+        if (is_null($sound)) {
+            throw new \InvalidArgumentException('non-nullable sound cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9_.-]{1,64}$/", ObjectSerializer::toString($sound)))) {
+            throw new \InvalidArgumentException("invalid value for \$sound when calling SendRequest., must conform to the pattern /^[A-Za-z0-9_.-]{1,64}$/.");
+        }
+
+        $this->container['sound'] = $sound;
+
+        return $this;
+    }
+
+    /**
+     * Gets collapse_key
+     *
+     * @return string|null
+     */
+    public function getCollapseKey()
+    {
+        return $this->container['collapse_key'];
+    }
+
+    /**
+     * Sets collapse_key
+     *
+     * @param string|null $collapse_key Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+     *
+     * @return self
+     */
+    public function setCollapseKey($collapse_key)
+    {
+        if (is_null($collapse_key)) {
+            throw new \InvalidArgumentException('non-nullable collapse_key cannot be null');
+        }
+
+        if ((!preg_match("/^[A-Za-z0-9_-]{1,32}$/", ObjectSerializer::toString($collapse_key)))) {
+            throw new \InvalidArgumentException("invalid value for \$collapse_key when calling SendRequest., must conform to the pattern /^[A-Za-z0-9_-]{1,32}$/.");
+        }
+
+        $this->container['collapse_key'] = $collapse_key;
+
+        return $this;
+    }
+
+    /**
+     * Gets data
+     *
+     * @return array<string,string>|null
+     */
+    public function getData()
+    {
+        return $this->container['data'];
+    }
+
+    /**
+     * Sets data
+     *
+     * @param array<string,string>|null $data Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+     *
+     * @return self
+     */
+    public function setData($data)
+    {
+        if (is_null($data)) {
+            throw new \InvalidArgumentException('non-nullable data cannot be null');
+        }
+
+        if ((count($data) > 30)) {
+            throw new \InvalidArgumentException('invalid value for $data when calling SendRequest., number of items must be less than or equal to 30.');
+        }
+        $this->container['data'] = $data;
+
+        return $this;
+    }
+
+    /**
+     * Gets silent
+     *
+     * @return bool|null
+     */
+    public function getSilent()
+    {
+        return $this->container['silent'];
+    }
+
+    /**
+     * Sets silent
+     *
+     * @param bool|null $silent Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+     *
+     * @return self
+     */
+    public function setSilent($silent)
+    {
+        if (is_null($silent)) {
+            throw new \InvalidArgumentException('non-nullable silent cannot be null');
+        }
+        $this->container['silent'] = $silent;
+
+        return $this;
+    }
+
+    /**
+     * Gets android
+     *
+     * @return \Palsa\Api\Model\AndroidPushOptions|null
+     */
+    public function getAndroid()
+    {
+        return $this->container['android'];
+    }
+
+    /**
+     * Sets android
+     *
+     * @param \Palsa\Api\Model\AndroidPushOptions|null $android android
+     *
+     * @return self
+     */
+    public function setAndroid($android)
+    {
+        if (is_null($android)) {
+            throw new \InvalidArgumentException('non-nullable android cannot be null');
+        }
+        $this->container['android'] = $android;
+
+        return $this;
+    }
+
+    /**
+     * Gets ios
+     *
+     * @return \Palsa\Api\Model\IosPushOptions|null
+     */
+    public function getIos()
+    {
+        return $this->container['ios'];
+    }
+
+    /**
+     * Sets ios
+     *
+     * @param \Palsa\Api\Model\IosPushOptions|null $ios ios
+     *
+     * @return self
+     */
+    public function setIos($ios)
+    {
+        if (is_null($ios)) {
+            throw new \InvalidArgumentException('non-nullable ios cannot be null');
+        }
+        $this->container['ios'] = $ios;
+
+        return $this;
+    }
+
+    /**
+     * Gets web
+     *
+     * @return \Palsa\Api\Model\WebPushOptions|null
+     */
+    public function getWeb()
+    {
+        return $this->container['web'];
+    }
+
+    /**
+     * Sets web
+     *
+     * @param \Palsa\Api\Model\WebPushOptions|null $web web
+     *
+     * @return self
+     */
+    public function setWeb($web)
+    {
+        if (is_null($web)) {
+            throw new \InvalidArgumentException('non-nullable web cannot be null');
+        }
+        $this->container['web'] = $web;
 
         return $this;
     }

@@ -14,7 +14,7 @@
       "registry": "npm",
       "properties": {
         "npmName": "@palsa/api",
-        "npmVersion": "0.2.0",
+        "npmVersion": "0.3.0",
         "supportsES6": "true",
         "typescriptThreePlus": "true",
         "withoutRuntimeChecks": "false"
@@ -30,7 +30,7 @@
       "properties": {
         "packageName": "palsa_api",
         "projectName": "palsa-api",
-        "packageVersion": "0.2.0",
+        "packageVersion": "0.3.0",
         "library": "urllib3"
       },
       "verified": "locally",
@@ -45,7 +45,7 @@
         "composerVendorName": "palsa",
         "composerPackageName": "palsa-api",
         "invokerPackage": "Palsa\\Api",
-        "artifactVersion": "0.2.0"
+        "artifactVersion": "0.3.0"
       },
       "verified": "locally",
       "verifiedHow": "every file linted and the webhook test passing, and in CI"
@@ -58,7 +58,7 @@
       "properties": {
         "pubName": "palsa_api",
         "pubLibrary": "palsa_api",
-        "pubVersion": "0.2.0",
+        "pubVersion": "0.3.0",
         "pubDescription": "Official Palsa client for Dart and Flutter generated from the OpenAPI specification"
       },
       "verified": "locally",
@@ -72,7 +72,7 @@
       "properties": {
         "groupId": "dev.palsa",
         "artifactId": "palsa-api",
-        "artifactVersion": "0.2.0",
+        "artifactVersion": "0.3.0",
         "invokerPackage": "dev.palsa.api",
         "apiPackage": "dev.palsa.api.api",
         "modelPackage": "dev.palsa.api.model",
@@ -90,7 +90,7 @@
       "properties": {
         "groupId": "dev.palsa",
         "artifactId": "palsa-api-kotlin",
-        "artifactVersion": "0.2.0",
+        "artifactVersion": "0.3.0",
         "packageName": "dev.palsa.api",
         "library": "jvm-okhttp4"
       },
@@ -104,7 +104,7 @@
       "registry": "NuGet",
       "properties": {
         "packageName": "Palsa.Api",
-        "packageVersion": "0.2.0",
+        "packageVersion": "0.3.0",
         "targetFramework": "net8.0",
         "library": "httpclient",
         "nullableReferenceTypes": "true"
@@ -119,7 +119,7 @@
       "registry": "Go Modules",
       "properties": {
         "packageName": "palsaapi",
-        "packageVersion": "0.2.0",
+        "packageVersion": "0.3.0",
         "isGoSubmodule": "false",
         "structPrefix": "true"
       },
@@ -133,7 +133,7 @@
       "registry": "Swift Package Manager",
       "properties": {
         "projectName": "PalsaApi",
-        "podVersion": "0.2.0",
+        "podVersion": "0.3.0",
         "responseAs": "AsyncAwait",
         "useSPMFileStructure": "true",
         "swiftPackagePath": "."

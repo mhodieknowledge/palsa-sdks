@@ -7,7 +7,9 @@ Method | HTTP request | Description
 [**CreateContact**](ContactsAPI.md#CreateContact) | **Post** /v1/contacts | Save a contact
 [**DeleteContact**](ContactsAPI.md#DeleteContact) | **Delete** /v1/contacts/{id} | Erase a contact
 [**ListContacts**](ContactsAPI.md#ListContacts) | **Get** /v1/contacts | List contacts
+[**ListDevices**](ContactsAPI.md#ListDevices) | **Get** /v1/devices | List registered devices
 [**RegisterDevice**](ContactsAPI.md#RegisterDevice) | **Post** /v1/devices | Register a device for push
+[**UnregisterDevice**](ContactsAPI.md#UnregisterDevice) | **Post** /v1/devices/unregister | Stop sending to a device
 
 
 
@@ -213,6 +215,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## ListDevices
+
+> ListDevices200Response ListDevices(ctx).ContactId(contactId).Execute()
+
+List registered devices
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/mhodieknowledge/palsa-sdks/clients/go"
+)
+
+func main() {
+	contactId := "contactId_example" // string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ContactsAPI.ListDevices(context.Background()).ContactId(contactId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ContactsAPI.ListDevices``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `ListDevices`: ListDevices200Response
+	fmt.Fprintf(os.Stdout, "Response from `ContactsAPI.ListDevices`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiListDevicesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **contactId** | **string** |  | 
+
+### Return type
+
+[**ListDevices200Response**](ListDevices200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## RegisterDevice
 
 > RegisterDevice201Response RegisterDevice(ctx).DeviceRegister(deviceRegister).Execute()
@@ -264,6 +332,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterDevice201Response**](RegisterDevice201Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UnregisterDevice
+
+> InlineObject UnregisterDevice(ctx).UnregisterDeviceRequest(unregisterDeviceRequest).Execute()
+
+Stop sending to a device
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/mhodieknowledge/palsa-sdks/clients/go"
+)
+
+func main() {
+	unregisterDeviceRequest := *openapiclient.NewUnregisterDeviceRequest("Token_example") // UnregisterDeviceRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.ContactsAPI.UnregisterDevice(context.Background()).UnregisterDeviceRequest(unregisterDeviceRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `ContactsAPI.UnregisterDevice``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `UnregisterDevice`: InlineObject
+	fmt.Fprintf(os.Stdout, "Response from `ContactsAPI.UnregisterDevice`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUnregisterDeviceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unregisterDeviceRequest** | [**UnregisterDeviceRequest**](UnregisterDeviceRequest.md) |  | 
+
+### Return type
+
+[**InlineObject**](InlineObject.md)
 
 ### Authorization
 

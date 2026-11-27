@@ -19,18 +19,26 @@ public struct DeviceRegister: Codable, JSONEncodable, Hashable {
     }
     public static let tokenRule = StringRule(minLength: 10, maxLength: 400, pattern: nil)
     public static let contactIdRule = StringRule(minLength: nil, maxLength: 60, pattern: nil)
+    public static let appIdRule = StringRule(minLength: nil, maxLength: 60, pattern: nil)
+    public static let previousTokenRule = StringRule(minLength: 10, maxLength: 400, pattern: nil)
     public static let appVersionRule = StringRule(minLength: nil, maxLength: 40, pattern: nil)
     public static let localeRule = StringRule(minLength: nil, maxLength: 10, pattern: nil)
     public var token: String
     public var platform: Platform
     public var contactId: String?
+    /** The push app the token belongs to. Default the workspace's default app. */
+    public var appId: String?
+    /** The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics. */
+    public var previousToken: String?
     public var appVersion: String?
     public var locale: String?
 
-    public init(token: String, platform: Platform, contactId: String? = nil, appVersion: String? = nil, locale: String? = nil) {
+    public init(token: String, platform: Platform, contactId: String? = nil, appId: String? = nil, previousToken: String? = nil, appVersion: String? = nil, locale: String? = nil) {
         self.token = token
         self.platform = platform
         self.contactId = contactId
+        self.appId = appId
+        self.previousToken = previousToken
         self.appVersion = appVersion
         self.locale = locale
     }
@@ -39,6 +47,8 @@ public struct DeviceRegister: Codable, JSONEncodable, Hashable {
         case token
         case platform
         case contactId
+        case appId
+        case previousToken
         case appVersion
         case locale
     }
@@ -50,6 +60,8 @@ public struct DeviceRegister: Codable, JSONEncodable, Hashable {
         try container.encode(token, forKey: .token)
         try container.encode(platform, forKey: .platform)
         try container.encodeIfPresent(contactId, forKey: .contactId)
+        try container.encodeIfPresent(appId, forKey: .appId)
+        try container.encodeIfPresent(previousToken, forKey: .previousToken)
         try container.encodeIfPresent(appVersion, forKey: .appVersion)
         try container.encodeIfPresent(locale, forKey: .locale)
     }

@@ -13,6 +13,20 @@
  */
 
 import { mapValues } from '../runtime';
+import type { AndroidPushOptions } from './AndroidPushOptions';
+import {
+    AndroidPushOptionsFromJSON,
+    AndroidPushOptionsFromJSONTyped,
+    AndroidPushOptionsToJSON,
+    AndroidPushOptionsToJSONTyped,
+} from './AndroidPushOptions';
+import type { WebPushOptions } from './WebPushOptions';
+import {
+    WebPushOptionsFromJSON,
+    WebPushOptionsFromJSONTyped,
+    WebPushOptionsToJSON,
+    WebPushOptionsToJSONTyped,
+} from './WebPushOptions';
 import type { Recipients } from './Recipients';
 import {
     RecipientsFromJSON,
@@ -27,6 +41,13 @@ import {
     ChannelToJSON,
     ChannelToJSONTyped,
 } from './Channel';
+import type { IosPushOptions } from './IosPushOptions';
+import {
+    IosPushOptionsFromJSON,
+    IosPushOptionsFromJSONTyped,
+    IosPushOptionsToJSON,
+    IosPushOptionsToJSONTyped,
+} from './IosPushOptions';
 
 /**
  * 
@@ -186,6 +207,54 @@ export interface SendRequest {
      */
     imageUrl?: string;
     /**
+     * Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    appId?: string;
+    /**
+     * Push only. `default`, or the name of a sound bundled with the app.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    sound?: string;
+    /**
+     * Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+     * @type {string}
+     * @memberof SendRequest
+     */
+    collapseKey?: string;
+    /**
+     * Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+     * @type {{ [key: string]: string; }}
+     * @memberof SendRequest
+     */
+    data?: { [key: string]: string; };
+    /**
+     * Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+     * @type {boolean}
+     * @memberof SendRequest
+     */
+    silent?: boolean;
+    /**
+     * 
+     * @type {AndroidPushOptions}
+     * @memberof SendRequest
+     */
+    android?: AndroidPushOptions;
+    /**
+     * 
+     * @type {IosPushOptions}
+     * @memberof SendRequest
+     */
+    ios?: IosPushOptions;
+    /**
+     * 
+     * @type {WebPushOptions}
+     * @memberof SendRequest
+     */
+    web?: WebPushOptions;
+    /**
      * ISO 8601. Omit to send now.
      * @type {string}
      * @memberof SendRequest
@@ -292,6 +361,14 @@ export function SendRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean
         'priority': json['priority'] == null ? undefined : json['priority'],
         'badge': json['badge'] == null ? undefined : json['badge'],
         'imageUrl': json['imageUrl'] == null ? undefined : json['imageUrl'],
+        'appId': json['appId'] == null ? undefined : json['appId'],
+        'sound': json['sound'] == null ? undefined : json['sound'],
+        'collapseKey': json['collapseKey'] == null ? undefined : json['collapseKey'],
+        'data': json['data'] == null ? undefined : json['data'],
+        'silent': json['silent'] == null ? undefined : json['silent'],
+        'android': json['android'] == null ? undefined : AndroidPushOptionsFromJSON(json['android']),
+        'ios': json['ios'] == null ? undefined : IosPushOptionsFromJSON(json['ios']),
+        'web': json['web'] == null ? undefined : WebPushOptionsFromJSON(json['web']),
         'scheduledAt': json['scheduledAt'] == null ? undefined : json['scheduledAt'],
         'callbackUrl': json['callbackUrl'] == null ? undefined : json['callbackUrl'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
@@ -333,6 +410,14 @@ export function SendRequestToJSONTyped(value?: SendRequest | null, ignoreDiscrim
         'priority': value['priority'],
         'badge': value['badge'],
         'imageUrl': value['imageUrl'],
+        'appId': value['appId'],
+        'sound': value['sound'],
+        'collapseKey': value['collapseKey'],
+        'data': value['data'],
+        'silent': value['silent'],
+        'android': AndroidPushOptionsToJSON(value['android']),
+        'ios': IosPushOptionsToJSON(value['ios']),
+        'web': WebPushOptionsToJSON(value['web']),
         'scheduledAt': value['scheduledAt'],
         'callbackUrl': value['callbackUrl'],
         'metadata': value['metadata'],

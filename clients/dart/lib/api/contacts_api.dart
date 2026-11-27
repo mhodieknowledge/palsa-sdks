@@ -189,6 +189,66 @@ class ContactsApi {
     return null;
   }
 
+  /// List registered devices
+  ///
+  /// The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] contactId:
+  Future<Response> listDevicesWithHttpInfo({ String? contactId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/v1/devices';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (contactId != null) {
+      queryParams.addAll(_queryParams('', 'contactId', contactId));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// List registered devices
+  ///
+  /// The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+  ///
+  /// Parameters:
+  ///
+  /// * [String] contactId:
+  Future<ListDevices200Response?> listDevices({ String? contactId, }) async {
+    final response = await listDevicesWithHttpInfo( contactId: contactId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'ListDevices200Response',) as ListDevices200Response;
+    
+    }
+    return null;
+  }
+
   /// Register a device for push
   ///
   /// Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the `contacts.write` scope. 
@@ -240,6 +300,62 @@ class ContactsApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'RegisterDevice201Response',) as RegisterDevice201Response;
+    
+    }
+    return null;
+  }
+
+  /// Stop sending to a device
+  ///
+  /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [UnregisterDeviceRequest] unregisterDeviceRequest (required):
+  Future<Response> unregisterDeviceWithHttpInfo(UnregisterDeviceRequest unregisterDeviceRequest,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/v1/devices/unregister';
+
+    // ignore: prefer_final_locals
+    Object? postBody = unregisterDeviceRequest;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Stop sending to a device
+  ///
+  /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+  ///
+  /// Parameters:
+  ///
+  /// * [UnregisterDeviceRequest] unregisterDeviceRequest (required):
+  Future<InlineObject?> unregisterDevice(UnregisterDeviceRequest unregisterDeviceRequest,) async {
+    final response = await unregisterDeviceWithHttpInfo(unregisterDeviceRequest,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'InlineObject',) as InlineObject;
     
     }
     return null;

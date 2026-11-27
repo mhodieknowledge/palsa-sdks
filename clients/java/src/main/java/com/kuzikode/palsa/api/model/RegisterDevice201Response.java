@@ -19,7 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.kuzikode.palsa.api.model.RegisterDevice201ResponseData;
+import com.kuzikode.palsa.api.model.DeviceRegistered;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -54,12 +54,12 @@ public class RegisterDevice201Response {
   public static final String SERIALIZED_NAME_DATA = "data";
   @SerializedName(SERIALIZED_NAME_DATA)
   @javax.annotation.Nonnull
-  private RegisterDevice201ResponseData data;
+  private DeviceRegistered data;
 
   public RegisterDevice201Response() {
   }
 
-  public RegisterDevice201Response data(@javax.annotation.Nonnull RegisterDevice201ResponseData data) {
+  public RegisterDevice201Response data(@javax.annotation.Nonnull DeviceRegistered data) {
     this.data = data;
     return this;
   }
@@ -69,11 +69,11 @@ public class RegisterDevice201Response {
    * @return data
    */
   @javax.annotation.Nonnull
-  public RegisterDevice201ResponseData getData() {
+  public DeviceRegistered getData() {
     return data;
   }
 
-  public void setData(@javax.annotation.Nonnull RegisterDevice201ResponseData data) {
+  public void setData(@javax.annotation.Nonnull DeviceRegistered data) {
     this.data = data;
   }
 
@@ -157,7 +157,7 @@ public class RegisterDevice201Response {
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the required field `data`
-      RegisterDevice201ResponseData.validateJsonElement(jsonObj.get("data"));
+      DeviceRegistered.validateJsonElement(jsonObj.get("data"));
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

@@ -7,7 +7,9 @@ All URIs are relative to https://api.palsa.co.zw, except if the operation define
 | [**createContact()**](ContactsApi.md#createContact) | **POST** /v1/contacts | Save a contact |
 | [**deleteContact()**](ContactsApi.md#deleteContact) | **DELETE** /v1/contacts/{id} | Erase a contact |
 | [**listContacts()**](ContactsApi.md#listContacts) | **GET** /v1/contacts | List contacts |
+| [**listDevices()**](ContactsApi.md#listDevices) | **GET** /v1/devices | List registered devices |
 | [**registerDevice()**](ContactsApi.md#registerDevice) | **POST** /v1/devices | Register a device for push |
+| [**unregisterDevice()**](ContactsApi.md#unregisterDevice) | **POST** /v1/devices/unregister | Stop sending to a device |
 
 
 ## `createContact()`
@@ -190,6 +192,66 @@ try {
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `listDevices()`
+
+```php
+listDevices($contact_id): \Palsa\Api\Model\ListDevices200Response
+```
+
+List registered devices
+
+The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Palsa\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Palsa\Api\Api\ContactsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$contact_id = 'contact_id_example'; // string
+
+try {
+    $result = $apiInstance->listDevices($contact_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ContactsApi->listDevices: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **contact_id** | **string**|  | [optional] |
+
+### Return type
+
+[**\Palsa\Api\Model\ListDevices200Response**](../Model/ListDevices200Response.md)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `registerDevice()`
 
 ```php
@@ -236,6 +298,66 @@ try {
 ### Return type
 
 [**\Palsa\Api\Model\RegisterDevice201Response**](../Model/RegisterDevice201Response.md)
+
+### Authorization
+
+[bearerAuth](../../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `unregisterDevice()`
+
+```php
+unregisterDevice($unregister_device_request): \Palsa\Api\Model\InlineObject
+```
+
+Stop sending to a device
+
+For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: bearerAuth
+$config = Palsa\Api\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
+$apiInstance = new Palsa\Api\Api\ContactsApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$unregister_device_request = new \Palsa\Api\Model\UnregisterDeviceRequest(); // \Palsa\Api\Model\UnregisterDeviceRequest
+
+try {
+    $result = $apiInstance->unregisterDevice($unregister_device_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ContactsApi->unregisterDevice: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **unregister_device_request** | [**\Palsa\Api\Model\UnregisterDeviceRequest**](../Model/UnregisterDeviceRequest.md)|  | |
+
+### Return type
+
+[**\Palsa\Api\Model\InlineObject**](../Model/InlineObject.md)
 
 ### Authorization
 

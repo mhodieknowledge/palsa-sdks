@@ -120,6 +120,16 @@ public class DeviceRegister {
   @javax.annotation.Nullable
   private String contactId;
 
+  public static final String SERIALIZED_NAME_APP_ID = "appId";
+  @SerializedName(SERIALIZED_NAME_APP_ID)
+  @javax.annotation.Nullable
+  private String appId;
+
+  public static final String SERIALIZED_NAME_PREVIOUS_TOKEN = "previousToken";
+  @SerializedName(SERIALIZED_NAME_PREVIOUS_TOKEN)
+  @javax.annotation.Nullable
+  private String previousToken;
+
   public static final String SERIALIZED_NAME_APP_VERSION = "appVersion";
   @SerializedName(SERIALIZED_NAME_APP_VERSION)
   @javax.annotation.Nullable
@@ -190,6 +200,44 @@ public class DeviceRegister {
   }
 
 
+  public DeviceRegister appId(@javax.annotation.Nullable String appId) {
+    this.appId = appId;
+    return this;
+  }
+
+  /**
+   * The push app the token belongs to. Default the workspace&#39;s default app.
+   * @return appId
+   */
+  @javax.annotation.Nullable
+  public String getAppId() {
+    return appId;
+  }
+
+  public void setAppId(@javax.annotation.Nullable String appId) {
+    this.appId = appId;
+  }
+
+
+  public DeviceRegister previousToken(@javax.annotation.Nullable String previousToken) {
+    this.previousToken = previousToken;
+    return this;
+  }
+
+  /**
+   * The token this one replaces, from the app&#39;s token-refresh callback. The device keeps its id, contact and topics.
+   * @return previousToken
+   */
+  @javax.annotation.Nullable
+  public String getPreviousToken() {
+    return previousToken;
+  }
+
+  public void setPreviousToken(@javax.annotation.Nullable String previousToken) {
+    this.previousToken = previousToken;
+  }
+
+
   public DeviceRegister appVersion(@javax.annotation.Nullable String appVersion) {
     this.appVersion = appVersion;
     return this;
@@ -241,6 +289,8 @@ public class DeviceRegister {
     return Objects.equals(this.token, deviceRegister.token) &&
         Objects.equals(this.platform, deviceRegister.platform) &&
         Objects.equals(this.contactId, deviceRegister.contactId) &&
+        Objects.equals(this.appId, deviceRegister.appId) &&
+        Objects.equals(this.previousToken, deviceRegister.previousToken) &&
         Objects.equals(this.appVersion, deviceRegister.appVersion) &&
         Objects.equals(this.locale, deviceRegister.locale);
   }
@@ -251,7 +301,7 @@ public class DeviceRegister {
 
   @Override
   public int hashCode() {
-    return Objects.hash(token, platform, contactId, appVersion, locale);
+    return Objects.hash(token, platform, contactId, appId, previousToken, appVersion, locale);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -268,6 +318,8 @@ public class DeviceRegister {
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
     sb.append("    platform: ").append(toIndentedString(platform)).append("\n");
     sb.append("    contactId: ").append(toIndentedString(contactId)).append("\n");
+    sb.append("    appId: ").append(toIndentedString(appId)).append("\n");
+    sb.append("    previousToken: ").append(toIndentedString(previousToken)).append("\n");
     sb.append("    appVersion: ").append(toIndentedString(appVersion)).append("\n");
     sb.append("    locale: ").append(toIndentedString(locale)).append("\n");
     sb.append("}");
@@ -291,7 +343,7 @@ public class DeviceRegister {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("token", "platform", "contactId", "appVersion", "locale"));
+    openapiFields = new HashSet<String>(Arrays.asList("token", "platform", "contactId", "appId", "previousToken", "appVersion", "locale"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("token", "platform"));
@@ -335,6 +387,12 @@ public class DeviceRegister {
       PlatformEnum.validateJsonElement(jsonObj.get("platform"));
       if ((jsonObj.get("contactId") != null && !jsonObj.get("contactId").isJsonNull()) && !jsonObj.get("contactId").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `contactId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("contactId").toString()));
+      }
+      if ((jsonObj.get("appId") != null && !jsonObj.get("appId").isJsonNull()) && !jsonObj.get("appId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `appId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("appId").toString()));
+      }
+      if ((jsonObj.get("previousToken") != null && !jsonObj.get("previousToken").isJsonNull()) && !jsonObj.get("previousToken").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `previousToken` to be a primitive type in the JSON string but got `%s`", jsonObj.get("previousToken").toString()));
       }
       if ((jsonObj.get("appVersion") != null && !jsonObj.get("appVersion").isJsonNull()) && !jsonObj.get("appVersion").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `appVersion` to be a primitive type in the JSON string but got `%s`", jsonObj.get("appVersion").toString()));

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**data** | [**RegisterDevice201ResponseData**](RegisterDevice201ResponseData.md) |  | 
+**data** | [**DeviceRegistered**](DeviceRegistered.md) |  | 
 
 ## Example
 

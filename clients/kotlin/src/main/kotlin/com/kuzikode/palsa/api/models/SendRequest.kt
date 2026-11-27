@@ -15,8 +15,11 @@
 
 package com.kuzikode.palsa.api.models
 
+import com.kuzikode.palsa.api.models.AndroidPushOptions
 import com.kuzikode.palsa.api.models.Channel
+import com.kuzikode.palsa.api.models.IosPushOptions
 import com.kuzikode.palsa.api.models.Recipients
+import com.kuzikode.palsa.api.models.WebPushOptions
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
@@ -47,6 +50,14 @@ import com.squareup.moshi.JsonClass
  * @param priority Push only.
  * @param badge Push only. The number on the app icon. Zero is meaningful: it clears the badge.
  * @param imageUrl Push only. A picture shown with the notification.
+ * @param appId Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+ * @param sound Push only. `default`, or the name of a sound bundled with the app.
+ * @param collapseKey Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+ * @param `data` Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+ * @param silent Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+ * @param android 
+ * @param ios 
+ * @param web 
  * @param scheduledAt ISO 8601. Omit to send now.
  * @param callbackUrl 
  * @param metadata Yours. Returned on the send and on webhooks about it.
@@ -140,6 +151,35 @@ data class SendRequest (
     /* Push only. A picture shown with the notification. */
     @Json(name = "imageUrl")
     val imageUrl: java.net.URI? = null,
+
+    /* Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used. */
+    @Json(name = "appId")
+    val appId: kotlin.String? = null,
+
+    /* Push only. `default`, or the name of a sound bundled with the app. */
+    @Json(name = "sound")
+    val sound: kotlin.String? = null,
+
+    /* Push only. A newer message with the same key replaces an undelivered older one, on every platform. */
+    @Json(name = "collapseKey")
+    val collapseKey: kotlin.String? = null,
+
+    /* Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm. */
+    @Json(name = "data")
+    val `data`: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
+
+    /* Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted. */
+    @Json(name = "silent")
+    val silent: kotlin.Boolean? = null,
+
+    @Json(name = "android")
+    val android: AndroidPushOptions? = null,
+
+    @Json(name = "ios")
+    val ios: IosPushOptions? = null,
+
+    @Json(name = "web")
+    val web: WebPushOptions? = null,
 
     /* ISO 8601. Omit to send now. */
     @Json(name = "scheduledAt")

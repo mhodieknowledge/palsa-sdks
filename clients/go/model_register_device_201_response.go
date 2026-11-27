@@ -21,7 +21,7 @@ var _ MappedNullable = &RegisterDevice201Response{}
 
 // RegisterDevice201Response struct for RegisterDevice201Response
 type RegisterDevice201Response struct {
-	Data RegisterDevice201ResponseData `json:"data"`
+	Data DeviceRegistered `json:"data"`
 }
 
 type _RegisterDevice201Response RegisterDevice201Response
@@ -30,7 +30,7 @@ type _RegisterDevice201Response RegisterDevice201Response
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRegisterDevice201Response(data RegisterDevice201ResponseData) *RegisterDevice201Response {
+func NewRegisterDevice201Response(data DeviceRegistered) *RegisterDevice201Response {
 	this := RegisterDevice201Response{}
 	this.Data = data
 	return &this
@@ -45,9 +45,9 @@ func NewRegisterDevice201ResponseWithDefaults() *RegisterDevice201Response {
 }
 
 // GetData returns the Data field value
-func (o *RegisterDevice201Response) GetData() RegisterDevice201ResponseData {
+func (o *RegisterDevice201Response) GetData() DeviceRegistered {
 	if o == nil {
-		var ret RegisterDevice201ResponseData
+		var ret DeviceRegistered
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *RegisterDevice201Response) GetData() RegisterDevice201ResponseData {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *RegisterDevice201Response) GetDataOk() (*RegisterDevice201ResponseData, bool) {
+func (o *RegisterDevice201Response) GetDataOk() (*DeviceRegistered, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *RegisterDevice201Response) GetDataOk() (*RegisterDevice201ResponseData,
 }
 
 // SetData sets field value
-func (o *RegisterDevice201Response) SetData(v RegisterDevice201ResponseData) {
+func (o *RegisterDevice201Response) SetData(v DeviceRegistered) {
 	o.Data = v
 }
 

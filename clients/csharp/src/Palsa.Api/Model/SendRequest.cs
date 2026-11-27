@@ -175,11 +175,19 @@ namespace Palsa.Api.Model
         /// <param name="priority">Push only..</param>
         /// <param name="badge">Push only. The number on the app icon. Zero is meaningful: it clears the badge..</param>
         /// <param name="imageUrl">Push only. A picture shown with the notification..</param>
+        /// <param name="appId">Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used..</param>
+        /// <param name="sound">Push only. &#x60;default&#x60;, or the name of a sound bundled with the app..</param>
+        /// <param name="collapseKey">Push only. A newer message with the same key replaces an undelivered older one, on every platform..</param>
+        /// <param name="data">Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm..</param>
+        /// <param name="silent">Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted..</param>
+        /// <param name="android">android.</param>
+        /// <param name="ios">ios.</param>
+        /// <param name="web">web.</param>
         /// <param name="scheduledAt">ISO 8601. Omit to send now..</param>
         /// <param name="callbackUrl">callbackUrl.</param>
         /// <param name="metadata">Yours. Returned on the send and on webhooks about it..</param>
         /// <param name="name">Also seeds the A/B division.</param>
-        public SendRequest(List<Channel> channels = default, Recipients to = default, string body = default, string subject = default, string templateId = default, Dictionary<string, Object> variables = default, PurposeEnum? purpose = PurposeEnum.Transactional, RoutingEnum? routing = RoutingEnum.Parallel, FallbackOnEnum? fallbackOn = FallbackOnEnum.Failure, int fallbackWaitSeconds = default, string variantBody = default, string variantSubject = default, int splitPercent = default, bool trackLinks = false, string quietStart = default, string quietEnd = default, string timezone = default, List<string> attachmentIds = default, string deepLink = default, int ttlSeconds = default, PriorityEnum? priority = default, int badge = default, string imageUrl = default, string scheduledAt = default, string callbackUrl = default, Dictionary<string, Object> metadata = default, string name = default)
+        public SendRequest(List<Channel> channels = default, Recipients to = default, string body = default, string subject = default, string templateId = default, Dictionary<string, Object> variables = default, PurposeEnum? purpose = PurposeEnum.Transactional, RoutingEnum? routing = RoutingEnum.Parallel, FallbackOnEnum? fallbackOn = FallbackOnEnum.Failure, int fallbackWaitSeconds = default, string variantBody = default, string variantSubject = default, int splitPercent = default, bool trackLinks = false, string quietStart = default, string quietEnd = default, string timezone = default, List<string> attachmentIds = default, string deepLink = default, int ttlSeconds = default, PriorityEnum? priority = default, int badge = default, string imageUrl = default, string appId = default, string sound = default, string collapseKey = default, Dictionary<string, string> data = default, bool silent = default, AndroidPushOptions android = default, IosPushOptions ios = default, WebPushOptions web = default, string scheduledAt = default, string callbackUrl = default, Dictionary<string, Object> metadata = default, string name = default)
         {
             // to ensure "channels" is required (not null)
             if (channels == null)
@@ -214,6 +222,14 @@ namespace Palsa.Api.Model
             this.Priority = priority;
             this.Badge = badge;
             this.ImageUrl = imageUrl;
+            this.AppId = appId;
+            this.Sound = sound;
+            this.CollapseKey = collapseKey;
+            this.Data = data;
+            this.Silent = silent;
+            this.Android = android;
+            this.Ios = ios;
+            this.Web = web;
             this.ScheduledAt = scheduledAt;
             this.CallbackUrl = callbackUrl;
             this.Metadata = metadata;
@@ -348,6 +364,59 @@ namespace Palsa.Api.Model
         public string ImageUrl { get; set; }
 
         /// <summary>
+        /// Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used.
+        /// </summary>
+        /// <value>Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used.</value>
+        [DataMember(Name = "appId", EmitDefaultValue = false)]
+        public string AppId { get; set; }
+
+        /// <summary>
+        /// Push only. &#x60;default&#x60;, or the name of a sound bundled with the app.
+        /// </summary>
+        /// <value>Push only. &#x60;default&#x60;, or the name of a sound bundled with the app.</value>
+        [DataMember(Name = "sound", EmitDefaultValue = false)]
+        public string Sound { get; set; }
+
+        /// <summary>
+        /// Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+        /// </summary>
+        /// <value>Push only. A newer message with the same key replaces an undelivered older one, on every platform.</value>
+        [DataMember(Name = "collapseKey", EmitDefaultValue = false)]
+        public string CollapseKey { get; set; }
+
+        /// <summary>
+        /// Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+        /// </summary>
+        /// <value>Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.</value>
+        [DataMember(Name = "data", EmitDefaultValue = false)]
+        public Dictionary<string, string> Data { get; set; }
+
+        /// <summary>
+        /// Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted.
+        /// </summary>
+        /// <value>Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted.</value>
+        [DataMember(Name = "silent", EmitDefaultValue = true)]
+        public bool Silent { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Android
+        /// </summary>
+        [DataMember(Name = "android", EmitDefaultValue = false)]
+        public AndroidPushOptions Android { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Ios
+        /// </summary>
+        [DataMember(Name = "ios", EmitDefaultValue = false)]
+        public IosPushOptions Ios { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Web
+        /// </summary>
+        [DataMember(Name = "web", EmitDefaultValue = false)]
+        public WebPushOptions Web { get; set; }
+
+        /// <summary>
         /// ISO 8601. Omit to send now.
         /// </summary>
         /// <value>ISO 8601. Omit to send now.</value>
@@ -405,6 +474,14 @@ namespace Palsa.Api.Model
             sb.Append("  Priority: ").Append(Priority).Append("\n");
             sb.Append("  Badge: ").Append(Badge).Append("\n");
             sb.Append("  ImageUrl: ").Append(ImageUrl).Append("\n");
+            sb.Append("  AppId: ").Append(AppId).Append("\n");
+            sb.Append("  Sound: ").Append(Sound).Append("\n");
+            sb.Append("  CollapseKey: ").Append(CollapseKey).Append("\n");
+            sb.Append("  Data: ").Append(Data).Append("\n");
+            sb.Append("  Silent: ").Append(Silent).Append("\n");
+            sb.Append("  Android: ").Append(Android).Append("\n");
+            sb.Append("  Ios: ").Append(Ios).Append("\n");
+            sb.Append("  Web: ").Append(Web).Append("\n");
             sb.Append("  ScheduledAt: ").Append(ScheduledAt).Append("\n");
             sb.Append("  CallbackUrl: ").Append(CallbackUrl).Append("\n");
             sb.Append("  Metadata: ").Append(Metadata).Append("\n");
@@ -541,6 +618,30 @@ namespace Palsa.Api.Model
             if (this.ImageUrl != null && this.ImageUrl.Length > 500)
             {
                 yield return new ValidationResult("Invalid value for ImageUrl, length must be less than 500.", new [] { "ImageUrl" });
+            }
+
+            // AppId (string) maxLength
+            if (this.AppId != null && this.AppId.Length > 60)
+            {
+                yield return new ValidationResult("Invalid value for AppId, length must be less than 60.", new [] { "AppId" });
+            }
+
+            if (this.Sound != null) {
+                // Sound (string) pattern
+                Regex regexSound = new Regex(@"^[A-Za-z0-9_.-]{1,64}$", RegexOptions.CultureInvariant);
+                if (!regexSound.Match(this.Sound).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Sound, must match a pattern of " + regexSound, new [] { "Sound" });
+                }
+            }
+
+            if (this.CollapseKey != null) {
+                // CollapseKey (string) pattern
+                Regex regexCollapseKey = new Regex(@"^[A-Za-z0-9_-]{1,32}$", RegexOptions.CultureInvariant);
+                if (!regexCollapseKey.Match(this.CollapseKey).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for CollapseKey, must match a pattern of " + regexCollapseKey, new [] { "CollapseKey" });
+                }
             }
 
             // ScheduledAt (string) maxLength

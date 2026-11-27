@@ -147,6 +147,51 @@ void main() {
       // TODO
     });
 
+    // Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+    // String appId
+    test('to test the property `appId`', () async {
+      // TODO
+    });
+
+    // Push only. `default`, or the name of a sound bundled with the app.
+    // String sound
+    test('to test the property `sound`', () async {
+      // TODO
+    });
+
+    // Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+    // String collapseKey
+    test('to test the property `collapseKey`', () async {
+      // TODO
+    });
+
+    // Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+    // Map<String, String> data (default value: const {})
+    test('to test the property `data`', () async {
+      // TODO
+    });
+
+    // Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+    // bool silent
+    test('to test the property `silent`', () async {
+      // TODO
+    });
+
+    // AndroidPushOptions android
+    test('to test the property `android`', () async {
+      // TODO
+    });
+
+    // IosPushOptions ios
+    test('to test the property `ios`', () async {
+      // TODO
+    });
+
+    // WebPushOptions web
+    test('to test the property `web`', () async {
+      // TODO
+    });
+
     // ISO 8601. Omit to send now.
     // String scheduledAt
     test('to test the property `scheduledAt`', () async {

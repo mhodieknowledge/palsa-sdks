@@ -57,7 +57,7 @@ Add this dependency to your project's POM:
 <dependency>
   <groupId>com.kuzikode.palsa</groupId>
   <artifactId>palsa-api</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
   <scope>compile</scope>
 </dependency>
 ```
@@ -73,7 +73,7 @@ Add this dependency to your project's build file:
   }
 
   dependencies {
-     implementation "com.kuzikode.palsa:palsa-api:0.2.0"
+     implementation "com.kuzikode.palsa:palsa-api:0.3.0"
   }
 ```
 
@@ -87,7 +87,7 @@ mvn clean package
 
 Then manually install the following JARs:
 
-* `target/palsa-api-0.2.0.jar`
+* `target/palsa-api-0.3.0.jar`
 * `target/lib/*.jar`
 
 ## Getting Started
@@ -139,12 +139,26 @@ Class | Method | HTTP request | Description
 *ContactsApi* | [**createContact**](docs/ContactsApi.md#createContact) | **POST** /v1/contacts | Save a contact
 *ContactsApi* | [**deleteContact**](docs/ContactsApi.md#deleteContact) | **DELETE** /v1/contacts/{id} | Erase a contact
 *ContactsApi* | [**listContacts**](docs/ContactsApi.md#listContacts) | **GET** /v1/contacts | List contacts
+*ContactsApi* | [**listDevices**](docs/ContactsApi.md#listDevices) | **GET** /v1/devices | List registered devices
 *ContactsApi* | [**registerDevice**](docs/ContactsApi.md#registerDevice) | **POST** /v1/devices | Register a device for push
+*ContactsApi* | [**unregisterDevice**](docs/ContactsApi.md#unregisterDevice) | **POST** /v1/devices/unregister | Stop sending to a device
 *NotificationsApi* | [**describeMcp**](docs/NotificationsApi.md#describeMcp) | **GET** /v1/mcp | What the MCP endpoint is
 *NotificationsApi* | [**getNotification**](docs/NotificationsApi.md#getNotification) | **GET** /v1/notifications/{id} | One send
 *NotificationsApi* | [**listNotifications**](docs/NotificationsApi.md#listNotifications) | **GET** /v1/notifications | List sends
 *NotificationsApi* | [**quoteSend**](docs/NotificationsApi.md#quoteSend) | **POST** /v1/quotes | Price a send without making it
 *NotificationsApi* | [**sendNotification**](docs/NotificationsApi.md#sendNotification) | **POST** /v1/notifications | Send a notification
+*PushApi* | [**addPushApp**](docs/PushApi.md#addPushApp) | **POST** /v1/push-apps | Connect an app&#39;s Firebase project
+*PushApi* | [**checkPushApp**](docs/PushApi.md#checkPushApp) | **POST** /v1/push-apps/{id}/check | Check a push app&#39;s access again
+*PushApi* | [**confirmPushAppOwnership**](docs/PushApi.md#confirmPushAppOwnership) | **POST** /v1/push-apps/{id}/ownership | Confirm the code, verifying a delegated app
+*PushApi* | [**getPushApp**](docs/PushApi.md#getPushApp) | **GET** /v1/push-apps/{id} | Get a push app
+*PushApi* | [**listPushApps**](docs/PushApi.md#listPushApps) | **GET** /v1/push-apps | List push apps
+*PushApi* | [**listPushTopics**](docs/PushApi.md#listPushTopics) | **GET** /v1/push-topics | List topics and how many devices each has
+*PushApi* | [**removePushApp**](docs/PushApi.md#removePushApp) | **DELETE** /v1/push-apps/{id} | Remove a push app
+*PushApi* | [**replacePushAppKey**](docs/PushApi.md#replacePushAppKey) | **PUT** /v1/push-apps/{id}/key | Replace a push app&#39;s service-account key
+*PushApi* | [**sendPushAppOwnershipCode**](docs/PushApi.md#sendPushAppOwnershipCode) | **POST** /v1/push-apps/{id}/ownership-code | Push a six-digit code to one of your devices
+*PushApi* | [**subscribeToPushTopic**](docs/PushApi.md#subscribeToPushTopic) | **POST** /v1/push-topics/{topic}/subscribe | Subscribe devices to a topic
+*PushApi* | [**unsubscribeFromPushTopic**](docs/PushApi.md#unsubscribeFromPushTopic) | **POST** /v1/push-topics/{topic}/unsubscribe | Unsubscribe devices from a topic
+*PushApi* | [**updatePushApp**](docs/PushApi.md#updatePushApp) | **PATCH** /v1/push-apps/{id} | Rename a push app or make it the default
 *SendingDomainsApi* | [**addSendingDomain**](docs/SendingDomainsApi.md#addSendingDomain) | **POST** /v1/sending-domains | Add a sending domain
 *SendingDomainsApi* | [**checkSendingDomain**](docs/SendingDomainsApi.md#checkSendingDomain) | **POST** /v1/sending-domains/{id}/check | Check a sending domain now
 *SendingDomainsApi* | [**getSendingDomain**](docs/SendingDomainsApi.md#getSendingDomain) | **GET** /v1/sending-domains/{id} | Get a sending domain
@@ -158,11 +172,13 @@ Class | Method | HTTP request | Description
 
  - [AddSendingDomain201Response](docs/AddSendingDomain201Response.md)
  - [AddSendingDomainRequest](docs/AddSendingDomainRequest.md)
+ - [AndroidPushOptions](docs/AndroidPushOptions.md)
  - [Balance](docs/Balance.md)
  - [Blocker](docs/Blocker.md)
  - [Channel](docs/Channel.md)
  - [CheckVerification200Response](docs/CheckVerification200Response.md)
  - [CheckVerificationRequest](docs/CheckVerificationRequest.md)
+ - [ConfirmPushAppOwnershipRequest](docs/ConfirmPushAppOwnershipRequest.md)
  - [Contact](docs/Contact.md)
  - [ContactCreate](docs/ContactCreate.md)
  - [CreateContact201Response](docs/CreateContact201Response.md)
@@ -170,21 +186,39 @@ Class | Method | HTTP request | Description
  - [DeleteContact200Response](docs/DeleteContact200Response.md)
  - [DeleteContact200ResponseData](docs/DeleteContact200ResponseData.md)
  - [DescribeMcp200Response](docs/DescribeMcp200Response.md)
+ - [Device](docs/Device.md)
  - [DeviceRegister](docs/DeviceRegister.md)
+ - [DeviceRegistered](docs/DeviceRegistered.md)
+ - [DeviceTargets](docs/DeviceTargets.md)
  - [Error](docs/Error.md)
  - [ErrorEnvelope](docs/ErrorEnvelope.md)
  - [GetBalances200Response](docs/GetBalances200Response.md)
  - [GetBalances200ResponseData](docs/GetBalances200ResponseData.md)
  - [GetNotification200Response](docs/GetNotification200Response.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
+ - [InlineObject2](docs/InlineObject2.md)
+ - [InlineObject2Data](docs/InlineObject2Data.md)
+ - [InlineObject2DataFailedInner](docs/InlineObject2DataFailedInner.md)
+ - [IosPushOptions](docs/IosPushOptions.md)
  - [ListContacts200Response](docs/ListContacts200Response.md)
  - [ListContacts200ResponseData](docs/ListContacts200ResponseData.md)
+ - [ListDevices200Response](docs/ListDevices200Response.md)
+ - [ListDevices200ResponseData](docs/ListDevices200ResponseData.md)
  - [ListNotifications200Response](docs/ListNotifications200Response.md)
  - [ListNotifications200ResponseData](docs/ListNotifications200ResponseData.md)
  - [ListNotifications200ResponseMeta](docs/ListNotifications200ResponseMeta.md)
+ - [ListPushApps200Response](docs/ListPushApps200Response.md)
+ - [ListPushApps200ResponseData](docs/ListPushApps200ResponseData.md)
+ - [ListPushTopics200Response](docs/ListPushTopics200Response.md)
+ - [ListPushTopics200ResponseData](docs/ListPushTopics200ResponseData.md)
+ - [ListPushTopics200ResponseDataTopicsInner](docs/ListPushTopics200ResponseDataTopicsInner.md)
  - [ListSendingDomains200Response](docs/ListSendingDomains200Response.md)
  - [ListSendingDomains200ResponseData](docs/ListSendingDomains200ResponseData.md)
  - [Notification](docs/Notification.md)
  - [NotificationSummary](docs/NotificationSummary.md)
+ - [PushApp](docs/PushApp.md)
+ - [PushAppCreate](docs/PushAppCreate.md)
  - [Quote](docs/Quote.md)
  - [QuoteHeldUntil](docs/QuoteHeldUntil.md)
  - [QuoteSend200Response](docs/QuoteSend200Response.md)
@@ -193,19 +227,23 @@ Class | Method | HTTP request | Description
  - [QuotedRecipient](docs/QuotedRecipient.md)
  - [Recipients](docs/Recipients.md)
  - [RegisterDevice201Response](docs/RegisterDevice201Response.md)
- - [RegisterDevice201ResponseData](docs/RegisterDevice201ResponseData.md)
  - [RemoveSendingDomain200Response](docs/RemoveSendingDomain200Response.md)
  - [RemoveSendingDomain200ResponseData](docs/RemoveSendingDomain200ResponseData.md)
+ - [ReplacePushAppKeyRequest](docs/ReplacePushAppKeyRequest.md)
  - [SendNotification202Response](docs/SendNotification202Response.md)
+ - [SendPushAppOwnershipCodeRequest](docs/SendPushAppOwnershipCodeRequest.md)
  - [SendRequest](docs/SendRequest.md)
  - [SendResult](docs/SendResult.md)
  - [SendingDomain](docs/SendingDomain.md)
  - [SendingDomainRecordsInner](docs/SendingDomainRecordsInner.md)
  - [SkippedRecipient](docs/SkippedRecipient.md)
  - [StartVerification201Response](docs/StartVerification201Response.md)
+ - [UnregisterDeviceRequest](docs/UnregisterDeviceRequest.md)
+ - [UpdatePushAppRequest](docs/UpdatePushAppRequest.md)
  - [Verification](docs/Verification.md)
  - [VerificationCheck](docs/VerificationCheck.md)
  - [VerificationRequest](docs/VerificationRequest.md)
+ - [WebPushOptions](docs/WebPushOptions.md)
 
 
 <a id="documentation-for-authorization"></a>

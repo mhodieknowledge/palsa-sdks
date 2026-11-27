@@ -12,7 +12,9 @@ Method | HTTP request | Description
 [**createContact**](ContactsApi.md#createcontact) | **POST** /v1/contacts | Save a contact
 [**deleteContact**](ContactsApi.md#deletecontact) | **DELETE** /v1/contacts/{id} | Erase a contact
 [**listContacts**](ContactsApi.md#listcontacts) | **GET** /v1/contacts | List contacts
+[**listDevices**](ContactsApi.md#listdevices) | **GET** /v1/devices | List registered devices
 [**registerDevice**](ContactsApi.md#registerdevice) | **POST** /v1/devices | Register a device for push
+[**unregisterDevice**](ContactsApi.md#unregisterdevice) | **POST** /v1/devices/unregister | Stop sending to a device
 
 
 # **createContact**
@@ -162,6 +164,55 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **listDevices**
+> ListDevices200Response listDevices(contactId)
+
+List registered devices
+
+The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+
+### Example
+```dart
+import 'package:palsa_api/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ContactsApi();
+final contactId = contactId_example; // String | 
+
+try {
+    final result = api_instance.listDevices(contactId);
+    print(result);
+} catch (e) {
+    print('Exception when calling ContactsApi->listDevices: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **contactId** | **String**|  | [optional] 
+
+### Return type
+
+[**ListDevices200Response**](ListDevices200Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **registerDevice**
 > RegisterDevice201Response registerDevice(deviceRegister)
 
@@ -199,6 +250,55 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**RegisterDevice201Response**](RegisterDevice201Response.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **unregisterDevice**
+> InlineObject unregisterDevice(unregisterDeviceRequest)
+
+Stop sending to a device
+
+For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+
+### Example
+```dart
+import 'package:palsa_api/api.dart';
+// TODO Configure HTTP Bearer authorization: bearerAuth
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('bearerAuth').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = ContactsApi();
+final unregisterDeviceRequest = UnregisterDeviceRequest(); // UnregisterDeviceRequest | 
+
+try {
+    final result = api_instance.unregisterDevice(unregisterDeviceRequest);
+    print(result);
+} catch (e) {
+    print('Exception when calling ContactsApi->unregisterDevice: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **unregisterDeviceRequest** | [**UnregisterDeviceRequest**](UnregisterDeviceRequest.md)|  | 
+
+### Return type
+
+[**InlineObject**](InlineObject.md)
 
 ### Authorization
 

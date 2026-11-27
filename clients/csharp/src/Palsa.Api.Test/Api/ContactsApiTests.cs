@@ -90,6 +90,18 @@ namespace Palsa.Api.Test.Api
         }
 
         /// <summary>
+        /// Test ListDevices
+        /// </summary>
+        [Fact]
+        public void ListDevicesTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //string? contactId = null;
+            //var response = instance.ListDevices(contactId);
+            //Assert.IsType<ListDevices200Response>(response);
+        }
+
+        /// <summary>
         /// Test RegisterDevice
         /// </summary>
         [Fact]
@@ -99,6 +111,18 @@ namespace Palsa.Api.Test.Api
             //DeviceRegister deviceRegister = null;
             //var response = instance.RegisterDevice(deviceRegister);
             //Assert.IsType<RegisterDevice201Response>(response);
+        }
+
+        /// <summary>
+        /// Test UnregisterDevice
+        /// </summary>
+        [Fact]
+        public void UnregisterDeviceTest()
+        {
+            // TODO uncomment below to test the method and replace null with proper value
+            //UnregisterDeviceRequest unregisterDeviceRequest = null;
+            //var response = instance.UnregisterDevice(unregisterDeviceRequest);
+            //Assert.IsType<InlineObject>(response);
         }
     }
 }

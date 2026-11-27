@@ -3,7 +3,7 @@
 #
 
 name: palsa_api
-version: '0.2.0'
+version: '0.3.0'
 description: 'Official Palsa client, generated from the OpenAPI specification. SMS, email and push from one request.'
 homepage: https://palsa.co.zw/docs
 environment:

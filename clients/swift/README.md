@@ -47,12 +47,26 @@ Class | Method | HTTP request | Description
 *ContactsAPI* | [**createContact**](docs/ContactsAPI.md#createcontact) | **POST** /v1/contacts | Save a contact
 *ContactsAPI* | [**deleteContact**](docs/ContactsAPI.md#deletecontact) | **DELETE** /v1/contacts/{id} | Erase a contact
 *ContactsAPI* | [**listContacts**](docs/ContactsAPI.md#listcontacts) | **GET** /v1/contacts | List contacts
+*ContactsAPI* | [**listDevices**](docs/ContactsAPI.md#listdevices) | **GET** /v1/devices | List registered devices
 *ContactsAPI* | [**registerDevice**](docs/ContactsAPI.md#registerdevice) | **POST** /v1/devices | Register a device for push
+*ContactsAPI* | [**unregisterDevice**](docs/ContactsAPI.md#unregisterdevice) | **POST** /v1/devices/unregister | Stop sending to a device
 *NotificationsAPI* | [**describeMcp**](docs/NotificationsAPI.md#describemcp) | **GET** /v1/mcp | What the MCP endpoint is
 *NotificationsAPI* | [**getNotification**](docs/NotificationsAPI.md#getnotification) | **GET** /v1/notifications/{id} | One send
 *NotificationsAPI* | [**listNotifications**](docs/NotificationsAPI.md#listnotifications) | **GET** /v1/notifications | List sends
 *NotificationsAPI* | [**quoteSend**](docs/NotificationsAPI.md#quotesend) | **POST** /v1/quotes | Price a send without making it
 *NotificationsAPI* | [**sendNotification**](docs/NotificationsAPI.md#sendnotification) | **POST** /v1/notifications | Send a notification
+*PushAPI* | [**addPushApp**](docs/PushAPI.md#addpushapp) | **POST** /v1/push-apps | Connect an app&#39;s Firebase project
+*PushAPI* | [**checkPushApp**](docs/PushAPI.md#checkpushapp) | **POST** /v1/push-apps/{id}/check | Check a push app&#39;s access again
+*PushAPI* | [**confirmPushAppOwnership**](docs/PushAPI.md#confirmpushappownership) | **POST** /v1/push-apps/{id}/ownership | Confirm the code, verifying a delegated app
+*PushAPI* | [**getPushApp**](docs/PushAPI.md#getpushapp) | **GET** /v1/push-apps/{id} | Get a push app
+*PushAPI* | [**listPushApps**](docs/PushAPI.md#listpushapps) | **GET** /v1/push-apps | List push apps
+*PushAPI* | [**listPushTopics**](docs/PushAPI.md#listpushtopics) | **GET** /v1/push-topics | List topics and how many devices each has
+*PushAPI* | [**removePushApp**](docs/PushAPI.md#removepushapp) | **DELETE** /v1/push-apps/{id} | Remove a push app
+*PushAPI* | [**replacePushAppKey**](docs/PushAPI.md#replacepushappkey) | **PUT** /v1/push-apps/{id}/key | Replace a push app&#39;s service-account key
+*PushAPI* | [**sendPushAppOwnershipCode**](docs/PushAPI.md#sendpushappownershipcode) | **POST** /v1/push-apps/{id}/ownership-code | Push a six-digit code to one of your devices
+*PushAPI* | [**subscribeToPushTopic**](docs/PushAPI.md#subscribetopushtopic) | **POST** /v1/push-topics/{topic}/subscribe | Subscribe devices to a topic
+*PushAPI* | [**unsubscribeFromPushTopic**](docs/PushAPI.md#unsubscribefrompushtopic) | **POST** /v1/push-topics/{topic}/unsubscribe | Unsubscribe devices from a topic
+*PushAPI* | [**updatePushApp**](docs/PushAPI.md#updatepushapp) | **PATCH** /v1/push-apps/{id} | Rename a push app or make it the default
 *SendingDomainsAPI* | [**addSendingDomain**](docs/SendingDomainsAPI.md#addsendingdomain) | **POST** /v1/sending-domains | Add a sending domain
 *SendingDomainsAPI* | [**checkSendingDomain**](docs/SendingDomainsAPI.md#checksendingdomain) | **POST** /v1/sending-domains/{id}/check | Check a sending domain now
 *SendingDomainsAPI* | [**getSendingDomain**](docs/SendingDomainsAPI.md#getsendingdomain) | **GET** /v1/sending-domains/{id} | Get a sending domain
@@ -66,11 +80,13 @@ Class | Method | HTTP request | Description
 
  - [AddSendingDomain201Response](docs/AddSendingDomain201Response.md)
  - [AddSendingDomainRequest](docs/AddSendingDomainRequest.md)
+ - [AndroidPushOptions](docs/AndroidPushOptions.md)
  - [Balance](docs/Balance.md)
  - [Blocker](docs/Blocker.md)
  - [Channel](docs/Channel.md)
  - [CheckVerification200Response](docs/CheckVerification200Response.md)
  - [CheckVerificationRequest](docs/CheckVerificationRequest.md)
+ - [ConfirmPushAppOwnershipRequest](docs/ConfirmPushAppOwnershipRequest.md)
  - [Contact](docs/Contact.md)
  - [ContactCreate](docs/ContactCreate.md)
  - [CreateContact201Response](docs/CreateContact201Response.md)
@@ -78,21 +94,39 @@ Class | Method | HTTP request | Description
  - [DeleteContact200Response](docs/DeleteContact200Response.md)
  - [DeleteContact200ResponseData](docs/DeleteContact200ResponseData.md)
  - [DescribeMcp200Response](docs/DescribeMcp200Response.md)
+ - [Device](docs/Device.md)
  - [DeviceRegister](docs/DeviceRegister.md)
+ - [DeviceRegistered](docs/DeviceRegistered.md)
+ - [DeviceTargets](docs/DeviceTargets.md)
  - [ErrorEnvelope](docs/ErrorEnvelope.md)
  - [GetBalances200Response](docs/GetBalances200Response.md)
  - [GetBalances200ResponseData](docs/GetBalances200ResponseData.md)
  - [GetNotification200Response](docs/GetNotification200Response.md)
+ - [InlineObject](docs/InlineObject.md)
+ - [InlineObject1](docs/InlineObject1.md)
+ - [InlineObject2](docs/InlineObject2.md)
+ - [InlineObject2Data](docs/InlineObject2Data.md)
+ - [InlineObject2DataFailedInner](docs/InlineObject2DataFailedInner.md)
+ - [IosPushOptions](docs/IosPushOptions.md)
  - [ListContacts200Response](docs/ListContacts200Response.md)
  - [ListContacts200ResponseData](docs/ListContacts200ResponseData.md)
+ - [ListDevices200Response](docs/ListDevices200Response.md)
+ - [ListDevices200ResponseData](docs/ListDevices200ResponseData.md)
  - [ListNotifications200Response](docs/ListNotifications200Response.md)
  - [ListNotifications200ResponseData](docs/ListNotifications200ResponseData.md)
  - [ListNotifications200ResponseMeta](docs/ListNotifications200ResponseMeta.md)
+ - [ListPushApps200Response](docs/ListPushApps200Response.md)
+ - [ListPushApps200ResponseData](docs/ListPushApps200ResponseData.md)
+ - [ListPushTopics200Response](docs/ListPushTopics200Response.md)
+ - [ListPushTopics200ResponseData](docs/ListPushTopics200ResponseData.md)
+ - [ListPushTopics200ResponseDataTopicsInner](docs/ListPushTopics200ResponseDataTopicsInner.md)
  - [ListSendingDomains200Response](docs/ListSendingDomains200Response.md)
  - [ListSendingDomains200ResponseData](docs/ListSendingDomains200ResponseData.md)
  - [ModelError](docs/ModelError.md)
  - [Notification](docs/Notification.md)
  - [NotificationSummary](docs/NotificationSummary.md)
+ - [PushApp](docs/PushApp.md)
+ - [PushAppCreate](docs/PushAppCreate.md)
  - [Quote](docs/Quote.md)
  - [QuoteHeldUntil](docs/QuoteHeldUntil.md)
  - [QuoteSend200Response](docs/QuoteSend200Response.md)
@@ -101,19 +135,23 @@ Class | Method | HTTP request | Description
  - [QuotedRecipient](docs/QuotedRecipient.md)
  - [Recipients](docs/Recipients.md)
  - [RegisterDevice201Response](docs/RegisterDevice201Response.md)
- - [RegisterDevice201ResponseData](docs/RegisterDevice201ResponseData.md)
  - [RemoveSendingDomain200Response](docs/RemoveSendingDomain200Response.md)
  - [RemoveSendingDomain200ResponseData](docs/RemoveSendingDomain200ResponseData.md)
+ - [ReplacePushAppKeyRequest](docs/ReplacePushAppKeyRequest.md)
  - [SendNotification202Response](docs/SendNotification202Response.md)
+ - [SendPushAppOwnershipCodeRequest](docs/SendPushAppOwnershipCodeRequest.md)
  - [SendRequest](docs/SendRequest.md)
  - [SendResult](docs/SendResult.md)
  - [SendingDomain](docs/SendingDomain.md)
  - [SendingDomainRecordsInner](docs/SendingDomainRecordsInner.md)
  - [SkippedRecipient](docs/SkippedRecipient.md)
  - [StartVerification201Response](docs/StartVerification201Response.md)
+ - [UnregisterDeviceRequest](docs/UnregisterDeviceRequest.md)
+ - [UpdatePushAppRequest](docs/UpdatePushAppRequest.md)
  - [Verification](docs/Verification.md)
  - [VerificationCheck](docs/VerificationCheck.md)
  - [VerificationRequest](docs/VerificationRequest.md)
+ - [WebPushOptions](docs/WebPushOptions.md)
 
 
 <a id="documentation-for-authorization"></a>

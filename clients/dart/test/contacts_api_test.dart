@@ -44,12 +44,30 @@ void main() {
       // TODO
     });
 
+    // List registered devices
+    //
+    // The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+    //
+    //Future<ListDevices200Response> listDevices({ String contactId }) async
+    test('test listDevices', () async {
+      // TODO
+    });
+
     // Register a device for push
     //
     // Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the `contacts.write` scope. 
     //
     //Future<RegisterDevice201Response> registerDevice(DeviceRegister deviceRegister) async
     test('test registerDevice', () async {
+      // TODO
+    });
+
+    // Stop sending to a device
+    //
+    // For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+    //
+    //Future<InlineObject> unregisterDevice(UnregisterDeviceRequest unregisterDeviceRequest) async
+    test('test unregisterDevice', () async {
       // TODO
     });
 

@@ -186,6 +186,8 @@ class ApiClient {
           return AddSendingDomain201Response.fromJson(value);
         case 'AddSendingDomainRequest':
           return AddSendingDomainRequest.fromJson(value);
+        case 'AndroidPushOptions':
+          return AndroidPushOptions.fromJson(value);
         case 'Balance':
           return Balance.fromJson(value);
         case 'Blocker':
@@ -196,6 +198,8 @@ class ApiClient {
           return CheckVerification200Response.fromJson(value);
         case 'CheckVerificationRequest':
           return CheckVerificationRequest.fromJson(value);
+        case 'ConfirmPushAppOwnershipRequest':
+          return ConfirmPushAppOwnershipRequest.fromJson(value);
         case 'Contact':
           return Contact.fromJson(value);
         case 'ContactCreate':
@@ -210,8 +214,14 @@ class ApiClient {
           return DeleteContact200ResponseData.fromJson(value);
         case 'DescribeMcp200Response':
           return DescribeMcp200Response.fromJson(value);
+        case 'Device':
+          return Device.fromJson(value);
         case 'DeviceRegister':
           return DeviceRegister.fromJson(value);
+        case 'DeviceRegistered':
+          return DeviceRegistered.fromJson(value);
+        case 'DeviceTargets':
+          return DeviceTargets.fromJson(value);
         case 'Error':
           return Error.fromJson(value);
         case 'ErrorEnvelope':
@@ -222,16 +232,42 @@ class ApiClient {
           return GetBalances200ResponseData.fromJson(value);
         case 'GetNotification200Response':
           return GetNotification200Response.fromJson(value);
+        case 'InlineObject':
+          return InlineObject.fromJson(value);
+        case 'InlineObject1':
+          return InlineObject1.fromJson(value);
+        case 'InlineObject2':
+          return InlineObject2.fromJson(value);
+        case 'InlineObject2Data':
+          return InlineObject2Data.fromJson(value);
+        case 'InlineObject2DataFailedInner':
+          return InlineObject2DataFailedInner.fromJson(value);
+        case 'IosPushOptions':
+          return IosPushOptions.fromJson(value);
         case 'ListContacts200Response':
           return ListContacts200Response.fromJson(value);
         case 'ListContacts200ResponseData':
           return ListContacts200ResponseData.fromJson(value);
+        case 'ListDevices200Response':
+          return ListDevices200Response.fromJson(value);
+        case 'ListDevices200ResponseData':
+          return ListDevices200ResponseData.fromJson(value);
         case 'ListNotifications200Response':
           return ListNotifications200Response.fromJson(value);
         case 'ListNotifications200ResponseData':
           return ListNotifications200ResponseData.fromJson(value);
         case 'ListNotifications200ResponseMeta':
           return ListNotifications200ResponseMeta.fromJson(value);
+        case 'ListPushApps200Response':
+          return ListPushApps200Response.fromJson(value);
+        case 'ListPushApps200ResponseData':
+          return ListPushApps200ResponseData.fromJson(value);
+        case 'ListPushTopics200Response':
+          return ListPushTopics200Response.fromJson(value);
+        case 'ListPushTopics200ResponseData':
+          return ListPushTopics200ResponseData.fromJson(value);
+        case 'ListPushTopics200ResponseDataTopicsInner':
+          return ListPushTopics200ResponseDataTopicsInner.fromJson(value);
         case 'ListSendingDomains200Response':
           return ListSendingDomains200Response.fromJson(value);
         case 'ListSendingDomains200ResponseData':
@@ -240,6 +276,10 @@ class ApiClient {
           return Notification.fromJson(value);
         case 'NotificationSummary':
           return NotificationSummary.fromJson(value);
+        case 'PushApp':
+          return PushApp.fromJson(value);
+        case 'PushAppCreate':
+          return PushAppCreate.fromJson(value);
         case 'Quote':
           return Quote.fromJson(value);
         case 'QuoteHeldUntil':
@@ -256,14 +296,16 @@ class ApiClient {
           return Recipients.fromJson(value);
         case 'RegisterDevice201Response':
           return RegisterDevice201Response.fromJson(value);
-        case 'RegisterDevice201ResponseData':
-          return RegisterDevice201ResponseData.fromJson(value);
         case 'RemoveSendingDomain200Response':
           return RemoveSendingDomain200Response.fromJson(value);
         case 'RemoveSendingDomain200ResponseData':
           return RemoveSendingDomain200ResponseData.fromJson(value);
+        case 'ReplacePushAppKeyRequest':
+          return ReplacePushAppKeyRequest.fromJson(value);
         case 'SendNotification202Response':
           return SendNotification202Response.fromJson(value);
+        case 'SendPushAppOwnershipCodeRequest':
+          return SendPushAppOwnershipCodeRequest.fromJson(value);
         case 'SendRequest':
           return SendRequest.fromJson(value);
         case 'SendResult':
@@ -276,12 +318,18 @@ class ApiClient {
           return SkippedRecipient.fromJson(value);
         case 'StartVerification201Response':
           return StartVerification201Response.fromJson(value);
+        case 'UnregisterDeviceRequest':
+          return UnregisterDeviceRequest.fromJson(value);
+        case 'UpdatePushAppRequest':
+          return UpdatePushAppRequest.fromJson(value);
         case 'Verification':
           return Verification.fromJson(value);
         case 'VerificationCheck':
           return VerificationCheck.fromJson(value);
         case 'VerificationRequest':
           return VerificationRequest.fromJson(value);
+        case 'WebPushOptions':
+          return WebPushOptions.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

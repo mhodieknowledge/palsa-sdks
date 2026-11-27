@@ -41,7 +41,7 @@ namespace Palsa.Api.Model
         /// Initializes a new instance of the <see cref="RegisterDevice201Response" /> class.
         /// </summary>
         /// <param name="data">data (required).</param>
-        public RegisterDevice201Response(RegisterDevice201ResponseData data = default)
+        public RegisterDevice201Response(DeviceRegistered data = default)
         {
             // to ensure "data" is required (not null)
             if (data == null)
@@ -55,7 +55,7 @@ namespace Palsa.Api.Model
         /// Gets or Sets Data
         /// </summary>
         [DataMember(Name = "data", IsRequired = true, EmitDefaultValue = true)]
-        public RegisterDevice201ResponseData Data { get; set; }
+        public DeviceRegistered Data { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

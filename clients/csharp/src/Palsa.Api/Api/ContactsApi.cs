@@ -91,6 +91,27 @@ namespace Palsa.Api.Api
         /// <returns>ApiResponse of ListContacts200Response</returns>
         ApiResponse<ListContacts200Response> ListContactsWithHttpInfo(int? limit = default);
         /// <summary>
+        /// List registered devices
+        /// </summary>
+        /// <remarks>
+        /// The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <returns>ListDevices200Response</returns>
+        ListDevices200Response ListDevices(string? contactId = default);
+
+        /// <summary>
+        /// List registered devices
+        /// </summary>
+        /// <remarks>
+        /// The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <returns>ApiResponse of ListDevices200Response</returns>
+        ApiResponse<ListDevices200Response> ListDevicesWithHttpInfo(string? contactId = default);
+        /// <summary>
         /// Register a device for push
         /// </summary>
         /// <remarks>
@@ -111,6 +132,27 @@ namespace Palsa.Api.Api
         /// <param name="deviceRegister"></param>
         /// <returns>ApiResponse of RegisterDevice201Response</returns>
         ApiResponse<RegisterDevice201Response> RegisterDeviceWithHttpInfo(DeviceRegister deviceRegister);
+        /// <summary>
+        /// Stop sending to a device
+        /// </summary>
+        /// <remarks>
+        /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <returns>InlineObject</returns>
+        InlineObject UnregisterDevice(UnregisterDeviceRequest unregisterDeviceRequest);
+
+        /// <summary>
+        /// Stop sending to a device
+        /// </summary>
+        /// <remarks>
+        /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <returns>ApiResponse of InlineObject</returns>
+        ApiResponse<InlineObject> UnregisterDeviceWithHttpInfo(UnregisterDeviceRequest unregisterDeviceRequest);
         #endregion Synchronous Operations
     }
 
@@ -190,6 +232,29 @@ namespace Palsa.Api.Api
         /// <returns>Task of ApiResponse (ListContacts200Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<ListContacts200Response>> ListContactsWithHttpInfoAsync(int? limit = default, System.Threading.CancellationToken cancellationToken = default);
         /// <summary>
+        /// List registered devices
+        /// </summary>
+        /// <remarks>
+        /// The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ListDevices200Response</returns>
+        System.Threading.Tasks.Task<ListDevices200Response> ListDevicesAsync(string? contactId = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// List registered devices
+        /// </summary>
+        /// <remarks>
+        /// The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ListDevices200Response)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ListDevices200Response>> ListDevicesWithHttpInfoAsync(string? contactId = default, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
         /// Register a device for push
         /// </summary>
         /// <remarks>
@@ -212,6 +277,29 @@ namespace Palsa.Api.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (RegisterDevice201Response)</returns>
         System.Threading.Tasks.Task<ApiResponse<RegisterDevice201Response>> RegisterDeviceWithHttpInfoAsync(DeviceRegister deviceRegister, System.Threading.CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Stop sending to a device
+        /// </summary>
+        /// <remarks>
+        /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of InlineObject</returns>
+        System.Threading.Tasks.Task<InlineObject> UnregisterDeviceAsync(UnregisterDeviceRequest unregisterDeviceRequest, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Stop sending to a device
+        /// </summary>
+        /// <remarks>
+        /// For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </remarks>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (InlineObject)</returns>
+        System.Threading.Tasks.Task<ApiResponse<InlineObject>> UnregisterDeviceWithHttpInfoAsync(UnregisterDeviceRequest unregisterDeviceRequest, System.Threading.CancellationToken cancellationToken = default);
         #endregion Asynchronous Operations
     }
 
@@ -807,6 +895,131 @@ namespace Palsa.Api.Api
         }
 
         /// <summary>
+        /// List registered devices The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <returns>ListDevices200Response</returns>
+        public ListDevices200Response ListDevices(string? contactId = default)
+        {
+            Palsa.Api.Client.ApiResponse<ListDevices200Response> localVarResponse = ListDevicesWithHttpInfo(contactId);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List registered devices The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <returns>ApiResponse of ListDevices200Response</returns>
+        public Palsa.Api.Client.ApiResponse<ListDevices200Response> ListDevicesWithHttpInfo(string? contactId = default)
+        {
+            Palsa.Api.Client.RequestOptions localVarRequestOptions = new Palsa.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Palsa.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Palsa.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (contactId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Palsa.Api.Client.ClientUtils.ParameterToMultiMap("", "contactId", contactId));
+            }
+
+            // authentication (bearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<ListDevices200Response>("/v1/devices", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ListDevices", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// List registered devices The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ListDevices200Response</returns>
+        public async System.Threading.Tasks.Task<ListDevices200Response> ListDevicesAsync(string? contactId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Palsa.Api.Client.ApiResponse<ListDevices200Response> localVarResponse = await ListDevicesWithHttpInfoAsync(contactId, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// List registered devices The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="contactId"> (optional)</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (ListDevices200Response)</returns>
+        public async System.Threading.Tasks.Task<Palsa.Api.Client.ApiResponse<ListDevices200Response>> ListDevicesWithHttpInfoAsync(string? contactId = default, System.Threading.CancellationToken cancellationToken = default)
+        {
+
+            Palsa.Api.Client.RequestOptions localVarRequestOptions = new Palsa.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Palsa.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Palsa.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            if (contactId != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Palsa.Api.Client.ClientUtils.ParameterToMultiMap("", "contactId", contactId));
+            }
+
+            // authentication (bearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<ListDevices200Response>("/v1/devices", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("ListDevices", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         /// Register a device for push Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the &#x60;contacts.write&#x60; scope. 
         /// </summary>
         /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
@@ -929,6 +1142,135 @@ namespace Palsa.Api.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("RegisterDevice", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Stop sending to a device For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <returns>InlineObject</returns>
+        public InlineObject UnregisterDevice(UnregisterDeviceRequest unregisterDeviceRequest)
+        {
+            Palsa.Api.Client.ApiResponse<InlineObject> localVarResponse = UnregisterDeviceWithHttpInfo(unregisterDeviceRequest);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Stop sending to a device For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <returns>ApiResponse of InlineObject</returns>
+        public Palsa.Api.Client.ApiResponse<InlineObject> UnregisterDeviceWithHttpInfo(UnregisterDeviceRequest unregisterDeviceRequest)
+        {
+            // verify the required parameter 'unregisterDeviceRequest' is set
+            if (unregisterDeviceRequest == null)
+                throw new Palsa.Api.Client.ApiException(400, "Missing required parameter 'unregisterDeviceRequest' when calling ContactsApi->UnregisterDevice");
+
+            Palsa.Api.Client.RequestOptions localVarRequestOptions = new Palsa.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+            var localVarContentType = Palsa.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Palsa.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.Data = unregisterDeviceRequest;
+
+            // authentication (bearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<InlineObject>("/v1/devices/unregister", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UnregisterDevice", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Stop sending to a device For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of InlineObject</returns>
+        public async System.Threading.Tasks.Task<InlineObject> UnregisterDeviceAsync(UnregisterDeviceRequest unregisterDeviceRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            Palsa.Api.Client.ApiResponse<InlineObject> localVarResponse = await UnregisterDeviceWithHttpInfoAsync(unregisterDeviceRequest, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Stop sending to a device For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+        /// </summary>
+        /// <exception cref="Palsa.Api.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="unregisterDeviceRequest"></param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (InlineObject)</returns>
+        public async System.Threading.Tasks.Task<Palsa.Api.Client.ApiResponse<InlineObject>> UnregisterDeviceWithHttpInfoAsync(UnregisterDeviceRequest unregisterDeviceRequest, System.Threading.CancellationToken cancellationToken = default)
+        {
+            // verify the required parameter 'unregisterDeviceRequest' is set
+            if (unregisterDeviceRequest == null)
+                throw new Palsa.Api.Client.ApiException(400, "Missing required parameter 'unregisterDeviceRequest' when calling ContactsApi->UnregisterDevice");
+
+
+            Palsa.Api.Client.RequestOptions localVarRequestOptions = new Palsa.Api.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Palsa.Api.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Palsa.Api.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+            localVarRequestOptions.Data = unregisterDeviceRequest;
+
+            // authentication (bearerAuth) required
+            // bearer authentication required
+            if (!string.IsNullOrEmpty(this.Configuration.AccessToken) && !localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
+            }
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.PostAsync<InlineObject>("/v1/devices/unregister", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("UnregisterDevice", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 

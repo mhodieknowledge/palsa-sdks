@@ -63,4 +63,12 @@ public class RecipientsTest {
         // TODO: test audienceId
     }
 
+    /**
+     * Test the property 'topic'
+     */
+    @Test
+    public void topicTest() {
+        // TODO: test topic
+    }
+
 }

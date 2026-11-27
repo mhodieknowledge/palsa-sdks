@@ -20,8 +20,11 @@ import type {
   DeleteContact200Response,
   DeviceRegister,
   ErrorEnvelope,
+  InlineObject,
   ListContacts200Response,
+  ListDevices200Response,
   RegisterDevice201Response,
+  UnregisterDeviceRequest,
 } from '../models/index';
 
 export interface CreateContactRequest {
@@ -36,8 +39,16 @@ export interface ListContactsRequest {
     limit?: number;
 }
 
+export interface ListDevicesRequest {
+    contactId?: string;
+}
+
 export interface RegisterDeviceRequest {
     deviceRegister: DeviceRegister;
+}
+
+export interface UnregisterDeviceOperationRequest {
+    unregisterDeviceRequest: UnregisterDeviceRequest;
 }
 
 /**
@@ -185,6 +196,49 @@ export class ContactsApi extends runtime.BaseAPI {
     }
 
     /**
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+     * List registered devices
+     */
+    async listDevicesRaw(requestParameters: ListDevicesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ListDevices200Response>> {
+        const queryParameters: any = {};
+
+        if (requestParameters['contactId'] != null) {
+            queryParameters['contactId'] = requestParameters['contactId'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v1/devices`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response);
+    }
+
+    /**
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+     * List registered devices
+     */
+    async listDevices(requestParameters: ListDevicesRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ListDevices200Response> {
+        const response = await this.listDevicesRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the `contacts.write` scope. 
      * Register a device for push
      */
@@ -230,6 +284,55 @@ export class ContactsApi extends runtime.BaseAPI {
      */
     async registerDevice(requestParameters: RegisterDeviceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<RegisterDevice201Response> {
         const response = await this.registerDeviceRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+     * Stop sending to a device
+     */
+    async unregisterDeviceRaw(requestParameters: UnregisterDeviceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<InlineObject>> {
+        if (requestParameters['unregisterDeviceRequest'] == null) {
+            throw new runtime.RequiredError(
+                'unregisterDeviceRequest',
+                'Required parameter "unregisterDeviceRequest" was null or undefined when calling unregisterDevice().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v1/devices/unregister`;
+
+        const response = await this.request({
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters['unregisterDeviceRequest'],
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response);
+    }
+
+    /**
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+     * Stop sending to a device
+     */
+    async unregisterDevice(requestParameters: UnregisterDeviceOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<InlineObject> {
+        const response = await this.unregisterDeviceRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

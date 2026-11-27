@@ -57,7 +57,7 @@ class RegisterDevice201Response implements ModelInterface, ArrayAccess, \JsonSer
       * @var string[]
       */
     protected static $openAPITypes = [
-        'data' => '\Palsa\Api\Model\RegisterDevice201ResponseData'
+        'data' => '\Palsa\Api\Model\DeviceRegistered'
     ];
 
     /**
@@ -295,7 +295,7 @@ class RegisterDevice201Response implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Gets data
      *
-     * @return \Palsa\Api\Model\RegisterDevice201ResponseData
+     * @return \Palsa\Api\Model\DeviceRegistered
      */
     public function getData()
     {
@@ -305,7 +305,7 @@ class RegisterDevice201Response implements ModelInterface, ArrayAccess, \JsonSer
     /**
      * Sets data
      *
-     * @param \Palsa\Api\Model\RegisterDevice201ResponseData $data data
+     * @param \Palsa\Api\Model\DeviceRegistered $data data
      *
      * @return self
      */

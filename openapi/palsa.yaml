@@ -47,6 +47,12 @@ tags:
     description: What credit is left.
   - name: Sending domains
     description: The domains a workspace sends email from, verified with Amazon SES.
+  - name: Push
+    description: |
+      Push goes out through the customer's own Firebase project, because a device token only works through the
+      project of the app that minted it. Each app is connected once, with a service-account key (stored
+      encrypted, never returned) or by granting Palsa's service account the Firebase Cloud Messaging API Admin
+      role on the project. Topics are namespaced per workspace, so no customer can address another's.
 
 paths:
   /v1/notifications:
@@ -571,13 +577,333 @@ paths:
                 type: object
                 required: [data]
                 properties:
-                  data:
-                    type: object
-                    required: [registered]
-                    properties:
-                      registered: { type: boolean }
+                  data: { $ref: '#/components/schemas/DeviceRegistered' }
+        '200':
+          description: A refreshed token replaced `previousToken` in place.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: '#/components/schemas/DeviceRegistered' }
         '401': { $ref: '#/components/responses/Unauthenticated' }
         '403': { $ref: '#/components/responses/Forbidden' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+    get:
+      tags: [Contacts]
+      operationId: listDevices
+      summary: List registered devices
+      description: The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+      parameters:
+        - { name: contactId, in: query, required: false, schema: { type: string, maxLength: 60 } }
+      responses:
+        '200':
+          description: The devices.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [devices]
+                    properties:
+                      devices: { type: array, items: { $ref: '#/components/schemas/Device' } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/devices/unregister:
+    post:
+      tags: [Contacts]
+      operationId: unregisterDevice
+      summary: Stop sending to a device
+      description: For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              properties:
+                token: { type: string, minLength: 10, maxLength: 400 }
+      responses:
+        '200': { $ref: '#/components/responses/PushOk' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps:
+    get:
+      tags: [Push]
+      operationId: listPushApps
+      summary: List push apps
+      description: Requires the `push.read` scope.
+      responses:
+        '200':
+          description: The workspace's apps.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [apps]
+                    properties:
+                      apps: { type: array, items: { $ref: '#/components/schemas/PushApp' } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    post:
+      tags: [Push]
+      operationId: addPushApp
+      summary: Connect an app's Firebase project
+      description: |
+        With `service_account`, the key is checked with Firebase (a validate-only message, which sends
+        nothing) and the app is verified at once. With `delegated`, grant `grantTo` the Firebase Cloud
+        Messaging API Admin role on the project, then prove ownership with a code sent to one of your devices.
+        Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PushAppCreate' }
+      responses:
+        '201': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps/{id}:
+    get:
+      tags: [Push]
+      operationId: getPushApp
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Get a push app
+      description: Requires the `push.read` scope.
+      responses:
+        '200': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    patch:
+      tags: [Push]
+      operationId: updatePushApp
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Rename a push app or make it the default
+      description: Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string, minLength: 1, maxLength: 80 }
+                isDefault: { type: boolean, description: Only true is accepted. Make this verified app the default. }
+                androidPackage: { type: [string, 'null'], maxLength: 200 }
+                iosBundleId: { type: [string, 'null'], maxLength: 200 }
+                webOrigin: { type: [string, 'null'], format: uri, maxLength: 200 }
+      responses:
+        '200': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    delete:
+      tags: [Push]
+      operationId: removePushApp
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Remove a push app
+      description: Its key is deleted and its devices stop receiving push. Requires the `push.write` scope.
+      responses:
+        '200': { $ref: '#/components/responses/PushOk' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps/{id}/key:
+    put:
+      tags: [Push]
+      operationId: replacePushAppKey
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Replace a push app's service-account key
+      description: For rotating a key. The new one must be for the same project. Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [serviceAccount]
+              properties:
+                serviceAccount: { type: string, maxLength: 10000 }
+      responses:
+        '200': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps/{id}/check:
+    post:
+      tags: [Push]
+      operationId: checkPushApp
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Check a push app's access again
+      description: Requires the `push.write` scope.
+      responses:
+        '200': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps/{id}/ownership-code:
+    post:
+      tags: [Push]
+      operationId: sendPushAppOwnershipCode
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Push a six-digit code to one of your devices
+      description: Delegated apps only. The code arrives as a notification and as the `palsa_verification_code` data key, and lasts 15 minutes. Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [deviceToken]
+              properties:
+                deviceToken: { type: string, minLength: 10, maxLength: 400 }
+      responses:
+        '200': { $ref: '#/components/responses/PushOk' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-apps/{id}/ownership:
+    post:
+      tags: [Push]
+      operationId: confirmPushAppOwnership
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      summary: Confirm the code, verifying a delegated app
+      description: Five wrong codes and a new one must be sent. Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string, pattern: '^[0-9]{6}$' }
+      responses:
+        '200': { $ref: '#/components/responses/PushAppResponse' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-topics:
+    get:
+      tags: [Push]
+      operationId: listPushTopics
+      summary: List topics and how many devices each has
+      description: Requires the `push.read` scope.
+      responses:
+        '200':
+          description: The topics.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: object
+                    required: [topics]
+                    properties:
+                      topics:
+                        type: array
+                        items:
+                          type: object
+                          required: [topic, devices]
+                          properties:
+                            topic: { type: string }
+                            devices: { type: integer }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-topics/{topic}/subscribe:
+    post:
+      tags: [Push]
+      operationId: subscribeToPushTopic
+      parameters:
+        - { name: topic, in: path, required: true, schema: { type: string, pattern: '^[A-Za-z0-9_-]{1,80}$' } }
+      summary: Subscribe devices to a topic
+      description: |
+        Through each device's own app. A token Firebase no longer knows is invalidated. A device whose token
+        is later refreshed through `previousToken` is subscribed again automatically. Requires the
+        `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DeviceTargets' }
+      responses:
+        '200': { $ref: '#/components/responses/TopicChange' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '422': { $ref: '#/components/responses/ValidationFailed' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+
+  /v1/push-topics/{topic}/unsubscribe:
+    post:
+      tags: [Push]
+      operationId: unsubscribeFromPushTopic
+      parameters:
+        - { name: topic, in: path, required: true, schema: { type: string, pattern: '^[A-Za-z0-9_-]{1,80}$' } }
+      summary: Unsubscribe devices from a topic
+      description: Requires the `push.write` scope.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/DeviceTargets' }
+      responses:
+        '200': { $ref: '#/components/responses/TopicChange' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
         '422': { $ref: '#/components/responses/ValidationFailed' }
         '429': { $ref: '#/components/responses/RateLimited' }
 
@@ -628,6 +954,47 @@ components:
       schema: { type: string, maxLength: 100 }
 
   responses:
+    PushOk:
+      description: Done.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data]
+            properties:
+              data: { type: object, additionalProperties: true }
+    PushAppResponse:
+      description: The push app.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data]
+            properties:
+              data: { $ref: '#/components/schemas/PushApp' }
+    TopicChange:
+      description: Which devices Firebase took, and which it refused and why.
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [data]
+            properties:
+              data:
+                type: object
+                required: [topic, failed]
+                properties:
+                  topic: { type: string }
+                  subscribed: { type: integer }
+                  unsubscribed: { type: integer }
+                  failed:
+                    type: array
+                    items:
+                      type: object
+                      required: [deviceId, reason]
+                      properties:
+                        deviceId: { type: string }
+                        reason: { type: string }
     Unauthenticated:
       description: No key, or a key that has been revoked.
       content:
@@ -758,6 +1125,10 @@ components:
           description: Phone numbers or email addresses, for people who are not saved contacts.
           items: { type: string, maxLength: 200 }
         audienceId: { type: string, maxLength: 60 }
+        topic:
+          type: string
+          pattern: '^[A-Za-z0-9_-]{1,80}$'
+          description: Push only, and on push alone. Every device subscribed to this topic, as one delivery.
 
     SendRequest:
       type: object
@@ -842,6 +1213,29 @@ components:
           format: uri
           maxLength: 500
           description: Push only. A picture shown with the notification.
+        appId:
+          type: string
+          maxLength: 60
+          description: Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+        sound:
+          type: string
+          pattern: '^[A-Za-z0-9_.-]{1,64}$'
+          description: Push only. `default`, or the name of a sound bundled with the app.
+        collapseKey:
+          type: string
+          pattern: '^[A-Za-z0-9_-]{1,32}$'
+          description: Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+        data:
+          type: object
+          maxProperties: 30
+          additionalProperties: { type: string, maxLength: 1024 }
+          description: Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+        silent:
+          type: boolean
+          description: Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+        android: { $ref: '#/components/schemas/AndroidPushOptions' }
+        ios: { $ref: '#/components/schemas/IosPushOptions' }
+        web: { $ref: '#/components/schemas/WebPushOptions' }
         scheduledAt: { type: [string, 'null'], maxLength: 40, description: ISO 8601. Omit to send now. }
         callbackUrl: { type: string, format: uri, maxLength: 500 }
         metadata:
@@ -1105,5 +1499,106 @@ components:
         token: { type: string, minLength: 10, maxLength: 400 }
         platform: { type: string, enum: [android, ios, web] }
         contactId: { type: [string, 'null'], maxLength: 60 }
+        appId:
+          type: [string, 'null']
+          maxLength: 60
+          description: The push app the token belongs to. Default the workspace's default app.
+        previousToken:
+          type: [string, 'null']
+          minLength: 10
+          maxLength: 400
+          description: The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
         appVersion: { type: [string, 'null'], maxLength: 40 }
         locale: { type: [string, 'null'], maxLength: 10 }
+
+    # Named rather than inline: Go builds a file ending _android.go or _ios.go only for that platform, so the
+    # inline names SendRequestAndroid and SendRequestIos produced files the Go compiler skipped.
+    AndroidPushOptions:
+      type: object
+      properties:
+        channelId: { type: string, maxLength: 100, description: The Android notification channel. }
+        tag: { type: string, maxLength: 64, description: A notification with the same tag replaces the one shown. }
+        color: { type: string, pattern: '^#[0-9a-fA-F]{6}$' }
+    IosPushOptions:
+      type: object
+      properties:
+        threadId: { type: string, maxLength: 64, description: Groups notifications together. }
+        category: { type: string, maxLength: 64, description: The notification category, for its actions. }
+        interruptionLevel: { type: string, enum: [passive, active, time-sensitive] }
+    WebPushOptions:
+      type: object
+      properties:
+        icon: { type: string, format: uri, maxLength: 500 }
+        requireInteraction: { type: boolean, description: Keep it on screen until the person acts on it. }
+
+    DeviceRegistered:
+      type: object
+      required: [registered, deviceId, refreshed]
+      properties:
+        registered: { type: boolean }
+        deviceId: { type: string }
+        appId: { type: [string, 'null'] }
+        refreshed: { type: boolean }
+
+    Device:
+      type: object
+      required: [id, platform, tokenEnd, createdAt]
+      properties:
+        id: { type: string }
+        contactId: { type: [string, 'null'] }
+        appId: { type: [string, 'null'] }
+        platform: { type: string, enum: [android, ios, web] }
+        tokenEnd: { type: string, description: The last eight characters of the token. The token itself is never returned. }
+        appVersion: { type: [string, 'null'] }
+        locale: { type: [string, 'null'] }
+        lastSeenAt: { type: [string, 'null'] }
+        tokenRefreshedAt: { type: [string, 'null'] }
+        invalidatedAt: { type: [string, 'null'] }
+        invalidReason:
+          type: [string, 'null']
+          description: unregistered (Firebase no longer knows the token), sender_mismatch (the token belongs to another project), unregistered_by_app, or app_removed.
+        createdAt: { type: string }
+
+    PushApp:
+      type: object
+      required: [id, name, projectId, authMode, status, isDefault, createdAt, updatedAt]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        projectId: { type: string }
+        authMode: { type: string, enum: [service_account, delegated] }
+        clientEmail: { type: [string, 'null'], description: The uploaded key's service account. The key itself is never returned. }
+        grantTo: { type: [string, 'null'], description: Delegated only. The account to grant the role to. }
+        role: { type: string }
+        androidPackage: { type: [string, 'null'] }
+        iosBundleId: { type: [string, 'null'] }
+        webOrigin: { type: [string, 'null'] }
+        status:
+          type: string
+          enum: [pending, awaiting_device, verified, failed]
+          description: Only a verified app sends. awaiting_device means delegated access works and ownership is still to be proved.
+        message: { type: [string, 'null'] }
+        isDefault: { type: boolean }
+        verifiedAt: { type: [string, 'null'] }
+        checkedAt: { type: [string, 'null'] }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+
+    PushAppCreate:
+      type: object
+      required: [name, authMode]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 80 }
+        authMode: { type: string, enum: [service_account, delegated] }
+        projectId: { type: string, maxLength: 40, description: Required for delegated. }
+        serviceAccount: { type: string, maxLength: 10000, description: The whole service-account JSON file as a string. Required for service_account. }
+        androidPackage: { type: [string, 'null'], maxLength: 200 }
+        iosBundleId: { type: [string, 'null'], maxLength: 200 }
+        webOrigin: { type: [string, 'null'], format: uri, maxLength: 200 }
+
+    DeviceTargets:
+      type: object
+      properties:
+        deviceIds: { type: array, maxItems: 1000, items: { type: string, maxLength: 60 } }
+        tokens: { type: array, maxItems: 1000, items: { type: string, minLength: 10, maxLength: 400 } }
+        contactIds: { type: array, maxItems: 1000, items: { type: string, maxLength: 60 } }

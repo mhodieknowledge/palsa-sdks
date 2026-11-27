@@ -23,6 +23,8 @@ type Recipients struct {
 	// Phone numbers or email addresses, for people who are not saved contacts.
 	Addresses []string `json:"addresses,omitempty"`
 	AudienceId *string `json:"audienceId,omitempty"`
+	// Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+	Topic *string `json:"topic,omitempty" validate:"regexp=^[A-Za-z0-9_-]{1,80}$"`
 }
 
 // NewRecipients instantiates a new Recipients object
@@ -138,6 +140,38 @@ func (o *Recipients) SetAudienceId(v string) {
 	o.AudienceId = &v
 }
 
+// GetTopic returns the Topic field value if set, zero value otherwise.
+func (o *Recipients) GetTopic() string {
+	if o == nil || IsNil(o.Topic) {
+		var ret string
+		return ret
+	}
+	return *o.Topic
+}
+
+// GetTopicOk returns a tuple with the Topic field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Recipients) GetTopicOk() (*string, bool) {
+	if o == nil || IsNil(o.Topic) {
+		return nil, false
+	}
+	return o.Topic, true
+}
+
+// HasTopic returns a boolean if a field has been set.
+func (o *Recipients) HasTopic() bool {
+	if o != nil && !IsNil(o.Topic) {
+		return true
+	}
+
+	return false
+}
+
+// SetTopic gets a reference to the given string and assigns it to the Topic field.
+func (o *Recipients) SetTopic(v string) {
+	o.Topic = &v
+}
+
 func (o Recipients) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -156,6 +190,9 @@ func (o Recipients) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.AudienceId) {
 		toSerialize["audienceId"] = o.AudienceId
+	}
+	if !IsNil(o.Topic) {
+		toSerialize["topic"] = o.Topic
 	}
 	return toSerialize, nil
 }

@@ -16,7 +16,7 @@ class RegisterDevice201Response {
     required this.data,
   });
 
-  RegisterDevice201ResponseData data;
+  DeviceRegistered data;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is RegisterDevice201Response &&
@@ -55,7 +55,7 @@ class RegisterDevice201Response {
       }());
 
       return RegisterDevice201Response(
-        data: RegisterDevice201ResponseData.fromJson(json[r'data'])!,
+        data: DeviceRegistered.fromJson(json[r'data'])!,
       );
     }
     return null;

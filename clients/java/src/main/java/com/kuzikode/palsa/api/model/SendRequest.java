@@ -19,8 +19,11 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.kuzikode.palsa.api.model.AndroidPushOptions;
 import com.kuzikode.palsa.api.model.Channel;
+import com.kuzikode.palsa.api.model.IosPushOptions;
 import com.kuzikode.palsa.api.model.Recipients;
+import com.kuzikode.palsa.api.model.WebPushOptions;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -382,6 +385,46 @@ public class SendRequest {
   @SerializedName(SERIALIZED_NAME_IMAGE_URL)
   @javax.annotation.Nullable
   private URI imageUrl;
+
+  public static final String SERIALIZED_NAME_APP_ID = "appId";
+  @SerializedName(SERIALIZED_NAME_APP_ID)
+  @javax.annotation.Nullable
+  private String appId;
+
+  public static final String SERIALIZED_NAME_SOUND = "sound";
+  @SerializedName(SERIALIZED_NAME_SOUND)
+  @javax.annotation.Nullable
+  private String sound;
+
+  public static final String SERIALIZED_NAME_COLLAPSE_KEY = "collapseKey";
+  @SerializedName(SERIALIZED_NAME_COLLAPSE_KEY)
+  @javax.annotation.Nullable
+  private String collapseKey;
+
+  public static final String SERIALIZED_NAME_DATA = "data";
+  @SerializedName(SERIALIZED_NAME_DATA)
+  @javax.annotation.Nullable
+  private Map<String, String> data = new HashMap<>();
+
+  public static final String SERIALIZED_NAME_SILENT = "silent";
+  @SerializedName(SERIALIZED_NAME_SILENT)
+  @javax.annotation.Nullable
+  private Boolean silent;
+
+  public static final String SERIALIZED_NAME_ANDROID = "android";
+  @SerializedName(SERIALIZED_NAME_ANDROID)
+  @javax.annotation.Nullable
+  private AndroidPushOptions android;
+
+  public static final String SERIALIZED_NAME_IOS = "ios";
+  @SerializedName(SERIALIZED_NAME_IOS)
+  @javax.annotation.Nullable
+  private IosPushOptions ios;
+
+  public static final String SERIALIZED_NAME_WEB = "web";
+  @SerializedName(SERIALIZED_NAME_WEB)
+  @javax.annotation.Nullable
+  private WebPushOptions web;
 
   public static final String SERIALIZED_NAME_SCHEDULED_AT = "scheduledAt";
   @SerializedName(SERIALIZED_NAME_SCHEDULED_AT)
@@ -875,6 +918,166 @@ public class SendRequest {
   }
 
 
+  public SendRequest appId(@javax.annotation.Nullable String appId) {
+    this.appId = appId;
+    return this;
+  }
+
+  /**
+   * Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used.
+   * @return appId
+   */
+  @javax.annotation.Nullable
+  public String getAppId() {
+    return appId;
+  }
+
+  public void setAppId(@javax.annotation.Nullable String appId) {
+    this.appId = appId;
+  }
+
+
+  public SendRequest sound(@javax.annotation.Nullable String sound) {
+    this.sound = sound;
+    return this;
+  }
+
+  /**
+   * Push only. &#x60;default&#x60;, or the name of a sound bundled with the app.
+   * @return sound
+   */
+  @javax.annotation.Nullable
+  public String getSound() {
+    return sound;
+  }
+
+  public void setSound(@javax.annotation.Nullable String sound) {
+    this.sound = sound;
+  }
+
+
+  public SendRequest collapseKey(@javax.annotation.Nullable String collapseKey) {
+    this.collapseKey = collapseKey;
+    return this;
+  }
+
+  /**
+   * Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+   * @return collapseKey
+   */
+  @javax.annotation.Nullable
+  public String getCollapseKey() {
+    return collapseKey;
+  }
+
+  public void setCollapseKey(@javax.annotation.Nullable String collapseKey) {
+    this.collapseKey = collapseKey;
+  }
+
+
+  public SendRequest data(@javax.annotation.Nullable Map<String, String> data) {
+    this.data = data;
+    return this;
+  }
+
+  public SendRequest putDataItem(String key, String dataItem) {
+    if (this.data == null) {
+      this.data = new HashMap<>();
+    }
+    this.data.put(key, dataItem);
+    return this;
+  }
+
+  /**
+   * Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+   * @return data
+   */
+  @javax.annotation.Nullable
+  public Map<String, String> getData() {
+    return data;
+  }
+
+  public void setData(@javax.annotation.Nullable Map<String, String> data) {
+    this.data = data;
+  }
+
+
+  public SendRequest silent(@javax.annotation.Nullable Boolean silent) {
+    this.silent = silent;
+    return this;
+  }
+
+  /**
+   * Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted.
+   * @return silent
+   */
+  @javax.annotation.Nullable
+  public Boolean getSilent() {
+    return silent;
+  }
+
+  public void setSilent(@javax.annotation.Nullable Boolean silent) {
+    this.silent = silent;
+  }
+
+
+  public SendRequest android(@javax.annotation.Nullable AndroidPushOptions android) {
+    this.android = android;
+    return this;
+  }
+
+  /**
+   * Get android
+   * @return android
+   */
+  @javax.annotation.Nullable
+  public AndroidPushOptions getAndroid() {
+    return android;
+  }
+
+  public void setAndroid(@javax.annotation.Nullable AndroidPushOptions android) {
+    this.android = android;
+  }
+
+
+  public SendRequest ios(@javax.annotation.Nullable IosPushOptions ios) {
+    this.ios = ios;
+    return this;
+  }
+
+  /**
+   * Get ios
+   * @return ios
+   */
+  @javax.annotation.Nullable
+  public IosPushOptions getIos() {
+    return ios;
+  }
+
+  public void setIos(@javax.annotation.Nullable IosPushOptions ios) {
+    this.ios = ios;
+  }
+
+
+  public SendRequest web(@javax.annotation.Nullable WebPushOptions web) {
+    this.web = web;
+    return this;
+  }
+
+  /**
+   * Get web
+   * @return web
+   */
+  @javax.annotation.Nullable
+  public WebPushOptions getWeb() {
+    return web;
+  }
+
+  public void setWeb(@javax.annotation.Nullable WebPushOptions web) {
+    this.web = web;
+  }
+
+
   public SendRequest scheduledAt(@javax.annotation.Nullable String scheduledAt) {
     this.scheduledAt = scheduledAt;
     return this;
@@ -992,6 +1195,14 @@ public class SendRequest {
         Objects.equals(this.priority, sendRequest.priority) &&
         Objects.equals(this.badge, sendRequest.badge) &&
         Objects.equals(this.imageUrl, sendRequest.imageUrl) &&
+        Objects.equals(this.appId, sendRequest.appId) &&
+        Objects.equals(this.sound, sendRequest.sound) &&
+        Objects.equals(this.collapseKey, sendRequest.collapseKey) &&
+        Objects.equals(this.data, sendRequest.data) &&
+        Objects.equals(this.silent, sendRequest.silent) &&
+        Objects.equals(this.android, sendRequest.android) &&
+        Objects.equals(this.ios, sendRequest.ios) &&
+        Objects.equals(this.web, sendRequest.web) &&
         Objects.equals(this.scheduledAt, sendRequest.scheduledAt) &&
         Objects.equals(this.callbackUrl, sendRequest.callbackUrl) &&
         Objects.equals(this.metadata, sendRequest.metadata) &&
@@ -1004,7 +1215,7 @@ public class SendRequest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(channels, to, body, subject, templateId, variables, purpose, routing, fallbackOn, fallbackWaitSeconds, variantBody, variantSubject, splitPercent, trackLinks, quietStart, quietEnd, timezone, attachmentIds, deepLink, ttlSeconds, priority, badge, imageUrl, scheduledAt, callbackUrl, metadata, name);
+    return Objects.hash(channels, to, body, subject, templateId, variables, purpose, routing, fallbackOn, fallbackWaitSeconds, variantBody, variantSubject, splitPercent, trackLinks, quietStart, quietEnd, timezone, attachmentIds, deepLink, ttlSeconds, priority, badge, imageUrl, appId, sound, collapseKey, data, silent, android, ios, web, scheduledAt, callbackUrl, metadata, name);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -1041,6 +1252,14 @@ public class SendRequest {
     sb.append("    priority: ").append(toIndentedString(priority)).append("\n");
     sb.append("    badge: ").append(toIndentedString(badge)).append("\n");
     sb.append("    imageUrl: ").append(toIndentedString(imageUrl)).append("\n");
+    sb.append("    appId: ").append(toIndentedString(appId)).append("\n");
+    sb.append("    sound: ").append(toIndentedString(sound)).append("\n");
+    sb.append("    collapseKey: ").append(toIndentedString(collapseKey)).append("\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    silent: ").append(toIndentedString(silent)).append("\n");
+    sb.append("    android: ").append(toIndentedString(android)).append("\n");
+    sb.append("    ios: ").append(toIndentedString(ios)).append("\n");
+    sb.append("    web: ").append(toIndentedString(web)).append("\n");
     sb.append("    scheduledAt: ").append(toIndentedString(scheduledAt)).append("\n");
     sb.append("    callbackUrl: ").append(toIndentedString(callbackUrl)).append("\n");
     sb.append("    metadata: ").append(toIndentedString(metadata)).append("\n");
@@ -1066,7 +1285,7 @@ public class SendRequest {
 
   static {
     // a set of all properties/fields (JSON key names)
-    openapiFields = new HashSet<String>(Arrays.asList("channels", "to", "body", "subject", "templateId", "variables", "purpose", "routing", "fallbackOn", "fallbackWaitSeconds", "variantBody", "variantSubject", "splitPercent", "trackLinks", "quietStart", "quietEnd", "timezone", "attachmentIds", "deepLink", "ttlSeconds", "priority", "badge", "imageUrl", "scheduledAt", "callbackUrl", "metadata", "name"));
+    openapiFields = new HashSet<String>(Arrays.asList("channels", "to", "body", "subject", "templateId", "variables", "purpose", "routing", "fallbackOn", "fallbackWaitSeconds", "variantBody", "variantSubject", "splitPercent", "trackLinks", "quietStart", "quietEnd", "timezone", "attachmentIds", "deepLink", "ttlSeconds", "priority", "badge", "imageUrl", "appId", "sound", "collapseKey", "data", "silent", "android", "ios", "web", "scheduledAt", "callbackUrl", "metadata", "name"));
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>(Arrays.asList("channels", "to"));
@@ -1169,6 +1388,27 @@ public class SendRequest {
       }
       if ((jsonObj.get("imageUrl") != null && !jsonObj.get("imageUrl").isJsonNull()) && !jsonObj.get("imageUrl").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `imageUrl` to be a primitive type in the JSON string but got `%s`", jsonObj.get("imageUrl").toString()));
+      }
+      if ((jsonObj.get("appId") != null && !jsonObj.get("appId").isJsonNull()) && !jsonObj.get("appId").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `appId` to be a primitive type in the JSON string but got `%s`", jsonObj.get("appId").toString()));
+      }
+      if ((jsonObj.get("sound") != null && !jsonObj.get("sound").isJsonNull()) && !jsonObj.get("sound").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `sound` to be a primitive type in the JSON string but got `%s`", jsonObj.get("sound").toString()));
+      }
+      if ((jsonObj.get("collapseKey") != null && !jsonObj.get("collapseKey").isJsonNull()) && !jsonObj.get("collapseKey").isJsonPrimitive()) {
+        throw new IllegalArgumentException(String.format("Expected the field `collapseKey` to be a primitive type in the JSON string but got `%s`", jsonObj.get("collapseKey").toString()));
+      }
+      // validate the optional field `android`
+      if (jsonObj.get("android") != null && !jsonObj.get("android").isJsonNull()) {
+        AndroidPushOptions.validateJsonElement(jsonObj.get("android"));
+      }
+      // validate the optional field `ios`
+      if (jsonObj.get("ios") != null && !jsonObj.get("ios").isJsonNull()) {
+        IosPushOptions.validateJsonElement(jsonObj.get("ios"));
+      }
+      // validate the optional field `web`
+      if (jsonObj.get("web") != null && !jsonObj.get("web").isJsonNull()) {
+        WebPushOptions.validateJsonElement(jsonObj.get("web"));
       }
       if ((jsonObj.get("scheduledAt") != null && !jsonObj.get("scheduledAt").isJsonNull()) && !jsonObj.get("scheduledAt").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `scheduledAt` to be a primitive type in the JSON string but got `%s`", jsonObj.get("scheduledAt").toString()));

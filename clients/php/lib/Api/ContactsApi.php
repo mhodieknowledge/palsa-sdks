@@ -83,7 +83,13 @@ class ContactsApi
         'listContacts' => [
             'application/json',
         ],
+        'listDevices' => [
+            'application/json',
+        ],
         'registerDevice' => [
+            'application/json',
+        ],
+        'unregisterDevice' => [
             'application/json',
         ],
     ];
@@ -1119,6 +1125,318 @@ class ContactsApi
     }
 
     /**
+     * Operation listDevices
+     *
+     * List registered devices
+     *
+     * @param  string|null $contact_id contact_id (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDevices'] to see the possible values for this operation
+     *
+     * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Palsa\Api\Model\ListDevices200Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope
+     */
+    public function listDevices($contact_id = null, string $contentType = self::contentTypes['listDevices'][0])
+    {
+        list($response) = $this->listDevicesWithHttpInfo($contact_id, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation listDevicesWithHttpInfo
+     *
+     * List registered devices
+     *
+     * @param  string|null $contact_id (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDevices'] to see the possible values for this operation
+     *
+     * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Palsa\Api\Model\ListDevices200Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function listDevicesWithHttpInfo($contact_id = null, string $contentType = self::contentTypes['listDevices'][0])
+    {
+        $request = $this->listDevicesRequest($contact_id, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ListDevices200Response',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Palsa\Api\Model\ListDevices200Response',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ListDevices200Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation listDevicesAsync
+     *
+     * List registered devices
+     *
+     * @param  string|null $contact_id (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDevices'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listDevicesAsync($contact_id = null, string $contentType = self::contentTypes['listDevices'][0])
+    {
+        return $this->listDevicesAsyncWithHttpInfo($contact_id, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation listDevicesAsyncWithHttpInfo
+     *
+     * List registered devices
+     *
+     * @param  string|null $contact_id (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDevices'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function listDevicesAsyncWithHttpInfo($contact_id = null, string $contentType = self::contentTypes['listDevices'][0])
+    {
+        $returnType = '\Palsa\Api\Model\ListDevices200Response';
+        $request = $this->listDevicesRequest($contact_id, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'listDevices'
+     *
+     * @param  string|null $contact_id (optional)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['listDevices'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function listDevicesRequest($contact_id = null, string $contentType = self::contentTypes['listDevices'][0])
+    {
+
+        if ($contact_id !== null && strlen($contact_id) > 60) {
+            throw new \InvalidArgumentException('invalid length for "$contact_id" when calling ContactsApi.listDevices, must be smaller than or equal to 60.');
+        }
+        
+
+        $resourcePath = '/v1/devices';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // query params
+        $queryParams = array_merge($queryParams, ObjectSerializer::toQueryValue(
+            $contact_id,
+            'contactId', // param base name
+            'string', // openApiType
+            'form', // style
+            true, // explode
+            false // required
+        ) ?? []);
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'GET',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation registerDevice
      *
      * Register a device for push
@@ -1128,7 +1446,7 @@ class ContactsApi
      *
      * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return \Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope
+     * @return \Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope
      */
     public function registerDevice($device_register, string $contentType = self::contentTypes['registerDevice'][0])
     {
@@ -1146,7 +1464,7 @@ class ContactsApi
      *
      * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
      * @throws \InvalidArgumentException
-     * @return array of \Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\RegisterDevice201Response|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope, HTTP status code, HTTP response headers (array of strings)
      */
     public function registerDeviceWithHttpInfo($device_register, string $contentType = self::contentTypes['registerDevice'][0])
     {
@@ -1177,6 +1495,12 @@ class ContactsApi
 
             switch($statusCode) {
                 case 201:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\RegisterDevice201Response',
+                        $request,
+                        $response,
+                    );
+                case 200:
                     return $this->handleResponseWithDataType(
                         '\Palsa\Api\Model\RegisterDevice201Response',
                         $request,
@@ -1231,6 +1555,14 @@ class ContactsApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
                 case 201:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\RegisterDevice201Response',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 200:
                     $data = ObjectSerializer::deserialize(
                         $e->getResponseBody(),
                         '\Palsa\Api\Model\RegisterDevice201Response',
@@ -1394,6 +1726,347 @@ class ContactsApi
                 $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($device_register));
             } else {
                 $httpBody = $device_register;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+        // this endpoint requires Bearer authentication (access token)
+        if (!empty($this->config->getAccessToken())) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation unregisterDevice
+     *
+     * Stop sending to a device
+     *
+     * @param  \Palsa\Api\Model\UnregisterDeviceRequest $unregister_device_request unregister_device_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['unregisterDevice'] to see the possible values for this operation
+     *
+     * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return \Palsa\Api\Model\InlineObject|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope
+     */
+    public function unregisterDevice($unregister_device_request, string $contentType = self::contentTypes['unregisterDevice'][0])
+    {
+        list($response) = $this->unregisterDeviceWithHttpInfo($unregister_device_request, $contentType);
+        return $response;
+    }
+
+    /**
+     * Operation unregisterDeviceWithHttpInfo
+     *
+     * Stop sending to a device
+     *
+     * @param  \Palsa\Api\Model\UnregisterDeviceRequest $unregister_device_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['unregisterDevice'] to see the possible values for this operation
+     *
+     * @throws \Palsa\Api\ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws \InvalidArgumentException
+     * @return array of \Palsa\Api\Model\InlineObject|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope|\Palsa\Api\Model\ErrorEnvelope, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function unregisterDeviceWithHttpInfo($unregister_device_request, string $contentType = self::contentTypes['unregisterDevice'][0])
+    {
+        $request = $this->unregisterDeviceRequest($unregister_device_request, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+
+            switch($statusCode) {
+                case 200:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\InlineObject',
+                        $request,
+                        $response,
+                    );
+                case 401:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 403:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 404:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 422:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+                case 429:
+                    return $this->handleResponseWithDataType(
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $request,
+                        $response,
+                    );
+            }
+
+            
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return $this->handleResponseWithDataType(
+                '\Palsa\Api\Model\InlineObject',
+                $request,
+                $response,
+            );
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\InlineObject',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 403:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 422:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+                case 429:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Palsa\Api\Model\ErrorEnvelope',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    throw $e;
+            }
+        
+
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation unregisterDeviceAsync
+     *
+     * Stop sending to a device
+     *
+     * @param  \Palsa\Api\Model\UnregisterDeviceRequest $unregister_device_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['unregisterDevice'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function unregisterDeviceAsync($unregister_device_request, string $contentType = self::contentTypes['unregisterDevice'][0])
+    {
+        return $this->unregisterDeviceAsyncWithHttpInfo($unregister_device_request, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation unregisterDeviceAsyncWithHttpInfo
+     *
+     * Stop sending to a device
+     *
+     * @param  \Palsa\Api\Model\UnregisterDeviceRequest $unregister_device_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['unregisterDevice'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function unregisterDeviceAsyncWithHttpInfo($unregister_device_request, string $contentType = self::contentTypes['unregisterDevice'][0])
+    {
+        $returnType = '\Palsa\Api\Model\InlineObject';
+        $request = $this->unregisterDeviceRequest($unregister_device_request, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    if ($returnType === '\SplFileObject') {
+                        $content = $response->getBody(); //stream goes to serializer
+                    } else {
+                        $content = (string) $response->getBody();
+                        if ($returnType !== 'string') {
+                            $content = json_decode($content);
+                        }
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'unregisterDevice'
+     *
+     * @param  \Palsa\Api\Model\UnregisterDeviceRequest $unregister_device_request (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['unregisterDevice'] to see the possible values for this operation
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function unregisterDeviceRequest($unregister_device_request, string $contentType = self::contentTypes['unregisterDevice'][0])
+    {
+
+        // verify the required parameter 'unregister_device_request' is set
+        if ($unregister_device_request === null || (is_array($unregister_device_request) && count($unregister_device_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $unregister_device_request when calling unregisterDevice'
+            );
+        }
+
+
+        $resourcePath = '/v1/devices/unregister';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            ['application/json', ],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($unregister_device_request)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($unregister_device_request));
+            } else {
+                $httpBody = $unregister_device_request;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {

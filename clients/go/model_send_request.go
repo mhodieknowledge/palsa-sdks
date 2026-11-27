@@ -60,6 +60,19 @@ type SendRequest struct {
 	Badge *int32 `json:"badge,omitempty"`
 	// Push only. A picture shown with the notification.
 	ImageUrl *string `json:"imageUrl,omitempty"`
+	// Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.
+	AppId *string `json:"appId,omitempty"`
+	// Push only. `default`, or the name of a sound bundled with the app.
+	Sound *string `json:"sound,omitempty" validate:"regexp=^[A-Za-z0-9_.-]{1,64}$"`
+	// Push only. A newer message with the same key replaces an undelivered older one, on every platform.
+	CollapseKey *string `json:"collapseKey,omitempty" validate:"regexp=^[A-Za-z0-9_-]{1,32}$"`
+	// Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.
+	Data map[string]string `json:"data,omitempty"`
+	// Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.
+	Silent *bool `json:"silent,omitempty"`
+	Android *AndroidPushOptions `json:"android,omitempty"`
+	Ios *IosPushOptions `json:"ios,omitempty"`
+	Web *WebPushOptions `json:"web,omitempty"`
 	// ISO 8601. Omit to send now.
 	ScheduledAt NullableString `json:"scheduledAt,omitempty"`
 	CallbackUrl *string `json:"callbackUrl,omitempty"`
@@ -856,6 +869,262 @@ func (o *SendRequest) SetImageUrl(v string) {
 	o.ImageUrl = &v
 }
 
+// GetAppId returns the AppId field value if set, zero value otherwise.
+func (o *SendRequest) GetAppId() string {
+	if o == nil || IsNil(o.AppId) {
+		var ret string
+		return ret
+	}
+	return *o.AppId
+}
+
+// GetAppIdOk returns a tuple with the AppId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetAppIdOk() (*string, bool) {
+	if o == nil || IsNil(o.AppId) {
+		return nil, false
+	}
+	return o.AppId, true
+}
+
+// HasAppId returns a boolean if a field has been set.
+func (o *SendRequest) HasAppId() bool {
+	if o != nil && !IsNil(o.AppId) {
+		return true
+	}
+
+	return false
+}
+
+// SetAppId gets a reference to the given string and assigns it to the AppId field.
+func (o *SendRequest) SetAppId(v string) {
+	o.AppId = &v
+}
+
+// GetSound returns the Sound field value if set, zero value otherwise.
+func (o *SendRequest) GetSound() string {
+	if o == nil || IsNil(o.Sound) {
+		var ret string
+		return ret
+	}
+	return *o.Sound
+}
+
+// GetSoundOk returns a tuple with the Sound field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetSoundOk() (*string, bool) {
+	if o == nil || IsNil(o.Sound) {
+		return nil, false
+	}
+	return o.Sound, true
+}
+
+// HasSound returns a boolean if a field has been set.
+func (o *SendRequest) HasSound() bool {
+	if o != nil && !IsNil(o.Sound) {
+		return true
+	}
+
+	return false
+}
+
+// SetSound gets a reference to the given string and assigns it to the Sound field.
+func (o *SendRequest) SetSound(v string) {
+	o.Sound = &v
+}
+
+// GetCollapseKey returns the CollapseKey field value if set, zero value otherwise.
+func (o *SendRequest) GetCollapseKey() string {
+	if o == nil || IsNil(o.CollapseKey) {
+		var ret string
+		return ret
+	}
+	return *o.CollapseKey
+}
+
+// GetCollapseKeyOk returns a tuple with the CollapseKey field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetCollapseKeyOk() (*string, bool) {
+	if o == nil || IsNil(o.CollapseKey) {
+		return nil, false
+	}
+	return o.CollapseKey, true
+}
+
+// HasCollapseKey returns a boolean if a field has been set.
+func (o *SendRequest) HasCollapseKey() bool {
+	if o != nil && !IsNil(o.CollapseKey) {
+		return true
+	}
+
+	return false
+}
+
+// SetCollapseKey gets a reference to the given string and assigns it to the CollapseKey field.
+func (o *SendRequest) SetCollapseKey(v string) {
+	o.CollapseKey = &v
+}
+
+// GetData returns the Data field value if set, zero value otherwise.
+func (o *SendRequest) GetData() map[string]string {
+	if o == nil || IsNil(o.Data) {
+		var ret map[string]string
+		return ret
+	}
+	return o.Data
+}
+
+// GetDataOk returns a tuple with the Data field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetDataOk() (map[string]string, bool) {
+	if o == nil || IsNil(o.Data) {
+		return map[string]string{}, false
+	}
+	return o.Data, true
+}
+
+// HasData returns a boolean if a field has been set.
+func (o *SendRequest) HasData() bool {
+	if o != nil && !IsNil(o.Data) {
+		return true
+	}
+
+	return false
+}
+
+// SetData gets a reference to the given map[string]string and assigns it to the Data field.
+func (o *SendRequest) SetData(v map[string]string) {
+	o.Data = v
+}
+
+// GetSilent returns the Silent field value if set, zero value otherwise.
+func (o *SendRequest) GetSilent() bool {
+	if o == nil || IsNil(o.Silent) {
+		var ret bool
+		return ret
+	}
+	return *o.Silent
+}
+
+// GetSilentOk returns a tuple with the Silent field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetSilentOk() (*bool, bool) {
+	if o == nil || IsNil(o.Silent) {
+		return nil, false
+	}
+	return o.Silent, true
+}
+
+// HasSilent returns a boolean if a field has been set.
+func (o *SendRequest) HasSilent() bool {
+	if o != nil && !IsNil(o.Silent) {
+		return true
+	}
+
+	return false
+}
+
+// SetSilent gets a reference to the given bool and assigns it to the Silent field.
+func (o *SendRequest) SetSilent(v bool) {
+	o.Silent = &v
+}
+
+// GetAndroid returns the Android field value if set, zero value otherwise.
+func (o *SendRequest) GetAndroid() AndroidPushOptions {
+	if o == nil || IsNil(o.Android) {
+		var ret AndroidPushOptions
+		return ret
+	}
+	return *o.Android
+}
+
+// GetAndroidOk returns a tuple with the Android field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetAndroidOk() (*AndroidPushOptions, bool) {
+	if o == nil || IsNil(o.Android) {
+		return nil, false
+	}
+	return o.Android, true
+}
+
+// HasAndroid returns a boolean if a field has been set.
+func (o *SendRequest) HasAndroid() bool {
+	if o != nil && !IsNil(o.Android) {
+		return true
+	}
+
+	return false
+}
+
+// SetAndroid gets a reference to the given AndroidPushOptions and assigns it to the Android field.
+func (o *SendRequest) SetAndroid(v AndroidPushOptions) {
+	o.Android = &v
+}
+
+// GetIos returns the Ios field value if set, zero value otherwise.
+func (o *SendRequest) GetIos() IosPushOptions {
+	if o == nil || IsNil(o.Ios) {
+		var ret IosPushOptions
+		return ret
+	}
+	return *o.Ios
+}
+
+// GetIosOk returns a tuple with the Ios field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetIosOk() (*IosPushOptions, bool) {
+	if o == nil || IsNil(o.Ios) {
+		return nil, false
+	}
+	return o.Ios, true
+}
+
+// HasIos returns a boolean if a field has been set.
+func (o *SendRequest) HasIos() bool {
+	if o != nil && !IsNil(o.Ios) {
+		return true
+	}
+
+	return false
+}
+
+// SetIos gets a reference to the given IosPushOptions and assigns it to the Ios field.
+func (o *SendRequest) SetIos(v IosPushOptions) {
+	o.Ios = &v
+}
+
+// GetWeb returns the Web field value if set, zero value otherwise.
+func (o *SendRequest) GetWeb() WebPushOptions {
+	if o == nil || IsNil(o.Web) {
+		var ret WebPushOptions
+		return ret
+	}
+	return *o.Web
+}
+
+// GetWebOk returns a tuple with the Web field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *SendRequest) GetWebOk() (*WebPushOptions, bool) {
+	if o == nil || IsNil(o.Web) {
+		return nil, false
+	}
+	return o.Web, true
+}
+
+// HasWeb returns a boolean if a field has been set.
+func (o *SendRequest) HasWeb() bool {
+	if o != nil && !IsNil(o.Web) {
+		return true
+	}
+
+	return false
+}
+
+// SetWeb gets a reference to the given WebPushOptions and assigns it to the Web field.
+func (o *SendRequest) SetWeb(v WebPushOptions) {
+	o.Web = &v
+}
+
 // GetScheduledAt returns the ScheduledAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *SendRequest) GetScheduledAt() string {
 	if o == nil || IsNil(o.ScheduledAt.Get()) {
@@ -1068,6 +1337,30 @@ func (o SendRequest) ToMap() (map[string]interface{}, error) {
 	}
 	if !IsNil(o.ImageUrl) {
 		toSerialize["imageUrl"] = o.ImageUrl
+	}
+	if !IsNil(o.AppId) {
+		toSerialize["appId"] = o.AppId
+	}
+	if !IsNil(o.Sound) {
+		toSerialize["sound"] = o.Sound
+	}
+	if !IsNil(o.CollapseKey) {
+		toSerialize["collapseKey"] = o.CollapseKey
+	}
+	if !IsNil(o.Data) {
+		toSerialize["data"] = o.Data
+	}
+	if !IsNil(o.Silent) {
+		toSerialize["silent"] = o.Silent
+	}
+	if !IsNil(o.Android) {
+		toSerialize["android"] = o.Android
+	}
+	if !IsNil(o.Ios) {
+		toSerialize["ios"] = o.Ios
+	}
+	if !IsNil(o.Web) {
+		toSerialize["web"] = o.Web
 	}
 	if o.ScheduledAt.IsSet() {
 		toSerialize["scheduledAt"] = o.ScheduledAt.Get()

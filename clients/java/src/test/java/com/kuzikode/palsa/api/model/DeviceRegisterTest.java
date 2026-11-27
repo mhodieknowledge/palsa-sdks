@@ -63,6 +63,22 @@ public class DeviceRegisterTest {
     }
 
     /**
+     * Test the property 'appId'
+     */
+    @Test
+    public void appIdTest() {
+        // TODO: test appId
+    }
+
+    /**
+     * Test the property 'previousToken'
+     */
+    @Test
+    public void previousTokenTest() {
+        // TODO: test previousToken
+    }
+
+    /**
      * Test the property 'appVersion'
      */
     @Test

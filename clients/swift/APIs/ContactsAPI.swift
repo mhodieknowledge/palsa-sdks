@@ -136,6 +136,48 @@ open class ContactsAPI {
     }
 
     /**
+     List registered devices
+     
+     - parameter contactId: (query)  (optional)
+     - returns: ListDevices200Response
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func listDevices(contactId: String? = nil) async throws -> ListDevices200Response {
+        return try await listDevicesWithRequestBuilder(contactId: contactId).execute().body
+    }
+
+    /**
+     List registered devices
+     - GET /v1/devices
+     - The newest 200, optionally for one contact. Tokens are never returned. Requires the `contacts.read` scope.
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter contactId: (query)  (optional)
+     - returns: RequestBuilder<ListDevices200Response> 
+     */
+    open class func listDevicesWithRequestBuilder(contactId: String? = nil) -> RequestBuilder<ListDevices200Response> {
+        let localVariablePath = "/v1/devices"
+        let localVariableURLString = PalsaApiAPI.basePath + localVariablePath
+        let localVariableParameters: [String: Any]? = nil
+
+        var localVariableUrlComponents = URLComponents(string: localVariableURLString)
+        localVariableUrlComponents?.queryItems = APIHelper.mapValuesToQueryItems([
+            "contactId": (wrappedValue: contactId?.encodeToJSON(), isExplode: true),
+        ])
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            :
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<ListDevices200Response>.Type = PalsaApiAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "GET", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
      Register a device for push
      
      - parameter deviceRegister: (body)  
@@ -170,6 +212,45 @@ open class ContactsAPI {
         let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
 
         let localVariableRequestBuilder: RequestBuilder<RegisterDevice201Response>.Type = PalsaApiAPI.requestBuilderFactory.getBuilder()
+
+        return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
+    }
+
+    /**
+     Stop sending to a device
+     
+     - parameter unregisterDeviceRequest: (body)  
+     - returns: InlineObject
+     */
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open class func unregisterDevice(unregisterDeviceRequest: UnregisterDeviceRequest) async throws -> InlineObject {
+        return try await unregisterDeviceWithRequestBuilder(unregisterDeviceRequest: unregisterDeviceRequest).execute().body
+    }
+
+    /**
+     Stop sending to a device
+     - POST /v1/devices/unregister
+     - For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the `contacts.write` scope.
+     - Bearer Token:
+       - type: http
+       - name: bearerAuth
+     - parameter unregisterDeviceRequest: (body)  
+     - returns: RequestBuilder<InlineObject> 
+     */
+    open class func unregisterDeviceWithRequestBuilder(unregisterDeviceRequest: UnregisterDeviceRequest) -> RequestBuilder<InlineObject> {
+        let localVariablePath = "/v1/devices/unregister"
+        let localVariableURLString = PalsaApiAPI.basePath + localVariablePath
+        let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: unregisterDeviceRequest)
+
+        let localVariableUrlComponents = URLComponents(string: localVariableURLString)
+
+        let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
+        ]
+
+        let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+        let localVariableRequestBuilder: RequestBuilder<InlineObject>.Type = PalsaApiAPI.requestBuilderFactory.getBuilder()
 
         return localVariableRequestBuilder.init(method: "POST", URLString: (localVariableUrlComponents?.string ?? localVariableURLString), parameters: localVariableParameters, headers: localVariableHeaderParameters, requiresAuthentication: true)
     }

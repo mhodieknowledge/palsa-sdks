@@ -30,6 +30,14 @@
 |**priority** | [**PriorityEnum**](#PriorityEnum) | Push only. |  [optional] |
 |**badge** | **Integer** | Push only. The number on the app icon. Zero is meaningful: it clears the badge. |  [optional] |
 |**imageUrl** | **URI** | Push only. A picture shown with the notification. |  [optional] |
+|**appId** | **String** | Push only. Which push app to send through. Default the workspace&#39;s default app; a contact&#39;s device of that app is used. |  [optional] |
+|**sound** | **String** | Push only. &#x60;default&#x60;, or the name of a sound bundled with the app. |  [optional] |
+|**collapseKey** | **String** | Push only. A newer message with the same key replaces an undelivered older one, on every platform. |  [optional] |
+|**data** | **Map&lt;String, String&gt;** | Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm. |  [optional] |
+|**silent** | **Boolean** | Push only. Show nothing and wake the app in the background with &#x60;data&#x60;. Apple delivers these at low priority and may throttle them. &#x60;body&#x60; may then be omitted. |  [optional] |
+|**android** | [**AndroidPushOptions**](AndroidPushOptions.md) |  |  [optional] |
+|**ios** | [**IosPushOptions**](IosPushOptions.md) |  |  [optional] |
+|**web** | [**WebPushOptions**](WebPushOptions.md) |  |  [optional] |
 |**scheduledAt** | **String** | ISO 8601. Omit to send now. |  [optional] |
 |**callbackUrl** | **URI** |  |  [optional] |
 |**metadata** | **Map&lt;String, Object&gt;** | Yours. Returned on the send and on webhooks about it. |  [optional] |

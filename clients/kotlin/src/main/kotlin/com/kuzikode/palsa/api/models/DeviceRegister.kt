@@ -25,6 +25,8 @@ import com.squareup.moshi.JsonClass
  * @param token 
  * @param platform 
  * @param contactId 
+ * @param appId The push app the token belongs to. Default the workspace's default app.
+ * @param previousToken The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
  * @param appVersion 
  * @param locale 
  */
@@ -40,6 +42,14 @@ data class DeviceRegister (
 
     @Json(name = "contactId")
     val contactId: kotlin.String? = null,
+
+    /* The push app the token belongs to. Default the workspace's default app. */
+    @Json(name = "appId")
+    val appId: kotlin.String? = null,
+
+    /* The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics. */
+    @Json(name = "previousToken")
+    val previousToken: kotlin.String? = null,
 
     @Json(name = "appVersion")
     val appVersion: kotlin.String? = null,

@@ -20,8 +20,11 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
+from palsa_api.models.android_push_options import AndroidPushOptions
 from palsa_api.models.channel import Channel
+from palsa_api.models.ios_push_options import IosPushOptions
 from palsa_api.models.recipients import Recipients
+from palsa_api.models.web_push_options import WebPushOptions
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -52,11 +55,19 @@ class SendRequest(BaseModel):
     priority: Optional[StrictStr] = Field(default=None, description="Push only.")
     badge: Optional[Annotated[int, Field(le=99999, strict=True, ge=0)]] = Field(default=None, description="Push only. The number on the app icon. Zero is meaningful: it clears the badge.")
     image_url: Optional[Annotated[str, Field(strict=True, max_length=500)]] = Field(default=None, description="Push only. A picture shown with the notification.", alias="imageUrl")
+    app_id: Optional[Annotated[str, Field(strict=True, max_length=60)]] = Field(default=None, description="Push only. Which push app to send through. Default the workspace's default app; a contact's device of that app is used.", alias="appId")
+    sound: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Push only. `default`, or the name of a sound bundled with the app.")
+    collapse_key: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Push only. A newer message with the same key replaces an undelivered older one, on every platform.", alias="collapseKey")
+    data: Optional[Dict[str, Annotated[str, Field(strict=True, max_length=1024)]]] = Field(default=None, description="Push only. Key/value strings for the app. Keys may not be from, notification, message_type, or start with google or gcm.")
+    silent: Optional[StrictBool] = Field(default=None, description="Push only. Show nothing and wake the app in the background with `data`. Apple delivers these at low priority and may throttle them. `body` may then be omitted.")
+    android: Optional[AndroidPushOptions] = None
+    ios: Optional[IosPushOptions] = None
+    web: Optional[WebPushOptions] = None
     scheduled_at: Optional[Annotated[str, Field(strict=True, max_length=40)]] = Field(default=None, description="ISO 8601. Omit to send now.", alias="scheduledAt")
     callback_url: Optional[Annotated[str, Field(strict=True, max_length=500)]] = Field(default=None, alias="callbackUrl")
     metadata: Optional[Dict[str, Any]] = Field(default=None, description="Yours. Returned on the send and on webhooks about it.")
     name: Optional[Annotated[str, Field(strict=True, max_length=120)]] = Field(default=None, description="Also seeds the A/B division")
-    __properties: ClassVar[List[str]] = ["channels", "to", "body", "subject", "templateId", "variables", "purpose", "routing", "fallbackOn", "fallbackWaitSeconds", "variantBody", "variantSubject", "splitPercent", "trackLinks", "quietStart", "quietEnd", "timezone", "attachmentIds", "deepLink", "ttlSeconds", "priority", "badge", "imageUrl", "scheduledAt", "callbackUrl", "metadata", "name"]
+    __properties: ClassVar[List[str]] = ["channels", "to", "body", "subject", "templateId", "variables", "purpose", "routing", "fallbackOn", "fallbackWaitSeconds", "variantBody", "variantSubject", "splitPercent", "trackLinks", "quietStart", "quietEnd", "timezone", "attachmentIds", "deepLink", "ttlSeconds", "priority", "badge", "imageUrl", "appId", "sound", "collapseKey", "data", "silent", "android", "ios", "web", "scheduledAt", "callbackUrl", "metadata", "name"]
 
     @field_validator('purpose')
     def purpose_validate_enum(cls, value):
@@ -96,6 +107,26 @@ class SendRequest(BaseModel):
 
         if value not in set(['high', 'normal']):
             raise ValueError("must be one of enum values ('high', 'normal')")
+        return value
+
+    @field_validator('sound')
+    def sound_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[A-Za-z0-9_.-]{1,64}$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9_.-]{1,64}$/")
+        return value
+
+    @field_validator('collapse_key')
+    def collapse_key_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[A-Za-z0-9_-]{1,32}$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9_-]{1,32}$/")
         return value
 
     model_config = ConfigDict(
@@ -140,6 +171,15 @@ class SendRequest(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of to
         if self.to:
             _dict['to'] = self.to.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of android
+        if self.android:
+            _dict['android'] = self.android.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of ios
+        if self.ios:
+            _dict['ios'] = self.ios.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of web
+        if self.web:
+            _dict['web'] = self.web.to_dict()
         # set to None if quiet_start (nullable) is None
         # and model_fields_set contains the field
         if self.quiet_start is None and "quiet_start" in self.model_fields_set:
@@ -195,6 +235,14 @@ class SendRequest(BaseModel):
             "priority": obj.get("priority"),
             "badge": obj.get("badge"),
             "imageUrl": obj.get("imageUrl"),
+            "appId": obj.get("appId"),
+            "sound": obj.get("sound"),
+            "collapseKey": obj.get("collapseKey"),
+            "data": obj.get("data"),
+            "silent": obj.get("silent"),
+            "android": AndroidPushOptions.from_dict(obj["android"]) if obj.get("android") is not None else None,
+            "ios": IosPushOptions.from_dict(obj["ios"]) if obj.get("ios") is not None else None,
+            "web": WebPushOptions.from_dict(obj["web"]) if obj.get("web") is not None else None,
             "scheduledAt": obj.get("scheduledAt"),
             "callbackUrl": obj.get("callbackUrl"),
             "metadata": obj.get("metadata"),

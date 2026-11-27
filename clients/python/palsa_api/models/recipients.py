@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from typing import Optional, Set
@@ -30,7 +30,18 @@ class Recipients(BaseModel):
     contact_ids: Optional[Annotated[List[Annotated[str, Field(strict=True, max_length=60)]], Field(max_length=50000)]] = Field(default=None, alias="contactIds")
     addresses: Optional[Annotated[List[Annotated[str, Field(strict=True, max_length=200)]], Field(max_length=1000)]] = Field(default=None, description="Phone numbers or email addresses, for people who are not saved contacts.")
     audience_id: Optional[Annotated[str, Field(strict=True, max_length=60)]] = Field(default=None, alias="audienceId")
-    __properties: ClassVar[List[str]] = ["contactIds", "addresses", "audienceId"]
+    topic: Optional[Annotated[str, Field(strict=True)]] = Field(default=None, description="Push only, and on push alone. Every device subscribed to this topic, as one delivery.")
+    __properties: ClassVar[List[str]] = ["contactIds", "addresses", "audienceId", "topic"]
+
+    @field_validator('topic')
+    def topic_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if value is None:
+            return value
+
+        if not re.match(r"^[A-Za-z0-9_-]{1,80}$", value):
+            raise ValueError(r"must validate the regular expression /^[A-Za-z0-9_-]{1,80}$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,7 +96,8 @@ class Recipients(BaseModel):
         _obj = cls.model_validate({
             "contactIds": obj.get("contactIds"),
             "addresses": obj.get("addresses"),
-            "audienceId": obj.get("audienceId")
+            "audienceId": obj.get("audienceId"),
+            "topic": obj.get("topic")
         })
         return _obj
 

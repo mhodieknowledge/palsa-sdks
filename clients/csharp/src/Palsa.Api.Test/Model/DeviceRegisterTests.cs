@@ -82,6 +82,24 @@ namespace Palsa.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'AppId'
+        /// </summary>
+        [Fact]
+        public void AppIdTest()
+        {
+            // TODO unit test for the property 'AppId'
+        }
+
+        /// <summary>
+        /// Test the property 'PreviousToken'
+        /// </summary>
+        [Fact]
+        public void PreviousTokenTest()
+        {
+            // TODO unit test for the property 'PreviousToken'
+        }
+
+        /// <summary>
         /// Test the property 'AppVersion'
         /// </summary>
         [Fact]

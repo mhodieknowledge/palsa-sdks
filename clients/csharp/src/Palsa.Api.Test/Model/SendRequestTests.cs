@@ -262,6 +262,78 @@ namespace Palsa.Api.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'AppId'
+        /// </summary>
+        [Fact]
+        public void AppIdTest()
+        {
+            // TODO unit test for the property 'AppId'
+        }
+
+        /// <summary>
+        /// Test the property 'Sound'
+        /// </summary>
+        [Fact]
+        public void SoundTest()
+        {
+            // TODO unit test for the property 'Sound'
+        }
+
+        /// <summary>
+        /// Test the property 'CollapseKey'
+        /// </summary>
+        [Fact]
+        public void CollapseKeyTest()
+        {
+            // TODO unit test for the property 'CollapseKey'
+        }
+
+        /// <summary>
+        /// Test the property 'Data'
+        /// </summary>
+        [Fact]
+        public void DataTest()
+        {
+            // TODO unit test for the property 'Data'
+        }
+
+        /// <summary>
+        /// Test the property 'Silent'
+        /// </summary>
+        [Fact]
+        public void SilentTest()
+        {
+            // TODO unit test for the property 'Silent'
+        }
+
+        /// <summary>
+        /// Test the property 'Android'
+        /// </summary>
+        [Fact]
+        public void AndroidTest()
+        {
+            // TODO unit test for the property 'Android'
+        }
+
+        /// <summary>
+        /// Test the property 'Ios'
+        /// </summary>
+        [Fact]
+        public void IosTest()
+        {
+            // TODO unit test for the property 'Ios'
+        }
+
+        /// <summary>
+        /// Test the property 'Web'
+        /// </summary>
+        [Fact]
+        public void WebTest()
+        {
+            // TODO unit test for the property 'Web'
+        }
+
+        /// <summary>
         /// Test the property 'ScheduledAt'
         /// </summary>
         [Fact]

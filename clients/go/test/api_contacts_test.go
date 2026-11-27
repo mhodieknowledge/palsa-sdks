@@ -60,11 +60,35 @@ func Test_palsaapi_ContactsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test ContactsAPIService ListDevices", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.ContactsAPI.ListDevices(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test ContactsAPIService RegisterDevice", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.ContactsAPI.RegisterDevice(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
+	t.Run("Test ContactsAPIService UnregisterDevice", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.ContactsAPI.UnregisterDevice(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

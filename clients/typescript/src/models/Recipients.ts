@@ -37,6 +37,12 @@ export interface Recipients {
      * @memberof Recipients
      */
     audienceId?: string;
+    /**
+     * Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+     * @type {string}
+     * @memberof Recipients
+     */
+    topic?: string;
 }
 
 /**
@@ -59,6 +65,7 @@ export function RecipientsFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'contactIds': json['contactIds'] == null ? undefined : json['contactIds'],
         'addresses': json['addresses'] == null ? undefined : json['addresses'],
         'audienceId': json['audienceId'] == null ? undefined : json['audienceId'],
+        'topic': json['topic'] == null ? undefined : json['topic'],
     };
 }
 
@@ -76,6 +83,7 @@ export function RecipientsToJSONTyped(value?: Recipients | null, ignoreDiscrimin
         'contactIds': value['contactIds'],
         'addresses': value['addresses'],
         'audienceId': value['audienceId'],
+        'topic': value['topic'],
     };
 }
 

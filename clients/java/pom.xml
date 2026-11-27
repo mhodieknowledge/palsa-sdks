@@ -5,7 +5,7 @@
     <artifactId>palsa-api</artifactId>
     <packaging>jar</packaging>
     <name>palsa-api</name>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <url>https://github.com/mhodieknowledge/palsa-sdks</url>
     <description>OpenAPI Java</description>
     <scm>

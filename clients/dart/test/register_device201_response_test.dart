@@ -16,7 +16,7 @@ void main() {
   // final instance = RegisterDevice201Response();
 
   group('test RegisterDevice201Response', () {
-    // RegisterDevice201ResponseData data
+    // DeviceRegistered data
     test('to test the property `data`', () async {
       // TODO
     });

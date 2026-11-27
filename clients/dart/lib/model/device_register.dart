@@ -16,6 +16,8 @@ class DeviceRegister {
     required this.token,
     required this.platform,
     this.contactId,
+    this.appId,
+    this.previousToken,
     this.appVersion,
     this.locale,
   });
@@ -26,6 +28,12 @@ class DeviceRegister {
 
   String? contactId;
 
+  /// The push app the token belongs to. Default the workspace's default app.
+  String? appId;
+
+  /// The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+  String? previousToken;
+
   String? appVersion;
 
   String? locale;
@@ -35,6 +43,8 @@ class DeviceRegister {
     other.token == token &&
     other.platform == platform &&
     other.contactId == contactId &&
+    other.appId == appId &&
+    other.previousToken == previousToken &&
     other.appVersion == appVersion &&
     other.locale == locale;
 
@@ -44,11 +54,13 @@ class DeviceRegister {
     (token.hashCode) +
     (platform.hashCode) +
     (contactId == null ? 0 : contactId!.hashCode) +
+    (appId == null ? 0 : appId!.hashCode) +
+    (previousToken == null ? 0 : previousToken!.hashCode) +
     (appVersion == null ? 0 : appVersion!.hashCode) +
     (locale == null ? 0 : locale!.hashCode);
 
   @override
-  String toString() => 'DeviceRegister[token=$token, platform=$platform, contactId=$contactId, appVersion=$appVersion, locale=$locale]';
+  String toString() => 'DeviceRegister[token=$token, platform=$platform, contactId=$contactId, appId=$appId, previousToken=$previousToken, appVersion=$appVersion, locale=$locale]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -58,6 +70,16 @@ class DeviceRegister {
       json[r'contactId'] = this.contactId;
     } else {
       json[r'contactId'] = null;
+    }
+    if (this.appId != null) {
+      json[r'appId'] = this.appId;
+    } else {
+      json[r'appId'] = null;
+    }
+    if (this.previousToken != null) {
+      json[r'previousToken'] = this.previousToken;
+    } else {
+      json[r'previousToken'] = null;
     }
     if (this.appVersion != null) {
       json[r'appVersion'] = this.appVersion;
@@ -94,6 +116,8 @@ class DeviceRegister {
         token: mapValueOfType<String>(json, r'token')!,
         platform: DeviceRegisterPlatformEnum.fromJson(json[r'platform'])!,
         contactId: mapValueOfType<String>(json, r'contactId'),
+        appId: mapValueOfType<String>(json, r'appId'),
+        previousToken: mapValueOfType<String>(json, r'previousToken'),
         appVersion: mapValueOfType<String>(json, r'appVersion'),
         locale: mapValueOfType<String>(json, r'locale'),
       );

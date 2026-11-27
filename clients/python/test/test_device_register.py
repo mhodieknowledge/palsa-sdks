@@ -38,6 +38,8 @@ class TestDeviceRegister(unittest.TestCase):
                 token = '0123456789',
                 platform = 'android',
                 contact_id = '',
+                app_id = '',
+                previous_token = '0123456789',
                 app_version = '',
                 locale = ''
             )

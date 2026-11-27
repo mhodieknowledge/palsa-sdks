@@ -31,6 +31,18 @@ void main() {
       // TODO
     });
 
+    // The push app the token belongs to. Default the workspace's default app.
+    // String appId
+    test('to test the property `appId`', () async {
+      // TODO
+    });
+
+    // The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+    // String previousToken
+    test('to test the property `previousToken`', () async {
+      // TODO
+    });
+
     // String appVersion
     test('to test the property `appVersion`', () async {
       // TODO

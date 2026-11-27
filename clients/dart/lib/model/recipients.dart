@@ -16,6 +16,7 @@ class Recipients {
     this.contactIds = const [],
     this.addresses = const [],
     this.audienceId,
+    this.topic,
   });
 
   List<String> contactIds;
@@ -31,21 +32,32 @@ class Recipients {
   ///
   String? audienceId;
 
+  /// Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  String? topic;
+
   @override
   bool operator ==(Object other) => identical(this, other) || other is Recipients &&
     _deepEquality.equals(other.contactIds, contactIds) &&
     _deepEquality.equals(other.addresses, addresses) &&
-    other.audienceId == audienceId;
+    other.audienceId == audienceId &&
+    other.topic == topic;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (contactIds.hashCode) +
     (addresses.hashCode) +
-    (audienceId == null ? 0 : audienceId!.hashCode);
+    (audienceId == null ? 0 : audienceId!.hashCode) +
+    (topic == null ? 0 : topic!.hashCode);
 
   @override
-  String toString() => 'Recipients[contactIds=$contactIds, addresses=$addresses, audienceId=$audienceId]';
+  String toString() => 'Recipients[contactIds=$contactIds, addresses=$addresses, audienceId=$audienceId, topic=$topic]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -55,6 +67,11 @@ class Recipients {
       json[r'audienceId'] = this.audienceId;
     } else {
       json[r'audienceId'] = null;
+    }
+    if (this.topic != null) {
+      json[r'topic'] = this.topic;
+    } else {
+      json[r'topic'] = null;
     }
     return json;
   }
@@ -85,6 +102,7 @@ class Recipients {
             ? (json[r'addresses'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         audienceId: mapValueOfType<String>(json, r'audienceId'),
+        topic: mapValueOfType<String>(json, r'topic'),
       );
     }
     return null;

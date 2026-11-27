@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **contact_ids** | **List[str]** |  | [optional] 
 **addresses** | **List[str]** | Phone numbers or email addresses, for people who are not saved contacts. | [optional] 
 **audience_id** | **str** |  | [optional] 
+**topic** | **str** | Push only, and on push alone. Every device subscribed to this topic, as one delivery. | [optional] 
 
 ## Example
 

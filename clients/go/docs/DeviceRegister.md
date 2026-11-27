@@ -7,6 +7,8 @@ Name | Type | Description | Notes
 **Token** | **string** |  | 
 **Platform** | **string** |  | 
 **ContactId** | Pointer to **NullableString** |  | [optional] 
+**AppId** | Pointer to **NullableString** | The push app the token belongs to. Default the workspace&#39;s default app. | [optional] 
+**PreviousToken** | Pointer to **NullableString** | The token this one replaces, from the app&#39;s token-refresh callback. The device keeps its id, contact and topics. | [optional] 
 **AppVersion** | Pointer to **NullableString** |  | [optional] 
 **Locale** | Pointer to **NullableString** |  | [optional] 
 
@@ -104,6 +106,76 @@ HasContactId returns a boolean if a field has been set.
 `func (o *DeviceRegister) UnsetContactId()`
 
 UnsetContactId ensures that no value is present for ContactId, not even an explicit nil
+### GetAppId
+
+`func (o *DeviceRegister) GetAppId() string`
+
+GetAppId returns the AppId field if non-nil, zero value otherwise.
+
+### GetAppIdOk
+
+`func (o *DeviceRegister) GetAppIdOk() (*string, bool)`
+
+GetAppIdOk returns a tuple with the AppId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAppId
+
+`func (o *DeviceRegister) SetAppId(v string)`
+
+SetAppId sets AppId field to given value.
+
+### HasAppId
+
+`func (o *DeviceRegister) HasAppId() bool`
+
+HasAppId returns a boolean if a field has been set.
+
+### SetAppIdNil
+
+`func (o *DeviceRegister) SetAppIdNil(b bool)`
+
+ SetAppIdNil sets the value for AppId to be an explicit nil
+
+### UnsetAppId
+`func (o *DeviceRegister) UnsetAppId()`
+
+UnsetAppId ensures that no value is present for AppId, not even an explicit nil
+### GetPreviousToken
+
+`func (o *DeviceRegister) GetPreviousToken() string`
+
+GetPreviousToken returns the PreviousToken field if non-nil, zero value otherwise.
+
+### GetPreviousTokenOk
+
+`func (o *DeviceRegister) GetPreviousTokenOk() (*string, bool)`
+
+GetPreviousTokenOk returns a tuple with the PreviousToken field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPreviousToken
+
+`func (o *DeviceRegister) SetPreviousToken(v string)`
+
+SetPreviousToken sets PreviousToken field to given value.
+
+### HasPreviousToken
+
+`func (o *DeviceRegister) HasPreviousToken() bool`
+
+HasPreviousToken returns a boolean if a field has been set.
+
+### SetPreviousTokenNil
+
+`func (o *DeviceRegister) SetPreviousTokenNil(b bool)`
+
+ SetPreviousTokenNil sets the value for PreviousToken to be an explicit nil
+
+### UnsetPreviousToken
+`func (o *DeviceRegister) UnsetPreviousToken()`
+
+UnsetPreviousToken ensures that no value is present for PreviousToken, not even an explicit nil
 ### GetAppVersion
 
 `func (o *DeviceRegister) GetAppVersion() string`

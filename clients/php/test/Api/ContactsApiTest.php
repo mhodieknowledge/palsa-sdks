@@ -108,12 +108,36 @@ class ContactsApiTest extends TestCase
     }
 
     /**
+     * Test case for listDevices
+     *
+     * List registered devices.
+     *
+     */
+    public function testListDevices()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
      * Test case for registerDevice
      *
      * Register a device for push.
      *
      */
     public function testRegisterDevice()
+    {
+        // TODO: implement
+        self::markTestIncomplete('Not implemented');
+    }
+
+    /**
+     * Test case for unregisterDevice
+     *
+     * Stop sending to a device.
+     *
+     */
+    public function testUnregisterDevice()
     {
         // TODO: implement
         self::markTestIncomplete('Not implemented');

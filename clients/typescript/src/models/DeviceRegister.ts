@@ -38,6 +38,18 @@ export interface DeviceRegister {
      */
     contactId?: string | null;
     /**
+     * The push app the token belongs to. Default the workspace's default app.
+     * @type {string}
+     * @memberof DeviceRegister
+     */
+    appId?: string | null;
+    /**
+     * The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+     * @type {string}
+     * @memberof DeviceRegister
+     */
+    previousToken?: string | null;
+    /**
      * 
      * @type {string}
      * @memberof DeviceRegister
@@ -85,6 +97,8 @@ export function DeviceRegisterFromJSONTyped(json: any, ignoreDiscriminator: bool
         'token': json['token'],
         'platform': json['platform'],
         'contactId': json['contactId'] == null ? undefined : json['contactId'],
+        'appId': json['appId'] == null ? undefined : json['appId'],
+        'previousToken': json['previousToken'] == null ? undefined : json['previousToken'],
         'appVersion': json['appVersion'] == null ? undefined : json['appVersion'],
         'locale': json['locale'] == null ? undefined : json['locale'],
     };
@@ -104,6 +118,8 @@ export function DeviceRegisterToJSONTyped(value?: DeviceRegister | null, ignoreD
         'token': value['token'],
         'platform': value['platform'],
         'contactId': value['contactId'],
+        'appId': value['appId'],
+        'previousToken': value['previousToken'],
         'appVersion': value['appVersion'],
         'locale': value['locale'],
     };

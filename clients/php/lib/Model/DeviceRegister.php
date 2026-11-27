@@ -60,6 +60,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => 'string',
         'platform' => 'string',
         'contact_id' => 'string',
+        'app_id' => 'string',
+        'previous_token' => 'string',
         'app_version' => 'string',
         'locale' => 'string'
     ];
@@ -75,6 +77,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => null,
         'platform' => null,
         'contact_id' => null,
+        'app_id' => null,
+        'previous_token' => null,
         'app_version' => null,
         'locale' => null
     ];
@@ -88,6 +92,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => false,
         'platform' => false,
         'contact_id' => true,
+        'app_id' => true,
+        'previous_token' => true,
         'app_version' => true,
         'locale' => true
     ];
@@ -181,6 +187,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => 'token',
         'platform' => 'platform',
         'contact_id' => 'contactId',
+        'app_id' => 'appId',
+        'previous_token' => 'previousToken',
         'app_version' => 'appVersion',
         'locale' => 'locale'
     ];
@@ -194,6 +202,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => 'setToken',
         'platform' => 'setPlatform',
         'contact_id' => 'setContactId',
+        'app_id' => 'setAppId',
+        'previous_token' => 'setPreviousToken',
         'app_version' => 'setAppVersion',
         'locale' => 'setLocale'
     ];
@@ -207,6 +217,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         'token' => 'getToken',
         'platform' => 'getPlatform',
         'contact_id' => 'getContactId',
+        'app_id' => 'getAppId',
+        'previous_token' => 'getPreviousToken',
         'app_version' => 'getAppVersion',
         'locale' => 'getLocale'
     ];
@@ -288,6 +300,8 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         $this->setIfExists('token', $data ?? [], null);
         $this->setIfExists('platform', $data ?? [], null);
         $this->setIfExists('contact_id', $data ?? [], null);
+        $this->setIfExists('app_id', $data ?? [], null);
+        $this->setIfExists('previous_token', $data ?? [], null);
         $this->setIfExists('app_version', $data ?? [], null);
         $this->setIfExists('locale', $data ?? [], null);
     }
@@ -344,6 +358,18 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
 
         if (!is_null($this->container['contact_id']) && (mb_strlen($this->container['contact_id']) > 60)) {
             $invalidProperties[] = "invalid value for 'contact_id', the character length must be smaller than or equal to 60.";
+        }
+
+        if (!is_null($this->container['app_id']) && (mb_strlen($this->container['app_id']) > 60)) {
+            $invalidProperties[] = "invalid value for 'app_id', the character length must be smaller than or equal to 60.";
+        }
+
+        if (!is_null($this->container['previous_token']) && (mb_strlen($this->container['previous_token']) > 400)) {
+            $invalidProperties[] = "invalid value for 'previous_token', the character length must be smaller than or equal to 400.";
+        }
+
+        if (!is_null($this->container['previous_token']) && (mb_strlen($this->container['previous_token']) < 10)) {
+            $invalidProperties[] = "invalid value for 'previous_token', the character length must be bigger than or equal to 10.";
         }
 
         if (!is_null($this->container['app_version']) && (mb_strlen($this->container['app_version']) > 40)) {
@@ -474,6 +500,85 @@ class DeviceRegister implements ModelInterface, ArrayAccess, \JsonSerializable
         }
 
         $this->container['contact_id'] = $contact_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets app_id
+     *
+     * @return string|null
+     */
+    public function getAppId()
+    {
+        return $this->container['app_id'];
+    }
+
+    /**
+     * Sets app_id
+     *
+     * @param string|null $app_id The push app the token belongs to. Default the workspace's default app.
+     *
+     * @return self
+     */
+    public function setAppId($app_id)
+    {
+        if (is_null($app_id)) {
+            array_push($this->openAPINullablesSetToNull, 'app_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('app_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        if (!is_null($app_id) && (mb_strlen($app_id) > 60)) {
+            throw new \InvalidArgumentException('invalid length for $app_id when calling DeviceRegister., must be smaller than or equal to 60.');
+        }
+
+        $this->container['app_id'] = $app_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets previous_token
+     *
+     * @return string|null
+     */
+    public function getPreviousToken()
+    {
+        return $this->container['previous_token'];
+    }
+
+    /**
+     * Sets previous_token
+     *
+     * @param string|null $previous_token The token this one replaces, from the app's token-refresh callback. The device keeps its id, contact and topics.
+     *
+     * @return self
+     */
+    public function setPreviousToken($previous_token)
+    {
+        if (is_null($previous_token)) {
+            array_push($this->openAPINullablesSetToNull, 'previous_token');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('previous_token', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
+        }
+        if (!is_null($previous_token) && (mb_strlen($previous_token) > 400)) {
+            throw new \InvalidArgumentException('invalid length for $previous_token when calling DeviceRegister., must be smaller than or equal to 400.');
+        }
+        if (!is_null($previous_token) && (mb_strlen($previous_token) < 10)) {
+            throw new \InvalidArgumentException('invalid length for $previous_token when calling DeviceRegister., must be bigger than or equal to 10.');
+        }
+
+        $this->container['previous_token'] = $previous_token;
 
         return $this;
     }

@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List
-from palsa_api.models.register_device201_response_data import RegisterDevice201ResponseData
+from palsa_api.models.device_registered import DeviceRegistered
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class RegisterDevice201Response(BaseModel):
     """
     RegisterDevice201Response
     """ # noqa: E501
-    data: RegisterDevice201ResponseData
+    data: DeviceRegistered
     __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(
@@ -84,7 +84,7 @@ class RegisterDevice201Response(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": RegisterDevice201ResponseData.from_dict(obj["data"]) if obj.get("data") is not None else None
+            "data": DeviceRegistered.from_dict(obj["data"]) if obj.get("data") is not None else None
         })
         return _obj
 

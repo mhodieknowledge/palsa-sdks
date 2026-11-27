@@ -24,8 +24,11 @@ import com.kuzikode.palsa.api.models.CreateContact201Response
 import com.kuzikode.palsa.api.models.DeleteContact200Response
 import com.kuzikode.palsa.api.models.DeviceRegister
 import com.kuzikode.palsa.api.models.ErrorEnvelope
+import com.kuzikode.palsa.api.models.InlineObject
 import com.kuzikode.palsa.api.models.ListContacts200Response
+import com.kuzikode.palsa.api.models.ListDevices200Response
 import com.kuzikode.palsa.api.models.RegisterDevice201Response
+import com.kuzikode.palsa.api.models.UnregisterDeviceRequest
 
 import com.squareup.moshi.Json
 
@@ -277,6 +280,84 @@ class ContactsApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
     }
 
     /**
+     * GET /v1/devices
+     * List registered devices
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     * @param contactId  (optional)
+     * @return ListDevices200Response
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun listDevices(contactId: kotlin.String? = null) : ListDevices200Response {
+        val localVarResponse = listDevicesWithHttpInfo(contactId = contactId)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as ListDevices200Response
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * GET /v1/devices
+     * List registered devices
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     * @param contactId  (optional)
+     * @return ApiResponse<ListDevices200Response?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun listDevicesWithHttpInfo(contactId: kotlin.String?) : ApiResponse<ListDevices200Response?> {
+        val localVariableConfig = listDevicesRequestConfig(contactId = contactId)
+
+        return request<Unit, ListDevices200Response>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation listDevices
+     *
+     * @param contactId  (optional)
+     * @return RequestConfig
+     */
+    fun listDevicesRequestConfig(contactId: kotlin.String?) : RequestConfig<Unit> {
+        val localVariableBody = null
+        val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
+            .apply {
+                if (contactId != null) {
+                    put("contactId", listOf(contactId.toString()))
+                }
+            }
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.GET,
+            path = "/v1/devices",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
      * POST /v1/devices
      * Register a device for push
      * Registering the same token again updates it rather than adding another, and revives one that had been invalidated. Requires the &#x60;contacts.write&#x60; scope. 
@@ -343,6 +424,80 @@ class ContactsApi(basePath: kotlin.String = defaultBasePath, client: Call.Factor
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/v1/devices",
+            query = localVariableQuery,
+            headers = localVariableHeaders,
+            requiresAuthentication = true,
+            body = localVariableBody
+        )
+    }
+
+    /**
+     * POST /v1/devices/unregister
+     * Stop sending to a device
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     * @param unregisterDeviceRequest 
+     * @return InlineObject
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     * @throws UnsupportedOperationException If the API returns an informational or redirection response
+     * @throws ClientException If the API returns a client error response
+     * @throws ServerException If the API returns a server error response
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
+    fun unregisterDevice(unregisterDeviceRequest: UnregisterDeviceRequest) : InlineObject {
+        val localVarResponse = unregisterDeviceWithHttpInfo(unregisterDeviceRequest = unregisterDeviceRequest)
+
+        return when (localVarResponse.responseType) {
+            ResponseType.Success -> (localVarResponse as Success<*>).data as InlineObject
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational responses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Redirection responses.")
+            ResponseType.ClientError -> {
+                val localVarError = localVarResponse as ClientError<*>
+                throw ClientException("Client error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+            }
+            ResponseType.ServerError -> {
+                val localVarError = localVarResponse as ServerError<*>
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
+            }
+        }
+    }
+
+    /**
+     * POST /v1/devices/unregister
+     * Stop sending to a device
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     * @param unregisterDeviceRequest 
+     * @return ApiResponse<InlineObject?>
+     * @throws IllegalStateException If the request is not correctly configured
+     * @throws IOException Rethrows the OkHttp execute method exception
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(IllegalStateException::class, IOException::class)
+    fun unregisterDeviceWithHttpInfo(unregisterDeviceRequest: UnregisterDeviceRequest) : ApiResponse<InlineObject?> {
+        val localVariableConfig = unregisterDeviceRequestConfig(unregisterDeviceRequest = unregisterDeviceRequest)
+
+        return request<UnregisterDeviceRequest, InlineObject>(
+            localVariableConfig
+        )
+    }
+
+    /**
+     * To obtain the request config of the operation unregisterDevice
+     *
+     * @param unregisterDeviceRequest 
+     * @return RequestConfig
+     */
+    fun unregisterDeviceRequestConfig(unregisterDeviceRequest: UnregisterDeviceRequest) : RequestConfig<UnregisterDeviceRequest> {
+        val localVariableBody = unregisterDeviceRequest
+        val localVariableQuery: MultiValueMap = mutableMapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        localVariableHeaders["Content-Type"] = "application/json"
+        localVariableHeaders["Accept"] = "application/json"
+
+        return RequestConfig(
+            method = RequestMethod.POST,
+            path = "/v1/devices/unregister",
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

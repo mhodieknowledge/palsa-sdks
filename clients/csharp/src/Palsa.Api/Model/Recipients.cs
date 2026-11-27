@@ -38,11 +38,13 @@ namespace Palsa.Api.Model
         /// <param name="contactIds">contactIds.</param>
         /// <param name="addresses">Phone numbers or email addresses, for people who are not saved contacts..</param>
         /// <param name="audienceId">audienceId.</param>
-        public Recipients(List<string> contactIds = default, List<string> addresses = default, string audienceId = default)
+        /// <param name="topic">Push only, and on push alone. Every device subscribed to this topic, as one delivery..</param>
+        public Recipients(List<string> contactIds = default, List<string> addresses = default, string audienceId = default, string topic = default)
         {
             this.ContactIds = contactIds;
             this.Addresses = addresses;
             this.AudienceId = audienceId;
+            this.Topic = topic;
         }
 
         /// <summary>
@@ -65,6 +67,13 @@ namespace Palsa.Api.Model
         public string AudienceId { get; set; }
 
         /// <summary>
+        /// Push only, and on push alone. Every device subscribed to this topic, as one delivery.
+        /// </summary>
+        /// <value>Push only, and on push alone. Every device subscribed to this topic, as one delivery.</value>
+        [DataMember(Name = "topic", EmitDefaultValue = false)]
+        public string Topic { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -75,6 +84,7 @@ namespace Palsa.Api.Model
             sb.Append("  ContactIds: ").Append(ContactIds).Append("\n");
             sb.Append("  Addresses: ").Append(Addresses).Append("\n");
             sb.Append("  AudienceId: ").Append(AudienceId).Append("\n");
+            sb.Append("  Topic: ").Append(Topic).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +109,15 @@ namespace Palsa.Api.Model
             if (this.AudienceId != null && this.AudienceId.Length > 60)
             {
                 yield return new ValidationResult("Invalid value for AudienceId, length must be less than 60.", new [] { "AudienceId" });
+            }
+
+            if (this.Topic != null) {
+                // Topic (string) pattern
+                Regex regexTopic = new Regex(@"^[A-Za-z0-9_-]{1,80}$", RegexOptions.CultureInvariant);
+                if (!regexTopic.Match(this.Topic).Success)
+                {
+                    yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Topic, must match a pattern of " + regexTopic, new [] { "Topic" });
+                }
             }
 
             yield break;

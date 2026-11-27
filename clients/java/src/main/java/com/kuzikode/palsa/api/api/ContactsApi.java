@@ -32,8 +32,11 @@ import com.kuzikode.palsa.api.model.CreateContact201Response;
 import com.kuzikode.palsa.api.model.DeleteContact200Response;
 import com.kuzikode.palsa.api.model.DeviceRegister;
 import com.kuzikode.palsa.api.model.ErrorEnvelope;
+import com.kuzikode.palsa.api.model.InlineObject;
 import com.kuzikode.palsa.api.model.ListContacts200Response;
+import com.kuzikode.palsa.api.model.ListDevices200Response;
 import com.kuzikode.palsa.api.model.RegisterDevice201Response;
+import com.kuzikode.palsa.api.model.UnregisterDeviceRequest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -506,6 +509,143 @@ public class ContactsApi {
         return localVarCall;
     }
     /**
+     * Build call for listDevices
+     * @param contactId  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The devices. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call listDevicesCall(@javax.annotation.Nullable String contactId, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/v1/devices";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (contactId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("contactId", contactId));
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call listDevicesValidateBeforeCall(@javax.annotation.Nullable String contactId, final ApiCallback _callback) throws ApiException {
+        return listDevicesCall(contactId, _callback);
+
+    }
+
+    /**
+     * List registered devices
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     * @param contactId  (optional)
+     * @return ListDevices200Response
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The devices. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ListDevices200Response listDevices(@javax.annotation.Nullable String contactId) throws ApiException {
+        ApiResponse<ListDevices200Response> localVarResp = listDevicesWithHttpInfo(contactId);
+        return localVarResp.getData();
+    }
+
+    /**
+     * List registered devices
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     * @param contactId  (optional)
+     * @return ApiResponse&lt;ListDevices200Response&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The devices. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ListDevices200Response> listDevicesWithHttpInfo(@javax.annotation.Nullable String contactId) throws ApiException {
+        okhttp3.Call localVarCall = listDevicesValidateBeforeCall(contactId, null);
+        Type localVarReturnType = new TypeToken<ListDevices200Response>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * List registered devices (asynchronously)
+     * The newest 200, optionally for one contact. Tokens are never returned. Requires the &#x60;contacts.read&#x60; scope.
+     * @param contactId  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> The devices. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call listDevicesAsync(@javax.annotation.Nullable String contactId, final ApiCallback<ListDevices200Response> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = listDevicesValidateBeforeCall(contactId, _callback);
+        Type localVarReturnType = new TypeToken<ListDevices200Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for registerDevice
      * @param deviceRegister  (required)
      * @param _callback Callback for upload/download progress
@@ -516,6 +656,7 @@ public class ContactsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Registered. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> A refreshed token replaced &#x60;previousToken&#x60; in place. </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
         <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
@@ -589,6 +730,7 @@ public class ContactsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Registered. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> A refreshed token replaced &#x60;previousToken&#x60; in place. </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
         <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
@@ -611,6 +753,7 @@ public class ContactsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Registered. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> A refreshed token replaced &#x60;previousToken&#x60; in place. </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
         <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
@@ -635,6 +778,7 @@ public class ContactsApi {
        <caption>Response Details</caption>
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
         <tr><td> 201 </td><td> Registered. </td><td>  -  </td></tr>
+        <tr><td> 200 </td><td> A refreshed token replaced &#x60;previousToken&#x60; in place. </td><td>  -  </td></tr>
         <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
         <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
         <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
@@ -645,6 +789,153 @@ public class ContactsApi {
 
         okhttp3.Call localVarCall = registerDeviceValidateBeforeCall(deviceRegister, _callback);
         Type localVarReturnType = new TypeToken<RegisterDevice201Response>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for unregisterDevice
+     * @param unregisterDeviceRequest  (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Done. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No such thing in this workspace. An id from elsewhere answers the same way. </td><td>  -  </td></tr>
+        <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call unregisterDeviceCall(@javax.annotation.Nonnull UnregisterDeviceRequest unregisterDeviceRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = unregisterDeviceRequest;
+
+        // create path and map variables
+        String localVarPath = "/v1/devices/unregister";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call unregisterDeviceValidateBeforeCall(@javax.annotation.Nonnull UnregisterDeviceRequest unregisterDeviceRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'unregisterDeviceRequest' is set
+        if (unregisterDeviceRequest == null) {
+            throw new ApiException("Missing the required parameter 'unregisterDeviceRequest' when calling unregisterDevice(Async)");
+        }
+
+        return unregisterDeviceCall(unregisterDeviceRequest, _callback);
+
+    }
+
+    /**
+     * Stop sending to a device
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     * @param unregisterDeviceRequest  (required)
+     * @return InlineObject
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Done. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No such thing in this workspace. An id from elsewhere answers the same way. </td><td>  -  </td></tr>
+        <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public InlineObject unregisterDevice(@javax.annotation.Nonnull UnregisterDeviceRequest unregisterDeviceRequest) throws ApiException {
+        ApiResponse<InlineObject> localVarResp = unregisterDeviceWithHttpInfo(unregisterDeviceRequest);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Stop sending to a device
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     * @param unregisterDeviceRequest  (required)
+     * @return ApiResponse&lt;InlineObject&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Done. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No such thing in this workspace. An id from elsewhere answers the same way. </td><td>  -  </td></tr>
+        <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<InlineObject> unregisterDeviceWithHttpInfo(@javax.annotation.Nonnull UnregisterDeviceRequest unregisterDeviceRequest) throws ApiException {
+        okhttp3.Call localVarCall = unregisterDeviceValidateBeforeCall(unregisterDeviceRequest, null);
+        Type localVarReturnType = new TypeToken<InlineObject>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Stop sending to a device (asynchronously)
+     * For sign-out, or when the person turns notifications off. The device leaves its topics. Requires the &#x60;contacts.write&#x60; scope.
+     * @param unregisterDeviceRequest  (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table border="1">
+       <caption>Response Details</caption>
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Done. </td><td>  -  </td></tr>
+        <tr><td> 401 </td><td> No key, or a key that has been revoked. </td><td>  -  </td></tr>
+        <tr><td> 403 </td><td> The key is missing the scope this operation needs. </td><td>  -  </td></tr>
+        <tr><td> 404 </td><td> No such thing in this workspace. An id from elsewhere answers the same way. </td><td>  -  </td></tr>
+        <tr><td> 422 </td><td> The request was wrong. &#x60;fields&#x60; names what, by field. </td><td>  -  </td></tr>
+        <tr><td> 429 </td><td> Too many requests for this key&#39;s plan. Try again shortly. </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call unregisterDeviceAsync(@javax.annotation.Nonnull UnregisterDeviceRequest unregisterDeviceRequest, final ApiCallback<InlineObject> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = unregisterDeviceValidateBeforeCall(unregisterDeviceRequest, _callback);
+        Type localVarReturnType = new TypeToken<InlineObject>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
