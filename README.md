@@ -20,8 +20,8 @@ of them can fall behind the others.
 | [Go](clients/go) | `go get github.com/mhodieknowledge/palsa-sdks/clients/go` | the module path |
 | [Swift](clients/swift) | Swift Package Manager | a package repository |
 
-Released at 0.1.0 on PyPI, NuGet, Maven Central and by Go module tag. npm, pub.dev and Packagist each
-need a one-time step from the account owner before a first release; `docs/RELEASING.md` says which.
+Released at 0.2.0 on every registry above: npm, PyPI, Packagist, pub.dev, Maven Central, NuGet, and by
+tag for Go and Swift. `docs/RELEASING.md` has the details and how to release the next one.
 
 Each client's own README has its usage. The API reference is at
 [palsa.co.zw/docs](https://palsa.co.zw/docs).

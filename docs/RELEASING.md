@@ -9,44 +9,25 @@ the life of the package. That check is `scripts/audit-metadata.sh`, and it also 
 
 ## Where the clients are
 
-0.1.1 is the current release. 0.1.0 was the first, and 0.1.1 is the same code: it exists because
-validating npm and PyPI trusted publishing needs a real publication, and a version number cannot be
-reused.
+0.2.0 is the current release, published on 27 November 2026 by `publish.yml` for all nine. It adds
+the five sending-domain operations (seventeen in all) and gives the TypeScript and Python clients the
+webhook verifier the other seven already had. 0.1.1 was the same code as 0.1.0, released to validate
+trusted publishing.
 
-| Client | Registry and name | 0.1.1 |
+| Client | Registry and name | 0.2.0 |
 | --- | --- | --- |
 | TypeScript | npm, `@palsa/sdk` | Published, with provenance |
 | Python | PyPI, `palsa-api` | Published |
 | C# | NuGet, `Palsa.Api` | Published |
 | Java | Maven Central, `com.kuzikode.palsa:palsa-api` | Published |
 | Kotlin | Maven Central, `com.kuzikode.palsa:palsa-api-kotlin` | Published |
-| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | Tagged `clients/go/v0.1.1` |
-| Swift | `github.com/mhodieknowledge/palsa-swift` | Tagged `v0.1.1` |
-| PHP | Packagist, `mhodieknowledge/palsa` | Mirrored and tagged; Packagist still shows 0.1.0 |
-| Dart | pub.dev, `palsa_api` | Still 0.1.0, see below |
+| Go | `github.com/mhodieknowledge/palsa-sdks/clients/go` | Tagged `clients/go/v0.2.0` |
+| Swift | `github.com/mhodieknowledge/palsa-swift` | Tagged `v0.2.0` |
+| PHP | Packagist, `mhodieknowledge/palsa` | Published |
+| Dart | pub.dev, `palsa_api` | Published from the tag `dart-v0.2.0` |
 
-### Dart is held up by one tag
-
-`dart-v0.1.1` exists but points at a commit from before `dart-publish.yml` could be started by hand,
-and it never started on its own: GitHub refuses to begin a workflow from a tag pushed with a run's own
-`GITHUB_TOKEN`, by design, so a workflow cannot trigger itself forever. The tag landed, nothing ran,
-and from the outside that looks exactly like a broken trigger.
-
-The fix is already in the workflow, which pushes the tag with `SDK_MIRROR_TOKEN` when it is set. The
-stale tag has to go first, and moving or deleting a tag is not something to do automatically:
-
-```
-git push origin --delete dart-v0.1.1
-```
-
-Then run `publish.yml` with target `dart` and version `0.1.1`. If `SDK_MIRROR_TOKEN` does not have
-write access to this repository, give it that, or create the tag yourself at the current `main`:
-
-```
-git tag -a dart-v0.1.1 -m 'Dart client v0.1.1' && git push origin dart-v0.1.1
-```
-
-Either way `dart-publish.yml` analyses, tests and uploads with the run's own OIDC identity.
+The stale `dart-v0.1.1` tag described in earlier notes no longer matters: 0.2.0 was tagged with
+`SDK_MIRROR_TOKEN` and `dart-publish.yml` started from it and uploaded.
 
 ## Long-lived credentials, and what can replace them
 
